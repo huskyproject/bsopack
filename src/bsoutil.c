@@ -84,7 +84,7 @@ void createDirIfNEx(char *dir)
     if (direxist(dir))
     {
         Debug("creating directory %s...\n", dir);
-        if (mymkdir(dir))
+        if (mymkdir(dir) && errno!=EEXIST)
         {
             Log('9', "Can't create directory %s, errno=%d\n",
                 dir, errno);
