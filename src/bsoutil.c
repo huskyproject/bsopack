@@ -112,7 +112,7 @@ unsigned long getNMSizeForLink(s_link *link, char *outb)
 
 void getBundleName(s_link *link, int flavour, char *outb)
 {
-    int idx, i;
+    int i;
     int day=0;
     char *bundleName=NULL;
     time_t t;
@@ -170,12 +170,10 @@ void getBundleName(s_link *link, int flavour, char *outb)
         nfree(sepDir);
     }
 
-    for (idx=0;idx<36;idx++)
+    for (Idx='0';Idx<='z';Idx++)
     {
-        if (idx>9)
-            Idx='a'+idx-10;
-        else
-            Idx='0'+idx;
+        if (Idx==('9'+1))
+            Idx='a';
         *IdxPtr=Idx;
 
         if(stat(bundleName, &fInfo)) break; else
@@ -206,12 +204,8 @@ void getBundleName(s_link *link, int flavour, char *outb)
                 if (!foundOtherFlavour) break; // this file name is not used for other flavour so we can use it.
             } else continue;
     }
-    if (link->packFile==NULL)
-        link->packFile=(char *)smalloc(strlen(bundleName)+1);
-    else
-        link->packFile=(char *)srealloc(link->packFile, strlen(bundleName)+1);
 
-    sprintf(link->packFile, "%s", bundleName);
+    copyString(bundleName, &(link->packFile));
     Debug("bundle name generated: %s\n", link->packFile);
     nfree(bundleName);
     nfree(flowFile);
@@ -256,7 +250,7 @@ int addToFlow(s_link *link, int flavour, char *outb)
         fp=fopen(link->floFile, "r+");
         if (fp==NULL)
         {
-            Log('9', "Can't open flow file for %d:%d/%d.%d, errno=%d\n",
+            Log('9', "Can't open flow file for %u:%u/%u.%u, errno=%d\n",
                 link->hisAka.zone, link->hisAka.net,
                 link->hisAka.node, link->hisAka.point, errno);
             Debug("can't open flow file, errno=%d\n", errno);
@@ -294,7 +288,7 @@ int addToFlow(s_link *link, int flavour, char *outb)
         fp=fopen(link->floFile, "w");
         if (fp==NULL)
         {
-            Log('9', "Can't open flow file for %d:%d/%d.%d, errno=%d\n",
+            Log('9', "Can't open flow file for %u:%u/%u.%u, errno=%d\n",
                 link->hisAka.zone, link->hisAka.net,
                 link->hisAka.node, link->hisAka.point, errno);
             Debug("can't create flow file, errno=%d. returning,\n", errno);
@@ -315,8 +309,7 @@ char *initLink(s_link *link)
     /*    /outbound.12b/01234567.pnt/12345678.  +1 = strlen(outb)+5+13+9+1
      and that's enough for nodes too. */
 
-    outb=(char *)smalloc(strlen(fidoConfig->outbound)+28);
-    memset(outb, 0, strlen(fidoConfig->outbound)+28);
+    outb=(char *)scalloc(strlen(fidoConfig->outbound)+28, 1);
     sprintf(outb, "%s", fidoConfig->outbound);
     if (fidoConfig->addr->zone!=link->hisAka.zone)
         sprintf(outb+strlen(outb)-1,".%03x%c",
@@ -329,9 +322,8 @@ char *initLink(s_link *link)
                 link->hisAka.node, PATH_DELIM, link->hisAka.point);
 
     link->bsyFile=(char *)smalloc(strlen(outb)+4); // *outb+"bsy"+'\0'
-    memset(link->bsyFile, 0, strlen(outb)+4);
-    link->floFile=(char *)smalloc(strlen(outb)+4);
-    memset(link->floFile,0,strlen(outb)+4);
+    sprintf(link->bsyFile, "%sbsy", outb);
+    link->floFile=(char *)scalloc(strlen(outb)+4, 1);
 
     if (link->pktFile==NULL)
         link->pktFile=(char *)smalloc(strlen(fidoConfig->tempOutbound)+13);
@@ -364,11 +356,9 @@ void releaseLink(s_link *link, char **outb)
 
 int createBsy(s_link *link, char *outb)
 {
-    sprintf(link->bsyFile, "%sbsy", outb);
-
     if (!access(link->bsyFile, F_OK))
     {
-        Log('6', "Link %d:%d/%d.%d is busy now.\n",
+        Log('6', "Link %u:%u/%u.%u is busy now.\n",
             link->hisAka.zone, link->hisAka.net,
             link->hisAka.node, link->hisAka.point);
         return 0;
@@ -379,7 +369,7 @@ int createBsy(s_link *link, char *outb)
         fp=fopen(link->bsyFile, "w");
         if (fp == NULL)
         {
-            Log('8', "Can't create bsyFile for %d:%d/%d.%d, errno=%d\n",
+            Log('8', "Can't create bsyFile for %u:%u/%u.%u, errno=%d\n",
                 link->hisAka.zone, link->hisAka.net,
                 link->hisAka.node, link->hisAka.point,
                 errno);
@@ -402,7 +392,7 @@ void removeBsy(s_link *link)
     }
     if(remove(link->bsyFile))
     {
-       Log('9', "Can't remove bsyFile for %d:%d/%d.%d, errno=%d\n",
+       Log('9', "Can't remove bsyFile for %u:%u/%u.%u, errno=%d\n",
                 link->hisAka.zone, link->hisAka.net,
                 link->hisAka.node, link->hisAka.point,
            errno);
@@ -425,7 +415,7 @@ void packNetMailForLink(s_link *link)
     Debug("packNetmail for this link is on, trying to pack...\n");
     if (link->packerDef == NULL)
     {
-        Log('9', "Packer for link %d:%d/%d.%d undefined but 'packNetmail' is on, skipping...\n",
+        Log('9', "Packer for link %u:%u/%u.%u undefined but 'packNetmail' is on, skipping...\n",
             link->hisAka.zone, link->hisAka.net,
             link->hisAka.node, link->hisAka.point
            );
@@ -459,7 +449,7 @@ void packNetMailForLink(s_link *link)
 
     if ((nmSize!=0) && (nmSize >= (link->maxUnpackedNetmail*1024)))
     {
-        Log('5', "Found %lu bytes of netmail for %d:%d/%d.%d\n",
+        Log('5', "Found %lu bytes of netmail for %u:%u/%u.%u\n",
             nmSize, link->hisAka.zone, link->hisAka.net,
             link->hisAka.node, link->hisAka.point
            );
@@ -508,7 +498,7 @@ void packNetMailForLink(s_link *link)
     else
     {
         if (nmSize)
-            Log('5', "Found %lu bytes of netmail for %d:%d/%d.%d\n",
+            Log('5', "Found %lu bytes of netmail for %u:%u/%u.%u\n",
                 nmSize, link->hisAka.zone, link->hisAka.net,
                 link->hisAka.node, link->hisAka.point
                );

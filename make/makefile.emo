@@ -20,6 +20,7 @@ LIBS=../../fidoconf/fconfemo.lib ../../smapi/smapiemo.lib
 SRC_DIR=../src/
 EXENAMEFLAG=-o 
 EXE=.exe
+OBJ=.obj
 
 all: bsopack$(EXE)
 
@@ -28,8 +29,8 @@ all: bsopack$(EXE)
 
 
 bsopack$(EXE): config$(OBJ) log$(OBJ) bsoutil$(OBJ) bsopack$(OBJ)
-        $(CC) $(LFLAGS) $(EXENAMEFLAG)bsopack$(EXE) bsopack$(OBJ) config$(OBJ) log$(OBJ) bsoutil$(OBJ) $(LIBS)
-        
+		$(CC) $(LFLAGS) $(EXENAMEFLAG)bsopack$(EXE) bsopack$(OBJ) config$(OBJ) log$(OBJ) bsoutil$(OBJ) $(LIBS)
+
 clean:
 		$(RM) *$(OBJ)
 		$(RM) *~

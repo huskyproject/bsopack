@@ -2,6 +2,11 @@ bsopack 0.1 (development version)
 ---------
 
 ----- cvs ci ------
+Sat May  5 17:26:29 EEST 2001
+dmitry: (patch from Kees)
+* optimization in getBundleName()
+
+----- cvs ci ------
 Mon Apr 30 17:32:08 EEST 2001
 dmitry: (thanx to Kees Bergwerf)
 ! fix in getOpts() when passing fidoconfig name from command line
