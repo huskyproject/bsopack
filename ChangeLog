@@ -1,3 +1,7 @@
+2003-05-28 Wednesday 17:23  d_sergienko
+
+	* src/bsopack.c (1.10): fixed bad pointer usage
+
 2003-05-27 Tuesday 09:20  d_sergienko
 
 	* make/makefile.bsd (1.1): file makefile.bsd was initially added on
