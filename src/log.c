@@ -71,7 +71,8 @@ void Debug(char *msg,...)
     vsprintf(params, msg, args);
     va_end(args);
 
-    fprintf(stderr, "[%u]: %s", getpid(), params);
+    fprintf(stdout, "[%u]: %s", getpid(), params);
+    fflush(stdout);
 
     free(params);
 }

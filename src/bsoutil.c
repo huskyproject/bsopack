@@ -38,8 +38,7 @@ time_t t;
 unsigned long serial;
 time_t lastt;
 
-const char outext[5][5]={".iut", ".cut", ".dut", ".out", ".hut"};
-const char flowext[5][5]={".ilo", ".clo", ".dlo", ".flo", ".hlo"};
+const char outext[5]={'i', 'c', 'd', 'o', 'h'};
 const char daynames[7][5]={"su","mo","tu","we","th","fr","sa"};
 
 
@@ -82,16 +81,18 @@ void createDirIfNEx(char *dir)
     }
 }
 
-void getZoneOutbound(s_link *link, char **zoneOutbound, char *outbound)
+/*
+
+void getZoneOutbound(s_link *link, char *zoneOutbound, char *outbound)
 {
-    sprintf((*zoneOutbound), "%s", outbound);
+    sprintf(zoneOutbound, "%s", outbound);
     if (fidoConfig->addr->zone!=link->hisAka.zone)
     {
-        sprintf((*zoneOutbound)+strlen((*zoneOutbound))-1,".%03x%c",
+        sprintf(zoneOutbound+strlen(zoneOutbound)-1,".%03x%c",
                 link->hisAka.zone, PATH_DELIM);
 
     }
-    createDirIfNEx(*zoneOutbound);
+    createDirIfNEx(zoneOutbound);
 }
 
 void getOutboundForLink(s_link *link, char **outb)
@@ -110,41 +111,43 @@ void getOutboundForLink(s_link *link, char **outb)
     {
       sprintf((char *)(dir+strlen(dir)), "%04x%04x.pnt", link->hisAka.net, link->hisAka.node);
       createDirIfNEx(dir);
-      sprintf((*outb), "%04x%04x.pnt/%08x", link->hisAka.net, link->hisAka.node,
-                link->hisAka.point);
+      sprintf((*outb), "%04x%04x.pnt%c%08x", link->hisAka.net,
+              link->hisAka.node, PATH_DELIM, link->hisAka.point);
     }
     nfree(dir);
     return;
 }
 
-unsigned long getNMSizeForLink(s_link *link)
+*/
+
+unsigned long getNMSizeForLink(s_link *link, char *outb)
 {
     unsigned long NMSize=0;
     struct stat fInfo;
-    char *fname=NULL, *outbForLink=NULL;
+    char *fname=NULL;
     int i;
 
     Debug("guessing how much netmail this link has...\n");
+    // /outb/12345678.hut+'\0' = strlen(outb)+13
+    fname=(char *)smalloc(strlen(outb)+13);
+    memset(fname, 0, strlen(outb)+13);
+
     for (i=0;i<=4;i++)
     {
-        fname=(char *)smalloc(strlen(fidoConfig->outbound)+32);
-        getOutboundForLink(link, &outbForLink);
-        getZoneOutbound(link, &fname, fidoConfig->outbound);
-        sprintf(fname+strlen(fname), "%s%s", outbForLink, outext[i]);
+        sprintf(fname, "%s%cut", outb, outext[i]);
         if (!stat(fname, &fInfo))
         {
             NMSize+=fInfo.st_size;
             Debug("found file %s, size=%l\n", fname, fInfo.st_size);
         }
-        nfree(fname);
-        nfree(outbForLink);
     }
     Debug("found %lu bytes of netmail.\n", NMSize);
+    nfree(fname);
     return NMSize;
 }
 
 
-void getBundleName(s_link *link, int flavour)
+void getBundleName(s_link *link, int flavour, char *outb)
 {
     int idx, i;
     int day=0;
@@ -153,7 +156,7 @@ void getBundleName(s_link *link, int flavour)
     struct tm *tp;
     struct stat fInfo;
     FILE *fp;
-    char *flowFile=NULL, *flowLine=NULL, *flowLineTmp=NULL, *outbForLink=NULL;
+    char *flowFile=NULL, *flowLine=NULL, *flowLineTmp=NULL;
     char *sepDir=NULL;
     int foundOtherFlavour=0;
     char Idx='\0';
@@ -162,51 +165,56 @@ void getBundleName(s_link *link, int flavour)
     time(&t);
     tp=localtime(&t);
     day=tp->tm_wday;
-    bundleName=(char *)smalloc(strlen(fidoConfig->outbound)+4+13+12+13);
-    flowFile=(char *)smalloc(strlen(fidoConfig->outbound)+4+13+13);
+    //  /outb.12b/12345678.pnt/12345678.sep/12345678.su0+'\0';
+    bundleName=(char *)smalloc(strlen(outb)+30);
+    //  /outb.12b/12345678.pnt/12345678.flo+'\0';
+    memset(bundleName, 0, strlen(outb)+30);
+    flowFile=(char *)smalloc(strlen(outb)+17);
     flowLine=(char *)smalloc(256);
     flowLineTmp=flowLine;
 
     for (idx=0;idx<36;idx++)
     {
+        if (idx>9)
+            Idx='a'+idx-10;
+        else
+            Idx='0'+idx;
+
         if (fidoConfig->addr->point || link->hisAka.point)
         {
-            if (idx>9)
-                Idx='a'+idx-10;
-            else
-                Idx='0'+idx;
-
-            getZoneOutbound(link, &bundleName, fidoConfig->outbound);
-            sprintf(bundleName+strlen(bundleName), "%04x%04x.pnt", link->hisAka.net, link->hisAka.node);
-            createDirIfNEx(bundleName);
-            getZoneOutbound(link, &bundleName, fidoConfig->outbound);
             if (fidoConfig->separateBundles)
-               sprintf(bundleName+strlen(bundleName), "%04x%04x.pnt%c%08x.sep%c%04x%04x.%2s%1c",
-                       link->hisAka.net, link->hisAka.node, PATH_DELIM,
+                // /outb.12b/12345678.pnt/12345678.sep/12344321.su0
+               sprintf(bundleName, "%spnt%c%08x.sep%c%04x%04x.%2s%1c",
+                       outb, PATH_DELIM,
                        link->hisAka.point, PATH_DELIM,
                        (fidoConfig->addr->node - link->hisAka.node) & 0xffff,
                        (fidoConfig->addr->point - link->hisAka.point) & 0xffff,
                        daynames[day], Idx);
             else
-               sprintf(bundleName+strlen(bundleName), "%04x%04x.pnt%c%04x%04x.%2s%1c",
-                    link->hisAka.net, link->hisAka.node, PATH_DELIM,
-                    (fidoConfig->addr->node - link->hisAka.node) & 0xffff,
-                    (fidoConfig->addr->point - link->hisAka.point) & 0xffff,
-                    daynames[day], Idx);
+                // /outb.12b/12345678.pnt/12345678.su0
+               sprintf(bundleName, "%spnt%c%04x%04x.%2s%1c",
+                       outb, PATH_DELIM,
+                       (fidoConfig->addr->node - link->hisAka.node) & 0xffff,
+                       (fidoConfig->addr->point - link->hisAka.point) & 0xffff,
+                       daynames[day], Idx);
         } else
         {
-            getZoneOutbound(link, &bundleName, fidoConfig->outbound);
             if (fidoConfig->separateBundles)
-                sprintf(bundleName+strlen(bundleName), "%04x%04x.sep%c%04x%04x.%2s%1x",
-                        link->hisAka.net, link->hisAka.node, PATH_DELIM,
+                // /outb.12b/12345678.sep/12345678.su0
+                sprintf(bundleName, "%ssep%c%04x%04x.%2s%1x",
+                        outb, PATH_DELIM,
                         (fidoConfig->addr->net - link->hisAka.net) & 0xffff,
                         (fidoConfig->addr->node - link->hisAka.node) & 0xffff,
                         daynames[day], Idx);
             else
+            {   // /outb.12b/12345678. -> /outb.12b/
+                strncpy(bundleName, outb, strlen(outb)-9);
+                // /outb/12344321.su0
                 sprintf(bundleName+strlen(bundleName), "%04x%04x.%2s%1x",
                         (fidoConfig->addr->net - link->hisAka.net) & 0xffff,
                         (fidoConfig->addr->node - link->hisAka.node) & 0xffff,
                         daynames[day], Idx);
+            }
 
         }
         if (fidoConfig->separateBundles)
@@ -225,9 +233,7 @@ void getBundleName(s_link *link, int flavour)
                 for(i=0;i<5;i++)
                 {
                     if(i==flavour) continue;
-                    getOutboundForLink(link, &outbForLink);
-                    getZoneOutbound(link, &flowFile, fidoConfig->outbound);
-                    sprintf(flowFile+strlen(flowFile), "%s%s", outbForLink, flowext[i]);
+                    sprintf(flowFile, "%s%clo", outb, outext[i]);
                     if (access(flowFile, F_OK)) continue;
                     fp=fopen(flowFile, "r");
                     while(fgets(flowLine, 256, fp)!=NULL)
@@ -252,13 +258,13 @@ void getBundleName(s_link *link, int flavour)
         link->packFile=(char *)smalloc(strlen(bundleName)+1);
     else
         link->packFile=(char *)srealloc(link->packFile, strlen(bundleName)+1);
+
     sprintf(link->packFile, "%s", bundleName);
     Debug("bundle name generated: %s\n", link->packFile);
     nfree(bundleName);
     flowLine=flowLineTmp;
     nfree(flowFile);
     nfree(flowLine);
-    nfree(outbForLink);
 }
 
 void fillCmdStatement(char *cmd, const char *call, const char *archiv, const char *file, const char *path) {
@@ -280,25 +286,22 @@ void fillCmdStatement(char *cmd, const char *call, const char *archiv, const cha
    strcat(cmd, tmp);
 }
 
-int addToFlow(s_link *link, int flavour)
+int addToFlow(s_link *link, int flavour, char *outb)
 {
     FILE *fp;
     char *line=NULL;
     int foundOldBundle=0;
-    char *outbForLink=NULL;
     unsigned char *buff=NULL;
     struct stat fInfo;
 
     line=(char *)smalloc(MAXPATH);
-    getOutboundForLink(link, &outbForLink);
-    getZoneOutbound(link, &link->floFile, fidoConfig->outbound);
-    sprintf(link->floFile+strlen(link->floFile), "%s%s", outbForLink, flowext[flavour]);
-    nfree(outbForLink);
+    sprintf(link->floFile,"%s%clo", outb, outext[flavour]);
 
     Debug("adding bundle to flow file %s\n", link->floFile);
+
     if(stat(link->floFile, &fInfo)!=-1)
     {
-       Debug("flow file exists.\n");
+        Debug("flow file exists.\n");
 
         buff=(unsigned char *)smalloc(fInfo.st_size);
 
@@ -309,6 +312,7 @@ int addToFlow(s_link *link, int flavour)
                 link->hisAka.zone, link->hisAka.net,
                 link->hisAka.node, link->hisAka.point, errno);
             Debug("can't open flow file, errno=%d\n", errno);
+            nfree(buff);
             return 0;
         }
 
@@ -331,6 +335,7 @@ int addToFlow(s_link *link, int flavour)
             {
                 Log('9', "Can't read flow file, errno=%d.\n", errno);
                 Debug("fread() failed, errno=%d\n. returning.", errno);
+                nfree(buff);
                 return 0;
             }
             fclose(fp);
@@ -341,6 +346,7 @@ int addToFlow(s_link *link, int flavour)
                     link->hisAka.zone, link->hisAka.net,
                     link->hisAka.node, link->hisAka.point, errno);
                 Debug("can't open flow file, errno=%d\n", errno);
+                nfree(buff);
                 return 0;
             }
             fprintf(fp, "^%s\n", link->packFile);
@@ -349,9 +355,11 @@ int addToFlow(s_link *link, int flavour)
             {
                 Log('9', "Can't write to flow file, errno=%d\n", errno);
                 Debug("fwrite() failed, file %s\n", line);
+                nfree(buff);
                 return 0;
                 }
         }
+        nfree(buff);
     }
     else
     {
@@ -369,26 +377,35 @@ int addToFlow(s_link *link, int flavour)
         Debug("added our bundle.\n");
     }
     fclose(fp);
-    nfree(buff);
     nfree(line);
     return 1;
 }
 
-void initLink(s_link *link)
+char *initLink(s_link *link)
 {
-    int extralen;
-
+    char *outb;
     Debug("allocating memory for this link...\n");
 
-    if (link->hisAka.point)
-        extralen=5+12+1+12+1;
-    else
-        extralen=5+12+1;
+    /*    /outbound.12b/01234567.pnt/12345678.  +1 = strlen(outb)+5+13+9+1
+     and that's enough for nodes too. */
 
-    link->bsyFile=(char *)smalloc(strlen(fidoConfig->outbound)+extralen);
-    memset(link->bsyFile,0,strlen(fidoConfig->outbound)+extralen);
-    link->floFile=(char *)smalloc(strlen(fidoConfig->outbound)+5+12+1+12+1);
-    memset(link->floFile,0,strlen(fidoConfig->outbound)+extralen);
+    outb=(char *)smalloc(strlen(fidoConfig->outbound)+28);
+    memset(outb, 0, strlen(fidoConfig->outbound)+28);
+    sprintf(outb, "%s", fidoConfig->outbound);
+    if (fidoConfig->addr->zone!=link->hisAka.zone)
+        sprintf(outb+strlen(outb)-1,".%03x%c",
+                link->hisAka.zone, PATH_DELIM);
+
+    if (link->hisAka.point==0)
+        sprintf(outb+strlen(outb), "%04x%04x.", link->hisAka.net, link->hisAka.node);
+    else
+        sprintf(outb+strlen(outb), "%04x%04x.pnt%c%08x.", link->hisAka.net,
+                link->hisAka.node, PATH_DELIM, link->hisAka.point);
+
+    link->bsyFile=(char *)smalloc(strlen(outb)+4); // *outb+"bsy"+'\0'
+    memset(link->bsyFile, 0, strlen(outb)+4);
+    link->floFile=(char *)smalloc(strlen(outb)+4);
+    memset(link->floFile,0,strlen(outb)+4);
 
     if (link->pktFile==NULL)
         link->pktFile=(char *)smalloc(strlen(fidoConfig->tempOutbound)+13);
@@ -404,31 +421,24 @@ void initLink(s_link *link)
             link->arcmailSize=fidoConfig->defarcmailSize;
     }
     Debug("arcmailSize for this link is %d kb\n", link->arcmailSize);
+    return outb;
 }
 
 
-void releaseLink(s_link *link)
+void releaseLink(s_link *link, char **outb)
 {
     Debug("freeing allocated memory for link.\n");
     if (link==NULL) return;
-    if (link->bsyFile != NULL)
-        nfree(link->bsyFile);
-    if (link->floFile != NULL)
-        nfree(link->floFile);
-    if (link->packFile != NULL)
-        nfree(link->packFile);
-    if (link->pktFile != NULL)
-        nfree(link->pktFile);
+    nfree(link->bsyFile);
+    nfree(link->floFile);
+    nfree(link->packFile);
+    nfree(link->pktFile);
+    nfree(*outb);
 }
 
-int createBsy(s_link *link)
+int createBsy(s_link *link, char *outb)
 {
-    char *outbForLink=NULL;
-    
-    getOutboundForLink(link, &outbForLink);
-    getZoneOutbound(link, &link->bsyFile, fidoConfig->outbound);
-    sprintf(link->bsyFile+strlen(link->bsyFile), "%s.bsy", outbForLink);
-    nfree(outbForLink);
+    sprintf(link->bsyFile, "%sbsy", outb);
 
     if (!access(link->bsyFile, F_OK))
     {
@@ -479,8 +489,9 @@ void packNetMailForLink(s_link *link)
     int flavour=0;
     char *pktname=NULL;
     char *execstr=NULL;
-    char *bsoNetMail=NULL;
-    char *outbForLink=NULL;
+    char *bsoNetMail=NULL;   // /outb.12b/12345678.pnt/12345678.hut
+    char *outbForLink=NULL; // /outb.12b/12345678.pnt/12345678.
+    char *dir=NULL;          // /outb.12b/12345678.pnt
     unsigned long nmSize=0;
 
 
@@ -495,12 +506,29 @@ void packNetMailForLink(s_link *link)
         return;
     }
 
-    initLink(link);
-    if (!createBsy(link)) return;
+    outbForLink=initLink(link);
+    dir=(char *)smalloc(strlen(outbForLink)-9); // strlen(outb)-10 + '\0';
+    memset(dir, 0, strlen(outbForLink)-9);
+    strncpy(dir, outbForLink, strlen(outbForLink)-10);
+    if (access(dir, F_OK))
+    {
+        Debug("directory %s doesn't exist, skipping...\n", dir);
+        nfree(dir);
+        releaseLink(link, &outbForLink);
+        return;
+    }
+
+    if (!createBsy(link, outbForLink)) {
+        releaseLink(link, &outbForLink);
+        return;
+    }
+
     pktname=(char *)smalloc(9);
     execstr=(char *)smalloc(MAXPATH);
-    bsoNetMail=(char *)smalloc(MAXPATH);
-    if ((nmSize=getNMSizeForLink(link))>=link->maxUnpackedNetmail*1024)
+    bsoNetMail=(char *)smalloc(strlen(outbForLink)+4);
+
+    nmSize=getNMSizeForLink(link, outbForLink);
+    if ((nmSize!=0) && (nmSize >= (link->maxUnpackedNetmail*1024)))
     {
 	if (nmSize)
           Log('5', "Found %lu bytes of netmail for %d:%d/%d.%d\n", nmSize,
@@ -509,29 +537,22 @@ void packNetMailForLink(s_link *link)
             );
         for (flavour=0;flavour<5;flavour++)
         {
-            getOutboundForLink(link, &outbForLink);
-            if (fidoConfig->addr->zone==link->hisAka.zone)
-                sprintf(bsoNetMail, "%s%s%s", fidoConfig->outbound, outbForLink, outext[flavour]);
-            else
-            {
-                sprintf(bsoNetMail, "%s", fidoConfig->outbound);
-                bsoNetMail[strlen(bsoNetMail)-1]='\0';
-                sprintf(bsoNetMail+strlen(bsoNetMail), ".%03x%c%s%s", link->hisAka.zone,
-                        PATH_DELIM, outbForLink, outext[flavour]);
-            }
+            sprintf(bsoNetMail, "%s%cut", outbForLink, outext[flavour]);
             if (!access(bsoNetMail, F_OK))
                 if (createPktName(pktname))
                 {
-                    sprintf(link->pktFile, "%s/%s.pkt", fidoConfig->tempOutbound, pktname);
+                    sprintf(link->pktFile, "%s%c%s.pkt", fidoConfig->tempOutbound,
+                            PATH_DELIM, pktname);
                     Debug("found netmail packet %s, moving to %s\n",
                           bsoNetMail, link->pktFile);
                     if (rename(bsoNetMail, link->pktFile))
                     {
                         Log('9', "Error renaming %s to %s\n", bsoNetMail, link->pktFile);
                         Debug("can't move, errno=%d. exiting!\n", errno);
+                        releaseLink(link, &outbForLink);
                         exit(-1);
                     }
-                    getBundleName(link, flavour);
+                    getBundleName(link, flavour, outbForLink);
                     fillCmdStatement(execstr, link->packerDef->call, link->packFile, link->pktFile, "");
                     Log('6', "Packing %s -> %s\n", bsoNetMail, link->packFile);
                     Debug("executing packer: %s\n", execstr);
@@ -539,9 +560,10 @@ void packNetMailForLink(s_link *link)
                     {
                         Log('9', "Error executing packer\n");
                         Debug("packer returned error errno=%d\n", errno);
+                        releaseLink(link, &outbForLink);
                         exit(-1);
                     }
-                    if (addToFlow(link, flavour))
+                    if (addToFlow(link, flavour, outbForLink))
                         if(remove(link->pktFile)==-1)
                         {
                             Log('9', "Can't remove pktFile %s, errno=%d\n", link->pktFile, errno);
@@ -564,10 +586,9 @@ void packNetMailForLink(s_link *link)
                );
         }
     removeBsy(link);
-    releaseLink(link);
+    releaseLink(link, &outbForLink);
     nfree(pktname);
     nfree(execstr);
     nfree(bsoNetMail);
-    nfree(outbForLink);
 }
 

@@ -81,6 +81,11 @@ void getConfig()
         fprintf(stderr, "Required keyword 'logFileDir' in fidoconfig not found.\n");
         exit(-1);
     }
+    if (!fidoConfig->tempOutbound)
+    {
+        fprintf(stderr, "Required keyword 'tempOutbound' in fidoconfig not found.\n");
+        exit(-1);
+    }
     if (!fidoConfig->screenloglevels)
     {
         fprintf(stderr, "Required keyword 'screenLogLevels' in fidoconfig not found.\n");

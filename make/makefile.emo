@@ -9,24 +9,23 @@ DEBUG=-s
 
 CFLAGS  = -Zomf -I../.. -c -O3 $(DEBUG)
 LFLAGS  = -Zomf -Zsys -Zlinker /PM:VIO $(DEBUG)
-
 OSTYPE=OS2
 UNAME=OS/2
 
+
 CDEFS=-D$(OSTYPE) -DUNAME="$(UNAME)"
 LIBS=../../fidoconf/fconfemo.lib ../../smapi/smapiemo.lib
-SRC_DIR=..\SRC\
+SRC_DIR=../src/
 
-OBJS= log.obj config.obj bsoutil.obj bsopack.obj
+OBJS = log.obj config.obj bsoutil.obj bsopack.obj
 
 all: bsopack
 
-$(OBJS): $(SRC_DIR)\*.c
-		$(CC) $(CFLAGS) $(CDEFS) $(SRC_DIR)\$*.c
+$(OBJS): $(SRC_DIR)%.c
+		$(CC) $(CFLAGS) $(CDEFS) $(SRC_DIR)$*.c
 
 bsopack: $(OBJS)
-	 $(CC) $(LFLAGS) $(OBJS) $(LIBS) -o bsopack.exe
-
+		 $(CC) $(LFLAGS) $(OBJS) $(LIBS) -o bsopack.exe
 
 .IGNORE
 
