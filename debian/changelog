@@ -1,3 +1,12 @@
+bsopack (0.2-3) stable; urgency=low
+
+  * New cvs version: 0.2-RC2
+  * Install bsopack.info
+  * Remove texi2html from Build-Depends
+  * Make single html-doc and place it to /usr/share/doc/bsopack
+
+ -- Pavel Andreew <pavel@collage.etel.ru>  Wed, 18 Sep 2002 12:54:14 +0600
+
 bsopack (0.2-2) stable; urgency=low
 
   * debian/copyright: new http-location of sources
