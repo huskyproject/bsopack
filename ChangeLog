@@ -2,6 +2,11 @@ bsopack 0.1 (development version)
 ---------
 
 ----- cvs ci ------
+Tue Apr 10 16:37:00 UTC 2001
+* corrected some spelling and grammatical errors in
+  README and bsopack.texi
+	
+----- cvs ci ------
 Mon Apr  9 14:41:33 EEST 2001
 dmitry: (thanx to Kees Bergwerf)
 + added makefile.emo
