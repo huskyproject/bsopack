@@ -1,0 +1,15 @@
+26.11.00
+* Put bundles with netmail into *.?lo files before bundles with echomail, so
+        they will be transmitted before the rest of files.
+        
+27.11.00
++ Added processing 'separateBundles' token in fidoConfig (EXPERIMENTAL)
++ Added in log information about mail with size less than maxUnpackedNetmail
+- Removed in log "Found 0 bytes..." string
+
+05.12.00
+! incorrect bundle name checking in getBundleName()
+
+06.12.00
+! incorrect pointer operation in getBundleName()
++ Added target 'distclean' in Makefile and modified target 'clean'
