@@ -13,3 +13,6 @@
 06.12.00
 ! incorrect pointer operation in getBundleName()
 + Added target 'distclean' in Makefile and modified target 'clean'
+
+09.12.00
+! added NULL checking for logFileDir, loglevels & screenloglevels

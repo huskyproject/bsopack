@@ -32,6 +32,7 @@ void Log(char level, char *msg,...)
 
     if (fidoConfig->logEchoToScreen)
     {
+        if (!fidoConfig->screenloglevels) return;
         if(strchr(fidoConfig->screenloglevels, level))
         {
             printf("%02d.%02d.%04d %02d:%02d:%02d [%d]: %s",
@@ -40,6 +41,7 @@ void Log(char level, char *msg,...)
         }
     }
 
+    if (!fidoConfig->loglevels) return;
     if (strchr(fidoConfig->loglevels, level))
     {
         fprintf(fp, "%02d.%02d.%04d %02d:%02d:%02d [%d]: %s",
