@@ -39,7 +39,7 @@ unsigned long serial;
 time_t lastt;
 
 const char outext[5]={'i', 'c', 'd', 'o', 'h'};
-const char outext[5]={'i', 'c', 'd', 'f', 'h'};
+const char flowext[5]={'i', 'c', 'd', 'f', 'h'};
 const char daynames[7][5]={"su","mo","tu","we","th","fr","sa"};
 
 
