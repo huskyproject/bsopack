@@ -1,3 +1,11 @@
+bsopack (1.4.0+beta1-2) unstable; urgency=low
+
+  * Place bsopack package to main. Now smapi has LGPL license and
+    bsopack does not depends from non-free packages
+  * Minor fixes for debian/rules
+
+ -- Pavel Andreew <pavel@collage.etel.ru>  Wed, 19 Feb 2003 09:51:16 +0500
+
 bsopack (1.4.0+beta1-1) unstable; urgency=low
 
   * New stable branch

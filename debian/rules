@@ -9,7 +9,6 @@
 export DH_COMPAT=4
 export DEBIAN=1
 export PACKAGE=bsopack
-export VERSION=1.3
 # Next Line to build debug-versions !
 # export DEB_BUILD_OPTIONS=nostrip
 
@@ -34,8 +33,8 @@ install: build
 	dh_clean -k
 	dh_installdirs
 	# Add here commands to install the package into debian/bsopack.
-	$(MAKE) install DESTDIR=$(CURDIR)/debian/bsopack
-	rm -f $(CURDIR)/debian/bsopack/usr/share/info/dir*
+	$(MAKE) install DESTDIR=$(CURDIR)/debian/$(PACKAGE)
+	rm -f $(CURDIR)/debian/$(PACKAGE)/usr/share/info/dir*
 
 # Build architecture-independent files here.
 binary-indep: build install
