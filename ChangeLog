@@ -1,3 +1,8 @@
+2002-12-27 Friday 20:30  d_sergienko
+
+	* src/bsopack.c (1.6): fix spelling (thanx to Pavel Scvortsov,
+	2:5055/80.333)
+
 2002-11-10 Sunday 08:51  sfpavel
 
 	* VERSION (1.1): file VERSION was initially added on branch
