@@ -3,7 +3,14 @@
 #ifndef _CONFIG_H
 #define _CONFIG_H
 
-#define VERSION "0.2-stable/"UNAME
+/*#define VERSION "0.2-stable/"UNAME */
+
+#define  VER_MAJOR    1
+#define  VER_MINOR    2
+#define  VER_PATCH    0
+/* branch is "" for CVS current, "-stable" for the release candiate branch  */
+#define  VER_BRANCH  "-stable"
+
 
 #include <fidoconf/fidoconf.h>
 

@@ -18,10 +18,11 @@ int enable_quiet=0;
 int enable_debug=0;
 char *fidoConfigFile=NULL;
 int fidocfg_in_env=0;
+extern char* versionStr;
 
 void Usage()
 {
-    printf("\nBSOpack %s\n", VERSION);
+    printf("\n%s\n", versionStr);
     printf("Usage: bsopack [-c fidconfig] [options]\n");
     printf("Options:\n");
     printf("\t-q            Quiet mode\n");
