@@ -5,9 +5,9 @@
 
 /*#define VERSION "0.2-stable/"UNAME */
 
-#define  VER_MAJOR    1
+#define  VER_MAJOR    0
 #define  VER_MINOR    2
-#define  VER_PATCH    0
+#define  VER_PATCH    1
 /* branch is "" for CVS current, "-stable" for the release candiate branch  */
 #define  VER_BRANCH  "-stable"
 

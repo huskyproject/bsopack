@@ -1,8 +1,8 @@
-bsopack (0.2-4) stable; urgency=low
+bsopack (0.2.1-1) stable; urgency=low
 
   * Bsopack 0.2 release
 
- -- Pavel Andreew <pavel@collage.etel.ru>  Wed,  6 Nov 2002 13:19:56 +0500
+ -- Pavel Andreew <pavel@collage.etel.ru>  Sun, 10 Nov 2002 13:46:11 +0500
 
 bsopack (0.2-3) stable; urgency=low
 
