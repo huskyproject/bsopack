@@ -1,0 +1,25 @@
+
+Please read the files (especially README.Makefiles) in the
+husky-common-package FIRST!
+
+Unix:
+-----
+
+0. Packages "smapi" and "fidoconfig" are required for bsopack.
+	If you don't have them, please download these packages from
+        http://husky.physcip.uni-stuttgart.de/
+        You need fidoconfig not older than 29.10.2000
+        Compile, install and configure them.
+        
+1. Unpack bsopack package to make following source tree:
+
+		./bsopack/
+		./fidoconfig/
+                ./smapi/
+                ./huskymak.cfg
+
+2. Compile and install it:
+	$ make
+        $ make install
+        
+Read README and you are ready to use bsopack.
