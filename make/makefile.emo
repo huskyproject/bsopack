@@ -1,6 +1,9 @@
 # EMX OS/2 OMF STYLE MAKEFILE
 #
 
+.SUFFIXES:
+.SUFFIXES: .c .obj
+
 CC      = gcc
 RM	= cmd /c del
 
@@ -16,20 +19,22 @@ UNAME=OS/2
 CDEFS=-D$(OSTYPE) -DUNAME="$(UNAME)"
 LIBS=../../fidoconf/fconfemo.lib ../../smapi/smapiemo.lib
 SRC_DIR=../src/
-
-OBJS = log.obj config.obj bsoutil.obj bsopack.obj
+EXENAMEFLAG=-o 
+EXE=.exe
 
 all: bsopack
 
-$(OBJS): $(SRC_DIR)%.c
+%$(OBJ): $(SRC_DIR)%.c
 		$(CC) $(CFLAGS) $(CDEFS) $(SRC_DIR)$*.c
 
-bsopack: $(OBJS)
-		 $(CC) $(LFLAGS) $(OBJS) $(LIBS) -o bsopack.exe
 
+bsopack$(EXE): config$(OBJ) log$(OBJ) bsoutil$(OBJ) bsopack$(OBJ)
+        $(CC) $(LFLAGS) $(EXENAMEFLAG)bsopack$(EXE) bsopack$(OBJ) config$(OBJ) log$(OBJ) bsoutil$(OBJ) $(LIBS)
+        
 clean:
-		$(RM) *.o
+		$(RM) *$(OBJ)
+		$(RM) *~
 
 distclean: clean
-		$(RM) bsopack.exe
+		$(RM) bsopack$(EXE)
 
