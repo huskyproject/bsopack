@@ -106,7 +106,7 @@ char *addr2str(s_link *link){
     return node;
 }
 
-unsigned long getNMSizeForLink(s_link *link, char *outb)
+unsigned long getNMSizeForLink(char *outb)
 {
     unsigned long NMSize=0;
     struct stat fInfo;
@@ -382,7 +382,7 @@ void releaseLink(s_link *link, char **outb)
     nfree(*outb);
 }
 
-int createBsy(s_link *link, char *outb)
+int createBsy(s_link *link)
 {
     if (!access(link->bsyFile, F_OK))
     {
@@ -456,7 +456,7 @@ void packNetMailForLink(s_link *link)
     }
     nfree(dir);
 
-    if (!createBsy(link, outbForLink)) {
+    if (!createBsy(link)) {
         releaseLink(link, &outbForLink);
         return;
     }
@@ -464,7 +464,7 @@ void packNetMailForLink(s_link *link)
     execstr=(char *)smalloc(MAXPATH);
     bsoNetMail=(char *)smalloc(strlen(outbForLink)+4);
 
-    nmSize=getNMSizeForLink(link, outbForLink);
+    nmSize=getNMSizeForLink(outbForLink);
 
     if ((nmSize!=0) && (nmSize >= (link->maxUnpackedNetmail*1024)))
     {
