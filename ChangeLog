@@ -1,3 +1,7 @@
+2005-04-04 Monday 20:44  d_sergienko
+
+	* src/bsoutil.c (bsopack-1_4-stable.7): fix warnings
+
 2005-03-20 Sunday 01:45  sfpavel
 
 	* debian/changelog (bsopack-1_4-stable.8): 1.4-RC3 release
