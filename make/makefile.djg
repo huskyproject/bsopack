@@ -13,7 +13,7 @@ DEBUG=-s
 CFLAGS  = -I../.. -c -O3 -DMSDOS -DNOSEMAPHORES -mcpu=i486 -Wall -Wno-char-subscripts $(DEBUG)
 LFLAGS=-s
 OSTYPE=MSDOS
-UNAME=dos
+UNAME=dpmi
 
 
 CDEFS=-D$(OSTYPE) -DUNAME=\"$(UNAME)\"
