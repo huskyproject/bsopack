@@ -204,10 +204,10 @@ void getBundleName(s_link *link, int flavour, char *outb)
                     while(fgets(flowLine, 256, fp)!=NULL)
                     {
                         flowLineTmp=flowLine;
-                        if(strlen(flowLine)<2) continue;
-                        if (flowLine[0]=='#' || flowLine[0]=='^' || flowLine[0]=='~')
-                            flowLine++;
-                        if(strncmp(flowLine,bundleName,strlen(bundleName))==0)
+                        if(strlen(flowLineTmp)<2) continue;
+                        if (flowLineTmp[0]=='#' || flowLineTmp[0]=='^' || flowLineTmp[0]=='~')
+                            flowLineTmp++;
+                        if(strncmp(flowLineTmp, bundleName, strlen(bundleName))==0)
                         {
                             foundOtherFlavour=1;
                             break;
@@ -228,7 +228,7 @@ void getBundleName(s_link *link, int flavour, char *outb)
     Debug("bundle name generated: %s\n", link->packFile);
     nfree(bundleName);
     nfree(flowFile);
-    nfree(flowLineTmp);
+    nfree(flowLine);
 }
 
 void fillCmdStatement(char *cmd, const char *call, const char *archiv, const char *file, const char *path) {
@@ -258,7 +258,6 @@ int addToFlow(s_link *link, int flavour, char *outb)
     unsigned char *buff=NULL;
     struct stat fInfo;
 
-    line=(char *)smalloc(MAXPATH);
     sprintf(link->floFile,"%s%clo", outb, outext[flavour]);
 
     Debug("adding bundle to flow file %s\n", link->floFile);
@@ -280,6 +279,8 @@ int addToFlow(s_link *link, int flavour, char *outb)
             return 0;
         }
 
+        line=(char *)smalloc(MAXPATH);
+
         while(fgets(line, MAXPATH, fp)!=NULL)
         {
             if (strlen(line)<2) continue;
@@ -290,6 +291,8 @@ int addToFlow(s_link *link, int flavour, char *outb)
                 break;
             }
         }
+
+        nfree(line);
 
         if (!foundOldBundle)
         {
@@ -341,7 +344,6 @@ int addToFlow(s_link *link, int flavour, char *outb)
         Debug("added our bundle.\n");
     }
     fclose(fp);
-    nfree(line);
     return 1;
 }
 
