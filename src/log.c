@@ -10,7 +10,7 @@
 #include <unistd.h>
 #endif
 
-#if defined (__WATCOMC__) || (OS2) || (_MSC_VER)
+#if defined (__WATCOMC__) || (OS2) || (_MSC_VER) || defined(__MINGW32__)
 #include <process.h>
 #endif
 

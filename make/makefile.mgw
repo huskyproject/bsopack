@@ -1,46 +1,32 @@
-# Win32 makefile for Cygwin
-# (a) Stas Degteff 2:5080/102 g@grumbler.org
-# Based on hpt/make/makefile.cyg & 
-# "Win32 makefile for Cygwin and MinGW From Leonid Kukharenko 2:463/375.128"
+# Win32 makefile for Cygwin and MinGW
+# From Leonid Kukharenko 2:463/375.128
+# tested with mingw & gcc3.1
 #
-# tested with Cygwin 2.218.2.9
-#
-# Ussage:
-# make -f makefile.cyg
-#
-
-# Set to 1 for debug purposes
-DEBUG=      0
-
-ADDCDEFS=
-
-SHORTNAMES= 1
-OSTYPE=     __NT__
-UNAME=      Win32
-
 CC=gcc
 RM=rm
 INCDIR=../..
 LIBDIR=../..
 BINDIR=../..
 SRC_DIR=../src/
-WARNFLAGS=  -Wall
-OPTCFLAGS=  -c -s -O3 -mno-cygwin -pedantic
-OPTLFLAGS=  -mno-cygwin
-DEBCFLAGS=  -c -ggdb
 
-
+WARNFLAGS=-Wall
+OPTCFLAGS=-c -s -O3 -mno-cygwin
+DEBCFLAGS=-c -ggdb
+ADDCDEFS=
+DEBUG=0
+SHORTNAMES=1
+OSTYPE=WINNT
+UNAME=Win32
 
 ifeq ($(DEBUG), 1)
   CFLAGS = -I$(INCDIR) -I../h $(DEBCFLAGS) $(WARNFLAGS)
-  LFLAGS = $(DEBLFLAGS) $(OPTLFLAGS)
+  LFLAGS = $(DEBLFLAGS)
 else
   CFLAGS = -I$(INCDIR) -I../h $(OPTCFLAGS) $(WARNFLAGS)
   LFLAGS = $(OPTLFLAGS)
 endif
 
 LIBS  = ../../fidoconf/libfidoconfigcyg.a ../../smapi/libsmapicyg.a
-# -lmingwex
 
 CDEFS=-D$(OSTYPE) -DUNAME=\"$(UNAME)\" $(ADDCDEFS)
 

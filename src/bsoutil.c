@@ -12,13 +12,14 @@
 #include <fidoconf/fidoconf.h>
 #include <fidoconf/common.h>
 #include <smapi/compiler.h>
+#include <smapi/progprot.h>
 
 #if defined (UNIX)
   #include <dirent.h>
   #include <unistd.h>
 #endif
 
-#if defined (__WATCOMC__) || (_MSC_VER)
+#if defined (__WATCOMC__) || defined(_MSC_VER) || defined(__MINGW32__)
   #include <process.h>
   #include <direct.h>
   #include <io.h>
@@ -73,12 +74,13 @@ char *createPktName()
 }
 
 void createDirIfNEx(char *dir)
-{
+{   char *pp;
 
-    if ((char) *(dir + strlen(dir) -1) == PATH_DELIM)
-        (char) *(dir + strlen(dir) -1) = '\0';        // we can't create "c:\dir\", only "c:\dir"
+    if ( *(pp=(char*)(dir + strlen(dir) -1)) == PATH_DELIM )
+        *pp = '\0';        // we can't create "c:\dir\", only "c:\dir"
 
-    if (access(dir, F_OK))
+/*    if (access(dir, F_OK))*/
+    if (direxist(dir))
     {
         Debug("creating directory %s...\n", dir);
         if (mymkdir(dir))
@@ -263,7 +265,7 @@ int addToFlow(s_link *link, int flavour, char *outb)
     FILE *fp;
     char *line=NULL;
     int foundOldBundle=0;
-    unsigned char *buff=NULL;
+    char *buff=NULL;
     struct stat fInfo;
 
     sprintf(link->floFile,"%s%clo", outb, flowext[flavour]);
@@ -284,7 +286,7 @@ int addToFlow(s_link *link, int flavour, char *outb)
         }
 
         line=(char *)smalloc(MAXPATH);
-        buff=(unsigned char *)smalloc(fInfo.st_size);
+        buff = smalloc(fInfo.st_size);
         memset(buff, 0, fInfo.st_size);
 
         while(fgets(line, MAXPATH, fp)!=NULL)
