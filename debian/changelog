@@ -1,3 +1,9 @@
+bsopack (0.1-5) unstable; urgency=low
+
+  * Used wrong (old) huskymak.cfg. Shit happens
+
+ -- Joerg Jaspert (JJ) <joerg@goliathbbs.dnsalias.net>  Sun,  8 Jul 2001 23:37:22 +0200
+
 bsopack (0.1-4) unstable; urgency=low
 
   * Newest CVS.
