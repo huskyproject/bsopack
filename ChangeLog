@@ -1,3 +1,7 @@
+2002-10-15 Tuesday 06:30  pgul
+
+	* src/log.c (1.11): compilation warning fixed
+
 2002-10-14 Monday 08:33  stas_degteff
 
 	* make/makefile.cyg (1.4), make/makefile.mgw (1.1), src/bsoutil.c
