@@ -1,182 +1,182 @@
-2002-08-06 Tuesday 06:39  gerrit
+2002-08-06 Tuesday 13:39  gerrit
 
 	* src/: bsoutil.c (1.25), config.c (1.7), log.c (1.8): Changed
 	inclusion of headers to prevent warnings under FreeBSD.
 
-2002-08-06 Tuesday 06:38  gerrit
+2002-08-06 Tuesday 13:38  gerrit
 
 	* Makefile (1.8): Included src/ when making clean.
 
-2002-07-31 Wednesday 12:45  stas
+2002-07-31 Wednesday 19:45  stas
 
 	* make/: makefile (1.2), makefile.mvcdll (1.3): Change comments in
 	makefiles
 
-2002-07-31 Wednesday 12:45  stas
+2002-07-31 Wednesday 19:45  stas
 
 	* make/makefile.cyg (1.1): Add makefile for Cygwin & mingw (tested
 	with mingw & gcc3.1). Patch from Leonid Kukharenko 2:463/375.128)
 
-2002-05-19 Sunday 02:10  d.sergienko
+2002-05-19 Sunday 09:10  d.sergienko
 
 	* Makefile (1.7): moved target "all" after "distclean"
 
-2002-05-12 Sunday 06:09  d.sergienko
+2002-05-12 Sunday 13:09  d.sergienko
 
 	* .cvs2cl (1.1): trying to get cvs2cl working...
 
-2002-05-03 Friday 05:16  mche
+2002-05-03 Friday 12:16  mche
 
 	* src/bsoutil.c (1.24): fillCmdStatement moved to fidoconfig for
 	common use in hpt htick nltools bsopack
 
-2002-04-24 Wednesday 03:01  d.sergienko
+2002-04-24 Wednesday 10:01  d.sergienko
 
 	* src/: bsopack.c (1.3), bsoutil.c (1.23), bsoutil.h (1.3),
 	config.c (1.6), config.h (1.3), log.c (1.7), log.h (1.3): added
 	rcs_id
 
-2002-04-21 Sunday 03:20  d.sergienko
+2002-04-21 Sunday 10:20  d.sergienko
 
 	* src/bsoutil.c (1.22): fixed bug with memory reallocation in
 	createPktName()
 
-2002-03-04 Monday 16:33  joerg.jaspert
+2002-03-05 Tuesday 00:33  joerg.jaspert
 
 	* debian/: changelog (1.5), control (1.4), huskymak.cfg (1.4): New
 	Debian Package built
 
-2002-02-15 Friday 02:33  mche
+2002-02-15 Friday 10:33  mche
 
 	* make/makefile.mvcdll (1.2): minimized binaries size
 
-2002-01-06 Sunday 03:07  d.sergienko
+2002-01-06 Sunday 11:07  d.sergienko
 
 	* src/bsoutil.c (1.21): ! fixed F_OK constant for ANSI C compilers
 	(MSVC)
 
-2002-01-04 Friday 09:56  d.sergienko
+2002-01-04 Friday 17:56  d.sergienko
 
 	* README (1.7), TODO (1.10), bsopack.texi (1.6), src/bsoutil.c
 	(1.20), src/log.c (1.6): + added MSVC compiler support (thanx to
 	Max Chernogor)
 
-2002-01-04 Friday 09:31  mche
+2002-01-04 Friday 17:31  mche
 
 	* make/: makefile.mvc (1.1), makefile.mvcdll (1.1): making bsopack
 	with MSVC
 
-2001-08-18 Saturday 02:37  d.sergienko
+2001-08-18 Saturday 09:37  d.sergienko
 
 	* TODO (1.9): + TODO: Fileboxes support.
 
-2001-08-10 Friday 05:25  d.sergienko
+2001-08-10 Friday 12:25  d.sergienko
 
 	* TODO (1.8): added to TODO packFlavour.
 
-2001-07-09 Monday 07:18  d.sergienko
+2001-07-09 Monday 14:18  d.sergienko
 
 	* bsopack.texi (1.5): ! fixes in bsopack.texi
 
-2001-07-08 Sunday 14:39  joerg.jaspert
+2001-07-08 Sunday 21:39  joerg.jaspert
 
 	* debian/: changelog (1.4), huskymak.cfg (1.3): Used old
 	huskymak.cfg. Shit happens.
 
-2001-07-08 Sunday 14:36  joerg.jaspert
+2001-07-08 Sunday 21:36  joerg.jaspert
 
 	* debian/: changelog (1.3), control (1.3), rules (1.3): Rebuild
 	bsopack
 
-2001-06-30 Saturday 12:30  d.sergienko
+2001-06-30 Saturday 19:30  d.sergienko
 
 	* src/log.c (1.5): ! fixed month output in log.
 
-2001-05-21 Monday 05:54  d.sergienko
+2001-05-21 Monday 12:54  d.sergienko
 
 	* README (1.6), src/bsoutil.c (1.19): 
 	* fixed segfault in packNetmailForLink()
 
-2001-05-20 Sunday 13:43  d.sergienko
+2001-05-20 Sunday 20:43  d.sergienko
 
 	* src/bsoutil.c (1.18): some error probably during commit.
 
-2001-05-09 Wednesday 00:36  d.sergienko
+2001-05-09 Wednesday 07:36  d.sergienko
 
 	* TODO (1.7), bsopack.texi (1.4), src/bsoutil.c (1.15): * fix for
 	yesterday's fix in getBundleName().
 
-2001-05-07 Monday 14:07  d.sergienko
+2001-05-07 Monday 21:07  d.sergienko
 
 	* Makefile (1.6), src/bsoutil.c (1.14), src/bsoutil.h (1.2): +
 	added addr2str() function * fix in getBundleName()
 
-2001-05-06 Sunday 22:37  d.sergienko
+2001-05-07 Monday 05:37  d.sergienko
 
 	* make/makefile.emo (1.7), src/bsoutil.c (1.13): 
 	fixes, fixes...
 
-2001-04-30 Monday 08:09  d.sergienko
+2001-04-30 Monday 15:09  d.sergienko
 
 	* make/makefile.emo (1.6), src/bsoutil.c (1.12), src/config.c
 	(1.5): 
 	dmitry: !* fixes and optimization (thanx to Kees)
 
-2001-04-22 Sunday 14:18  d.sergienko
+2001-04-22 Sunday 21:18  d.sergienko
 
 	* src/bsoutil.c (1.10): 
 	dmitry: * fixes...
 
-2001-04-21 Saturday 08:19  joerg.jaspert
+2001-04-21 Saturday 15:19  joerg.jaspert
 
 	* debian/: changelog (1.2), control (1.2), huskymak.cfg (1.2),
 	rules (1.2): Changed it so it compiles now with debug enabled. From
 	now on i compile only stable versions without debug.
 
-2001-04-20 Friday 07:22  d.sergienko
+2001-04-20 Friday 14:22  d.sergienko
 
 	* make/: makefile.emo (1.5), makefile.wco (1.4): 
 	dmitry: * changed logo string to bsopack/OS2 for OS/2.
 
-2001-04-17 Tuesday 12:09  d.sergienko
+2001-04-17 Tuesday 19:09  d.sergienko
 
 	* src/bsoutil.c (1.9): 
 	dmitry: * fixed segfault in createPktName()
 
-2001-04-14 Saturday 08:39  joerg.jaspert
+2001-04-14 Saturday 15:39  joerg.jaspert
 
 	* man/: README (1.1), bsopack.1 (1.1): Small manpage for bsopack
 
-2001-04-14 Saturday 08:39  joerg.jaspert
+2001-04-14 Saturday 15:39  joerg.jaspert
 
 	* debian/: README.Debian (1.1), changelog (1.1), control (1.1),
 	copyright (1.1), dirs (1.1), doc-base (1.1), docs (1.1),
 	huskymak.cfg (1.1), manpages (1.1), rules (1.1): Files for Package
 	Building in Debian
 
-2001-04-14 Saturday 08:38  joerg.jaspert
+2001-04-14 Saturday 15:38  joerg.jaspert
 
 	* Makefile (1.5): Changed the path of huskymak.cfg for Debian
 
-2001-04-10 Tuesday 09:36  wulf.krueger
+2001-04-10 Tuesday 16:36  wulf.krueger
 
 	* README (1.5), bsopack.texi (1.3): 
 	Wulf Krueger: * fixed spelling and grammatical errors in README and
 	bsopack.texi
 
-2001-04-09 Monday 04:48  d.sergienko
+2001-04-09 Monday 11:48  d.sergienko
 
 	* make/makefile.emo (1.1), make/makefile.emx (1.2),
 	make/makefile.lnx (1.3), make/makefile.wco (1.3), make/makefile.wcw
 	(1.3), src/bsoutil.c (1.4): 
 	dmitry: added makefile.emo and memory leak fix.
 
-2001-04-08 Sunday 10:01  d.sergienko
+2001-04-08 Sunday 17:01  d.sergienko
 
 	* make/makefile.emx (1.1), src/bsoutil.c (1.3): 
 	dmitry: added makefile.emx
 
-2001-04-07 Saturday 23:49  d.sergienko
+2001-04-08 Sunday 06:49  d.sergienko
 
 	* README (1.4), bsopack.texi (1.2), make/makefile.lnx (1.2),
 	make/makefile.wco (1.2), make/makefile.wcw (1.2), src/bsopack.c
@@ -184,14 +184,14 @@
 	src/log.c (1.2), src/log.h (1.2): 
 	dmitry: debug, makefiles, os2 fix
 
-2001-03-19 Monday 12:27  d.sergienko
+2001-03-19 Monday 20:27  d.sergienko
 
 	* bsopack.c (1.5), bsoutil.c (1.5), bsoutil.h (1.2), config.c
 	(1.6), config.h (1.4), log.c (1.6), log.h (1.2), makefile.lnx
 	(1.2), makefile.wco (1.2), makefile.wcw (1.2): 
 	removing old files...
 
-2001-03-19 Monday 12:22  d.sergienko
+2001-03-19 Monday 20:22  d.sergienko
 
 	* make/makefile (1.1), make/makefile.lnx (1.1), make/makefile.wco
 	(1.1), make/makefile.wcw (1.1), src/bsopack.c (1.1), src/bsoutil.c
@@ -199,56 +199,56 @@
 	src/log.c (1.1), src/log.h (1.1): 
 	directory tree changes.
 
-2001-03-19 Monday 12:18  d.sergienko
+2001-03-19 Monday 20:18  d.sergienko
 
 	* INSTALL (1.2), Makefile (1.4), TODO (1.6): 
 	texinfo docs, directories...
 
-2001-01-27 Saturday 23:40  d.sergienko
+2001-01-28 Sunday 07:40  d.sergienko
 
 	* bsoutil.c (1.4): 
 	! fixed bug with incorrect zoneOutbound calculating
 
-2001-01-15 Monday 16:46  tobi
+2001-01-16 Tuesday 00:46  tobi
 
 	* makefile.wco (1.1): added os/2 watcom makefile
 
-2000-12-19 Tuesday 13:19  d.sergienko
+2000-12-19 Tuesday 21:19  d.sergienko
 
 	* makefile.lnx (1.1), makefile.wcw (1.1): 
 	+ added makefile.lnx & makefile.wcw
 
-2000-12-19 Tuesday 13:17  d.sergienko
+2000-12-19 Tuesday 21:17  d.sergienko
 
 	* Makefile (1.3), README (1.3), TODO (1.5), bsopack.c (1.4),
 	bsoutil.c (1.3), config.c (1.5), config.h (1.3), log.c (1.5): 
 	dmitry: Tue Dec 19 23:16:21 EET 2000 + watcom c (win32) porting,
 	various fixes & modifications
 
-2000-12-17 Sunday 15:00  d.sergienko
+2000-12-17 Sunday 23:00  d.sergienko
 
 	* README (1.2), TODO (1.4), bsopack.c (1.3), config.c (1.4),
 	config.h (1.2), log.c (1.4): 
 	Mon Dec 18 01:00:02 EET 2000 dmitry: * added command line switches,
 	code cleanup...
 
-2000-12-12 Tuesday 05:09  d.sergienko
+2000-12-12 Tuesday 13:09  d.sergienko
 
 	* TODO (1.3), config.c (1.3), log.c (1.3): 
 	dmitry: ! if fidoconfig not found print error on stderr instead of
 	log * changed output to stdout when errors to stderr
 
-2000-12-10 Sunday 00:07  d.sergienko
+2000-12-10 Sunday 08:07  d.sergienko
 
 	* config.c (1.2), log.c (1.2): 
 	! added NULL checking for logFileDir, loglevels & screenloglevels
 
-2000-12-06 Wednesday 23:58  d.sergienko
+2000-12-07 Thursday 07:58  d.sergienko
 
 	* Makefile (1.2), TODO (1.2), bsopack.c (1.2), bsoutil.c (1.2): 
 	dmitry: * moving bsopack to cvs
 
-2000-12-02 Saturday 08:06  ml
+2000-12-02 Saturday 16:06  ml
 
 	* COPYING (1.1), Makefile (1.1), README (1.1), TODO (1.1),
 	bsopack.c (1.1), bsoutil.c (1.1), bsoutil.h (1.1), config.c (1.1),
