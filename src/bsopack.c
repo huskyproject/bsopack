@@ -1,6 +1,7 @@
 /* $Id$ */
 
 #include <fidoconf/fidoconf.h>
+#include <fidoconf/common.h>
 #include <fidoconf/log.h>
 #include <fidoconf/xstr.h>
 #include <fidoconf/version.h>
@@ -8,13 +9,13 @@
 #include "bsoutil.h"
 #include "cvsdate.h"
 
-int lock_fd;
-
 #define LOGFILE "bsopack.log"
+
+s_fidoconfig *config;
+int lock_fd;
 
 int main(int argc, char **argv)
 {
-    s_fidoconfig *config;
     char *versionStr = NULL;
     unsigned int i;
 

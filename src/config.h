@@ -12,6 +12,7 @@
 
 #define MAXPATH 256
 
+extern s_fidoconfig *config;
 extern char *logFileName;
 extern char *fidoConfigFile;
 
