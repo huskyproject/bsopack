@@ -2,7 +2,7 @@
 @c %**start of header
 @setfilename bsopack.info
 @settitle BSOpack Manual
-@set VERSION 0.1
+@set VERSION 0.2
 @setchapternewpage odd
 @c %**end of header
 
