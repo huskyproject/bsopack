@@ -11,12 +11,12 @@ void getConfig()
 {
     fidoConfig=readConfig(NULL);
     if (NULL == fidoConfig) {
-        Log(3, "FidoConfig not found\n");
+        fprintf(stderr, "FidoConfig not found.\n");
         exit(-1);
     };
     if (!fidoConfig->logFileDir)
     {
-        printf("Keyword 'logFileDir' in fidoconfig not found.\n");
+        fprintf(stderr, "Required keyword 'logFileDir' in fidoconfig not found.\n");
         exit(-1);
     }
     sprintf(logFileName, "%sbsopack.log", fidoConfig->logFileDir);

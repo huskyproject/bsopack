@@ -1,5 +1,6 @@
 1. Put all outgoing arcmail into separate from echomail directory.
-2. More detailed information in log.
-3. Add to doc (fidoconfig) information about tokens 'packNetmail' and 
-	'maxUnpackedNetmail'.
-4. Version for Win and other OSes.
+2. bsopack -c <fidoConfig>
+3. bsopack -q - quiet mode; bsopack -h - show help screen.
+4. bsopack -d - debug mode
+5. More detailed information in log.
+6. Version for Win and other OSes (any volunteers? :)

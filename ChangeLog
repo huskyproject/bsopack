@@ -16,3 +16,7 @@
 
 09.12.00
 ! added NULL checking for logFileDir, loglevels & screenloglevels
+
+12.12.00
+! if fidoconfig not found print error on stderr instead of log
+* changed output to stdout when errors to stderr

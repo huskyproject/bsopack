@@ -26,7 +26,7 @@ void Log(char level, char *msg,...)
     fp=fopen(logFileName, "a+");
     if (fp==NULL)
     {
-        printf("Can't open log %sbsopack.log!\n", fidoConfig->logFileDir);
+        fprintf(stderr, "Can't open log %sbsopack.log!\n", fidoConfig->logFileDir);
         return;
     }
 
