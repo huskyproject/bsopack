@@ -1,5 +1,6 @@
-# Generic Makefile for bsopack
-
+# Linux legacy makefile
+#
+# tested with gcc 2.7.2.3, egcs-2.91.66
 CC=gcc
 RM=rm
 INCDIR=/usr/local/include

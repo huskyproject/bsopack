@@ -1,4 +1,7 @@
-# Generic Makefile for bsopack
+# Makefile for Watcom C (Win32)
+#
+# tested with Watcom C 11.0
+
 
 CC      = wcc386
 LINK    = wlink

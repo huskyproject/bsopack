@@ -2,6 +2,12 @@ bsopack 0.1 (development version)
 ---------
 
 ----- cvs ci ------
+Mon Apr  9 14:41:33 EEST 2001
+dmitry: (thanx to Kees Bergwerf)
++ added makefile.emo
+* fixed memory bug for OS/2 in initLink(), createDirIfNex()
+
+----- cvs ci ------
 Sun Apr  8 19:55:06 EEST 2001
 dmitry:
 + added makefile.emx (test it!)

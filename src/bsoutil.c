@@ -3,8 +3,8 @@
 #include <string.h>
 #include <time.h>
 #include <stdlib.h>
-#include <sys/stat.h>
 #include <sys/types.h>
+#include <sys/stat.h>
 #include <stdarg.h>
 #include <errno.h>
 #include <fidoconf/fidoconf.h>
@@ -16,10 +16,16 @@
   #include <unistd.h>
 #endif
 
-#if defined (__WATCOMC__) || (OS2)
+#if defined (__WATCOMC__)
   #include <process.h>
   #include <direct.h>
   #include <io.h>
+#endif
+
+#if defined (OS2)
+  #include <io.h>
+  #include <process.h>
+  #include <sys/fcntl.h>
 #endif
 
 #include "log.h"
@@ -55,21 +61,21 @@ int createPktName(char *name)
     return 1;
 }
 
-void createDirIfNEx(char **dir)
+void createDirIfNEx(char *dir)
 {
 
 #if defined (OS2)
-    if (*dir[strlen(*dir)] == PATH_DELIM)
-        *dir[strlen(*dir)] = '\0';        // we can't create "c:\dir\", only "c:\dir"
+    if ((dir + strlen(dir)) == PATH_DELIM)
+        (dir + strlen(dir)) = '\0';        // we can't create "c:\dir\", only "c:\dir"
 #endif
 
-    if (access((*dir), F_OK))
+    if (access(dir, F_OK))
     {
-        Debug("creating directory %s...\n", *dir);
-        if (mymkdir((*dir)))
+        Debug("creating directory %s...\n", dir);
+        if (mymkdir(dir))
         {
             Log('9', "Can't create directory %s, errno=%d\n",
-                (*dir), errno);
+                dir, errno);
             Debug("can't create, errno=%d. exiting!", errno);
             exit(-1);
         }
@@ -85,7 +91,7 @@ void getZoneOutbound(s_link *link, char **zoneOutbound, char *outbound)
                 link->hisAka.zone, PATH_DELIM);
 
     }
-    createDirIfNEx(zoneOutbound);
+    createDirIfNEx(*zoneOutbound);
 }
 
 void getOutboundForLink(s_link *link, char **outb)
@@ -103,7 +109,7 @@ void getOutboundForLink(s_link *link, char **outb)
     else
     {
       sprintf((char *)(dir+strlen(dir)), "%04x%04x.pnt", link->hisAka.net, link->hisAka.node);
-      createDirIfNEx(&dir);
+      createDirIfNEx(dir);
       sprintf((*outb), "%04x%04x.pnt/%08x", link->hisAka.net, link->hisAka.node,
                 link->hisAka.point);
     }
@@ -172,7 +178,7 @@ void getBundleName(s_link *link, int flavour)
 
             getZoneOutbound(link, &bundleName, fidoConfig->outbound);
             sprintf(bundleName+strlen(bundleName), "%04x%04x.pnt", link->hisAka.net, link->hisAka.node);
-            createDirIfNEx(&bundleName);
+            createDirIfNEx(bundleName);
             getZoneOutbound(link, &bundleName, fidoConfig->outbound);
             if (fidoConfig->separateBundles)
                sprintf(bundleName+strlen(bundleName), "%04x%04x.pnt%c%08x.sep%c%04x%04x.%2s%1c",
@@ -208,7 +214,7 @@ void getBundleName(s_link *link, int flavour)
             sepDir=(char *)smalloc(strlen(bundleName)-11);
 	    memset(sepDir, 0, strlen(bundleName)-11);
             strncpy(sepDir, bundleName, strlen(bundleName)-12);
-            createDirIfNEx(&sepDir);
+            createDirIfNEx(sepDir);
             nfree(sepDir);
         }
 
@@ -370,16 +376,19 @@ int addToFlow(s_link *link, int flavour)
 
 void initLink(s_link *link)
 {
+    int extralen;
+
     Debug("allocating memory for this link...\n");
-    if (link->hisAka.point)
-        link->bsyFile=(char *)smalloc(strlen(fidoConfig->outbound)+5+12+1+12+1);
-    else
-        link->bsyFile=(char *)smalloc(strlen(fidoConfig->outbound)+5+12+1);
 
     if (link->hisAka.point)
-        link->floFile=(char *)smalloc(strlen(fidoConfig->outbound)+5+12+1+12+1);
+        extralen=5+12+1+12+1;
     else
-        link->floFile=(char *)smalloc(strlen(fidoConfig->outbound)+5+12+1);
+        extralen=5+12+1;
+
+    link->bsyFile=(char *)smalloc(strlen(fidoConfig->outbound)+extralen);
+    memset(link->bsyFile,0,strlen(fidoConfig->outbound)+extralen);
+    link->floFile=(char *)smalloc(strlen(fidoConfig->outbound)+5+12+1+12+1);
+    memset(link->floFile,0,strlen(fidoConfig->outbound)+extralen);
 
     if (link->pktFile==NULL)
         link->pktFile=(char *)smalloc(strlen(fidoConfig->tempOutbound)+13);
