@@ -1,3 +1,9 @@
+2004-03-16 Tuesday 08:45  sfpavel
+
+	* Makefile, src/bsopack.c, src/config.h
+	(bsopack-1_4-stable.[3,2,3]): Fix segmentation fault on *nix
+	systems (patch from andr_lukyanov)
+
 2004-02-06 Friday 06:30  andr_lukyanov
 
 	* bsopack.texi, man/bsopack.1 (bsopack-1_4-stable.[2,2]): Fix
