@@ -38,7 +38,7 @@ info:
 	makeinfo --no-split bsopack.texi
 
 html:
-	makeinfo --html bsopack.texi
+	texi2html -split_node -number -menu bsopack.texi
 
 docs: info html
 

@@ -67,14 +67,7 @@ install: build
 
 	# Add here commands to install the package into debian/bsopack.
 	$(MAKE) install DESTDIR=$(CURDIR)/debian/bsopack
-	texi2html -split_node -number -menu bsopack.texi
-	makeinfo --no-split  bsopack.texi
-	-mkdir -p $(CURDIR)/debian/bsopack/usr/share/info
-	install -m 0644 bsopack.info $(CURDIR)/debian/bsopack/usr/share/info
-	-mkdir -p $(CURDIR)/debian/bsopack/usr/share/doc/bsopack/html
-	install -m 0644 bsopack*.html $(CURDIR)/debian/bsopack/usr/share/doc/bsopack/html
-
-
+	rm -f $(CURDIR)/debian/bsopack/usr/share/info/dir*
 
 # Build architecture-independent files here.
 binary-indep: build install
