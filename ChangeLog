@@ -1,3 +1,7 @@
+2002-08-29 Thursday 13:33  mche
+
+	* src/bsopack.c (1.5): correct cvsdate substitution
+
 2002-08-27 Tuesday 03:38  sfpavel
 
 	* Makefile (1.11), debian/changelog (1.8), debian/rules (1.5):
