@@ -3,7 +3,10 @@
 #ifndef _CONFIG_H
 #define _CONFIG_H
 
-#define VERSION "1.3/"UNAME
+#define VER_MAJOR 1
+#define VER_MINOR 3
+#define VER_PATCH 0
+#define VER_BRANCH BRANCH_CURRENT
 
 #include <fidoconf/fidoconf.h>
 
@@ -15,6 +18,7 @@ extern char *logFileName;
 extern int enable_quiet;
 extern int enable_debug;
 extern char *fidoConfigFile;
+extern char *VERSION;
 
 void getConfig();
 void freeConfig();

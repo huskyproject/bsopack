@@ -15,6 +15,7 @@ int enable_quiet=0;
 int enable_debug=0;
 char *fidoConfigFile=NULL;
 int fidocfg_in_env=0;
+char *VERSION;
 
 void Usage()
 {
