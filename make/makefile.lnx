@@ -1,12 +1,14 @@
+# $Id$
 # Linux legacy makefile
-#
 # tested with gcc 2.7.2.3, egcs-2.91.66
+
 CC=gcc
-RM=rm
+CINCL=-I../h -I../../fidoconf -I../../smapi -I../../huskylib
 INCDIR=/usr/local/include
 LIBDIR=/usr/local/lib
 BINDIR=/usr/local/bin
 SRC_DIR=../src/
+RM=rm
 
 WARNFLAGS=-Wall
 OPTCFLAGS=-c -s -O3 -fomit-frame-pointer -fstrength-reduce -fPIC
@@ -18,10 +20,10 @@ OSTYPE=UNIX
 UNAME=lnx
 
 ifeq ($(DEBUG), 1)
-  CFLAGS = -I$(INCDIR) -I../h $(DEBCFLAGS) $(WARNFLAGS)
+  CFLAGS = -I$(INCDIR) $(CINCL) $(DEBCFLAGS) $(WARNFLAGS)
   LFLAGS = $(DEBLFLAGS)
 else
-  CFLAGS = -I$(INCDIR) -I../h $(OPTCFLAGS) $(WARNFLAGS)
+  CFLAGS = -I$(INCDIR) $(CINCL) $(OPTCFLAGS) $(WARNFLAGS)
   LFLAGS = $(OPTLFLAGS)
 endif
 

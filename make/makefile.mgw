@@ -4,7 +4,7 @@
 
 CC	= gcc
 RM	= rm
-INCDIR	= -I../h -I../.. -I../../huskylib -I../../smapi
+CINCL	= -I../h -I../../fidoconf -I../../smapi -I../../huskylib
 LIBDIR	= ../..
 BINDIR	= ../..
 SRC_DIR	= ../src/
@@ -19,10 +19,10 @@ OSTYPE	= WINNT
 UNAME	= Win32
 
 ifeq ($(DEBUG), 1)
-  CFLAGS = $(INCDIR) $(DEBCFLAGS) $(WARNFLAGS)
+  CFLAGS = $(CINCL) $(DEBCFLAGS) $(WARNFLAGS)
   LFLAGS = $(DEBLFLAGS)
 else
-  CFLAGS = $(INCDIR) $(OPTCFLAGS) $(WARNFLAGS)
+  CFLAGS = $(CINCL) $(OPTCFLAGS) $(WARNFLAGS)
   LFLAGS = $(OPTLFLAGS)
 endif
 

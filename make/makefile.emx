@@ -11,7 +11,8 @@ RM	= cmd /c del
 DEBUG	= -s
 # set to -g for debugging
 
-CFLAGS	= -c -O3 $(DEBUG) -I../h -I../.. -I../../huskylib -I../../smapi
+CFLAGS	= -c -O3 $(DEBUG)
+CINCL	= -I../h -I../../fidoconf -I../../smapi -I../../huskylib
 LFLAGS	= -Zcrtdll $(DEBUG)
 OSTYPE	= OS2
 
@@ -28,7 +29,7 @@ EXENAMEFLAG=-o
 all: bsopack$(EXE)
 
 %$(OBJ): $(SRC_DIR)%.c
-	$(CC) $(CFLAGS) $(CDEFS) $(SRC_DIR)$*.c
+	$(CC) $(CFLAGS) $(CINCL) $(CDEFS) $(SRC_DIR)$*.c
 
 
 bsopack$(EXE): config$(OBJ) log$(OBJ) bsoutil$(OBJ) bsopack$(OBJ)

@@ -8,7 +8,8 @@
 CC	= cl
 RM	= del
 
-CFLAGS	= -nologo -Zp1 -O2 -I..\h -I..\.. -I..\..\huskylib -I..\..\smapi
+CFLAGS	= -nologo -Zp1 -O2
+CINCL	= -I..\h -I..\..\fidoconf -I..\..\smapi -I..\..\huskylib 
 COPT	= -O2
 UNAME	= w32
 CDEFS	= -D__NT__ -DUNAME=\"$(UNAME)\" -DNT -DWINNT -D_CONSOLE
@@ -17,12 +18,12 @@ LIBS	= ..\..\fidoconf\fconfmvc.lib ..\..\huskylib\make\huskymvc.lib
 
 all: bsopack.exe
 
-bsopack.exe: 
-	$(CC) $(CFLAGS) $(CDEFS) $(COPT) -Fe$@ $(SRC_DIR)\bsopack.c \
-                                               $(SRC_DIR)\log.c     \
-                                               $(SRC_DIR)\config.c  \
-                                               $(SRC_DIR)\bsoutil.c \
-                                               $(LIBS)
+bsopack.exe:
+	$(CC) $(CFLAGS) $(CINCL) $(CDEFS) $(COPT) -Fe$@ $(SRC_DIR)\bsopack.c \
+                                                        $(SRC_DIR)\log.c     \
+                                                        $(SRC_DIR)\config.c  \
+                                                        $(SRC_DIR)\bsoutil.c \
+                                                        $(LIBS)
 
 clean:
 	$(RM) *.obj

@@ -8,7 +8,8 @@ CC      = wcc386
 LINK    = wlink
 RM	= del
 
-CFLAGS  = -zq -wx -bt=os2v2 -i=..\h;..\..;..\..\huskylib;..\..smapi -oneatx -5
+CFLAGS  = -zq -wx -bt=os2v2 -oneatx -5
+CINCL	= -i=..\h;..\..\fidoconf;..\..smapi;..\..\huskylib
 LFLAGS  = system os2v2
 OSTYPE	= OS2
 
@@ -21,7 +22,7 @@ OBJS= log.obj config.obj bsoutil.obj bsopack.obj
 all: bsopack
 
 $(OBJS): $(SRC_DIR)\*.c
-	$(CC) $(CFLAGS) $(CDEFS) $(SRC_DIR)\$*.c
+	$(CC) $(CFLAGS) $(CINCL) $(CDEFS) $(SRC_DIR)\$*.c
 
 bsopack: $(OBJS)
 	$(LINK) $(LFLAGS) FILE log.obj, config.obj, bsoutil.obj, bsopack.obj, ..\..\fidoconf\fconfwco.lib, ..\..\huskylib\make\huskywco.lib  NAME bsopack.exe
