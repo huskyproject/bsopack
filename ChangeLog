@@ -1,3 +1,10 @@
+2002-10-14 Monday 08:33  stas_degteff
+
+	* make/makefile.cyg (1.4), make/makefile.mgw (1.1), src/bsoutil.c
+	(1.27), src/log.c (1.10): Fix cygwin compilation; rename old
+	makefile.cyg to makefile.mgw: this is makefile for mingw32, not
+	cygwin
+
 2002-10-08 Tuesday 06:41  sfpavel
 
 	* debian/changelog (1.10): New debian package
