@@ -11,6 +11,11 @@ This file documents BSOpack @value{VERSION}.
 
 @end ifinfo
 
+@ifhtml
+This file documents BSOpack @value{VERSION}.
+
+@end ifhtml
+
 @titlepage
 @title BSOpack @value{VERSION} Manual
 @author Dmitry Sergienko
@@ -34,6 +39,20 @@ Copyright @copyright{} 2000-2001 Dmitry Sergienko
 This document applies to version @value{VERSION} of BSOpack.
 
 @end ifinfo
+
+@ifhtml
+
+@dircategory Fidonet Software
+@direntry
+* BSOpack: (bsopack).	Binkley-Style outbound netmail packer.
+@end direntry
+
+@node Top, , , (dir)
+@top bsopack
+
+This document applies to version @value{VERSION} of BSOpack.
+
+@end ifhtml
 
 @menu
 * Introduction::  
@@ -60,7 +79,7 @@ packages, download them from @url{http://husky.physcip.uni-stuttgart.de/}
 * sample::
 @end menu
 
-@node packNetmail, maxUnpackedNetmail, Top, FidoConfig
+@node packNetmail, maxUnpackedNetmail, FidoConfig, FidoConfig
 @section packNetmail
 @table @asis
 @item Syntax:
