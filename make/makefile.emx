@@ -1,0 +1,40 @@
+# EMX OS/2 OMF STYLE MAKEFILE
+#
+
+.SUFFIXES:
+.SUFFIXES: .c .o
+
+CC      = gcc
+RM	= cmd /c del
+
+DEBUG=-s
+# set to -g for debugging
+
+CFLAGS=-I../h -I../.. -c -O3 $(DEBUG)
+LFLAGS=-Zcrtdll $(DEBUG)
+OSTYPE=OS2
+
+
+CDEFS=-D$(OSTYPE) -DUNAME=\"$(OSTYPE)\"
+LIBS=../../fidoconf/fconfemx.a ../../smapi/smapiemx.a
+SRC_DIR=../src/
+EXENAMEFLAG=-o 
+EXE=.exe
+OBJ=.o
+
+all: bsopack$(EXE)
+
+%$(OBJ): $(SRC_DIR)%.c
+		$(CC) $(CFLAGS) $(CDEFS) $(SRC_DIR)$*.c
+
+
+bsopack$(EXE): config$(OBJ) log$(OBJ) bsoutil$(OBJ) bsopack$(OBJ)
+		$(CC) $(LFLAGS) $(EXENAMEFLAG)bsopack$(EXE) bsopack$(OBJ) config$(OBJ) log$(OBJ) bsoutil$(OBJ) $(LIBS)
+
+clean:
+		$(RM) *$(OBJ)
+		$(RM) *~
+
+distclean: clean
+		$(RM) bsopack$(EXE)
+
