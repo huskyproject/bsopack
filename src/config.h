@@ -8,8 +8,9 @@
 #define  VER_MAJOR    0
 #define  VER_MINOR    2
 #define  VER_PATCH    2
-/* branch is "" for CVS current, "-stable" for the release candiate branch  */
-#define  VER_BRANCH  "-stable"
+/* branch is "" for CVS current, "-stable" for the release candiate branch
+   "-release" for release  */
+#define  VER_BRANCH  "-release"
 
 
 #include <fidoconf/fidoconf.h>
