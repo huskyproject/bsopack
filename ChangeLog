@@ -1,3 +1,21 @@
+2004-07-04 Sunday 23:54  d_sergienko
+
+	* make/: makefile.cyg, makefile.djg, makefile.emo, makefile.emx,
+	makefile.lnx, makefile.mgw, makefile.mvc, makefile.mvcdll,
+	makefile.wco, makefile.wcw
+	(bsopack-1_4-stable.[2,2,2,2,2,2,2,2,2,2]): revert back to happy
+	old bsopack
+
+2004-07-04 Sunday 23:49  d_sergienko
+
+	* src/: log.c, log.h (bsopack-1_4-stable.[2,2]): revert deleted
+	files
+
+2004-07-04 Sunday 23:48  d_sergienko
+
+	* src/: bsopack.c, bsoutil.c, config.c, config.h
+	(bsopack-1_4-stable.[3,6,2,4]): revert to happy old behavior.
+
 2004-06-07 Monday 11:16  sfpavel
 
 	* debian/compat (1.1): file compat was initially added on branch
