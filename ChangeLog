@@ -1,3 +1,10 @@
+2003-03-21 Friday 02:48  andr_lukyanov
+
+	* make/: makefile.cyg (1.5), makefile.djg (1.4), makefile.emo
+	(1.9), makefile.emx (1.5), makefile.mgw (1.2), makefile.mvc (1.2),
+	makefile.mvcdll (1.4), makefile.wco (1.6), makefile.wcw (1.5):
+	Fixed compilation with new library structure
+
 2003-03-15 Saturday 20:21  d_sergienko
 
 	* src/log.h (1.5): fix compiling with huskylib
