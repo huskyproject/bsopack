@@ -501,7 +501,7 @@ void packNetMailForLink(s_link *link)
     else
     {
         if (nmSize)
-            Log('5', "Found %lu bytes of netmail for %s\n", addr2str(link));
+            Log('5', "Found %lu bytes of netmail for %s\n", nmSize, addr2str(link));
     }
 
 

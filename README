@@ -79,8 +79,8 @@ independently.
 It creates bundle names using an algorithm of two addresses differences.
 The log file 'bsopack.log' is placed into 'logFileDir'.
 
-This program now supports only Win32 and Linux. Because I don't have other 
-OSes, I cant' compile & test for other platforms.
+This program now supports OS/2, Win32 and Linux.
+You are welcome to port this program to other platforms
 
 Some parts of code were used & modified from hpt.
 

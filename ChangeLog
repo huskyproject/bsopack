@@ -2,6 +2,11 @@ bsopack 0.1 (development version)
 ---------
 
 ----- cvs ci ------
+Mon May 21 15:56:18 EEST 2001
+dmitry:
+! fixed segfault in packNetmailForLink() when printing "Found %lu netmail for.."
+
+----- cvs ci ------
 Sun May 20 23:40:35 EEST 2001
 dmitry:
 ! strange error in cvs source tree. Fixed line #156 in bsopack.c
