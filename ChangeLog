@@ -1,3 +1,12 @@
+2002-08-06 Tuesday 15:39  gerrit
+
+	* src/: bsoutil.c (1.25), config.c (1.7), log.c (1.8): Changed
+	inclusion of headers to prevent warnings under FreeBSD.
+
+2002-08-06 Tuesday 15:38  gerrit
+
+	* Makefile (1.8): Included src/ when making clean.
+
 2002-07-31 Wednesday 21:45  stas
 
 	* make/: makefile (1.2), makefile.mvcdll (1.3): Change comments in
