@@ -27,8 +27,6 @@ SRC_DIR=./src/
 
 OBJS= log.o config.o bsoutil.o bsopack.o
 
-all: bsopack
-
 bsopack: $(OBJS)
 		$(CC) $(OBJS) $(LFLAGS) $(LIBS) -o bsopack
 
@@ -42,6 +40,8 @@ clean:
 
 distclean: clean
 	rm bsopack
+
+all: bsopack
 
 install: bsopack
 #	install -s -o uucp -g uucp -m 4750 bsopack /usr/local/bin
