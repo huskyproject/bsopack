@@ -2,7 +2,7 @@
 @c %**start of header
 @setfilename bsopack.info
 @settitle BSOpack Manual
-@set VERSION 0.1
+@set VERSION 0.3
 @setchapternewpage odd
 @c %**end of header
 
@@ -66,8 +66,8 @@ This document applies to version @value{VERSION} of BSOpack.
 @chapter Introdusing BSOpack
 BSOpack is used to pack outgoing netmail for links. It is a part of
 @emph{HUSKY} project and requires its files.
-You should use @code{fidoconfig 0.10c} or more recent. If you don't have these 
-packages, download them from @url{http://husky.physcip.uni-stuttgart.de/}
+You should use @code{fidoconfig 0.15} or more recent. If you don't have these 
+packages, download them from @url{http://husky.sourceforge.net/}
 
 
 @node FidoConfig, Command line switches, Introduction, Top
