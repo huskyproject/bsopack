@@ -1,3 +1,5 @@
+/* $Id$ */
+
 #ifndef _BSOUTIL_H_
 #define _BSOUTIL_H_
 

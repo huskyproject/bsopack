@@ -1,3 +1,5 @@
+/* $Id$ */
+
 #include <fidoconf/fidoconf.h>
 #include "log.h"
 #include "config.h"

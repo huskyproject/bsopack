@@ -2,6 +2,11 @@ bsopack 0.1 (development version)
 ---------
 
 ----- cvs ci ------
+Wed Apr 24 13:01:19 EEST 2002
+dmitry:
++ added rcs_id
+
+----- cvs ci ------
 Sun Apr 21 13:31:56 EEST 2002
 dmitry:
 ! fixed memory reallocation in createPktName()
