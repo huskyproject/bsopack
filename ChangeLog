@@ -1,3 +1,22 @@
+2003-02-05 Wednesday 18:03  stas_degteff
+
+	* src/bsoutil.c (1.28): Use defines from compiler.h
+
+2003-02-05 Wednesday 17:58  stas_degteff
+
+	* src/: bsopack.c (1.7), config.c (1.9), config.h (1.7): Implement
+	husky-standard version string generation
+
+2003-02-05 Wednesday 12:06  sfpavel
+
+	* Makefile (1.14), debian/changelog (1.12), debian/control (1.7),
+	debian/copyright (1.4), debian/huskymak.cfg (1.6), debian/rules
+	(1.7), src/config.h (1.6): New debian package
+
+2003-02-02 Sunday 22:19  d_sergienko
+
+	* bsopack.texi (1.8): changed e-mail
+
 2003-01-09 Thursday 12:53  stas_degteff
 
 	* Makefile (1.13): set permissions for install documentations &
