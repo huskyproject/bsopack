@@ -1,6 +1,7 @@
 bsopack (0.1-5) unstable; urgency=low
 
   * Used wrong (old) huskymak.cfg. Shit happens
+  * Added missing build-depends on texinfo and texi2html.
 
  -- Joerg Jaspert (JJ) <joerg@goliathbbs.dnsalias.net>  Sun,  8 Jul 2001 23:37:22 +0200
 
