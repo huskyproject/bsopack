@@ -40,7 +40,6 @@ void Log(char level, char *msg,...)
 
     if (fidoConfig->logEchoToScreen && !enable_quiet)
     {
-        if (!fidoConfig->screenloglevels) return;
         if(strchr(fidoConfig->screenloglevels, level))
         {
             printf("%02d.%02d.%04d %02d:%02d:%02d [%u]: %s",
@@ -58,5 +57,21 @@ void Log(char level, char *msg,...)
     }
 
     fclose(fp);
+    free(params);
+}
+
+void Debug(char *msg,...)
+{
+    va_list args;
+    char *params;
+
+    if (!enable_debug) return;
+    params=(char *)malloc(MAXPATH);
+    va_start(args, msg);
+    vsprintf(params, msg, args);
+    va_end(args);
+
+    fprintf(stderr, "[%u]: %s", getpid(), params);
+
     free(params);
 }

@@ -69,22 +69,36 @@ void getOpts(int argc, char **argv)
 
 void getConfig()
 {
+    Debug("reading config file...\n");
     fidoConfig=readConfig(fidoConfigFile);
     if (NULL == fidoConfig) {
         fprintf(stderr, "FidoConfig not found.\n");
         exit(-1);
     };
+    Debug("fidoconfig seems to be read successfully. retrieving info...\n");
     if (!fidoConfig->logFileDir)
     {
         fprintf(stderr, "Required keyword 'logFileDir' in fidoconfig not found.\n");
         exit(-1);
     }
+    if (!fidoConfig->screenloglevels)
+    {
+        fprintf(stderr, "Required keyword 'screenLogLevels' in fidoconfig not found.\n");
+        exit(-1);
+    }
+    if (!fidoConfig->loglevels)
+    {
+        fprintf(stderr, "Required keyword 'logLevels' in fidoconfig not found.\n");
+        exit(-1);
+    }
     logFileName=(char *)smalloc(strlen(fidoConfig->logFileDir)+11+1);
     sprintf(logFileName, "%sbsopack.log", fidoConfig->logFileDir);
+    Debug("looks all tokens found.\n");
 }
 
 void freeConfig()
 {
+    Debug("freeing config...\n");
     disposeConfig(fidoConfig);
     nfree(logFileName);
     nfree(fidoConfigFile);

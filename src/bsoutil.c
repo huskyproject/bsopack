@@ -50,17 +50,26 @@ int createPktName(char *name)
     else
         name=(char *)srealloc(name, 9);
     sprintf(name,"%08lx",num);
+    Debug("generated pkt name: %s\n", name);
     return 1;
 }
 
 void createDirIfNEx(char **dir)
 {
+
+#if defined (OS2)
+    if (*dir[strlen(*dir)] == PATH_DELIM)
+        *dir[strlen(*dir)] = '\0';        // we can't create "c:\dir\", only "c:\dir"
+#endif
+
     if (access((*dir), F_OK))
     {
+        Debug("creating directory %s...\n", *dir);
         if (mymkdir((*dir)))
         {
-            Log('9', "Can't create directory %s , errno=%d\n",
+            Log('9', "Can't create directory %s, errno=%d\n",
                 (*dir), errno);
+            Debug("can't create, errno=%d. exiting!", errno);
             exit(-1);
         }
     }
@@ -108,6 +117,7 @@ unsigned long getNMSizeForLink(s_link *link)
     char *fname=NULL, *outbForLink=NULL;
     int i;
 
+    Debug("guessing how much netmail this link has...\n");
     for (i=0;i<=4;i++)
     {
         fname=(char *)smalloc(strlen(fidoConfig->outbound)+32);
@@ -115,10 +125,14 @@ unsigned long getNMSizeForLink(s_link *link)
         getZoneOutbound(link, &fname, fidoConfig->outbound);
         sprintf(fname+strlen(fname), "%s%s", outbForLink, outext[i]);
         if (!stat(fname, &fInfo))
+        {
             NMSize+=fInfo.st_size;
+            Debug("found file %s, size=%l\n", fname, fInfo.st_size);
+        }
         nfree(fname);
         nfree(outbForLink);
     }
+    Debug("found %lu bytes of netmail.\n", NMSize);
     return NMSize;
 }
 
@@ -137,6 +151,7 @@ void getBundleName(s_link *link, int flavour)
     int foundOtherFlavour=0;
     char Idx='\0';
 
+    Debug("guessing bundle name...\n");
     time(&t);
     tp=localtime(&t);
     day=tp->tm_wday;
@@ -231,6 +246,7 @@ void getBundleName(s_link *link, int flavour)
     else
         link->packFile=(char *)srealloc(link->packFile, strlen(bundleName)+1);
     sprintf(link->packFile, "%s", bundleName);
+    Debug("bundle name generated: %s\n", link->packFile);
     nfree(bundleName);
     flowLine=flowLineTmp;
     nfree(flowFile);
@@ -272,15 +288,20 @@ int addToFlow(s_link *link, int flavour)
     sprintf(link->floFile+strlen(link->floFile), "%s%s", outbForLink, flowext[flavour]);
     nfree(outbForLink);
 
+    Debug("adding bundle to flow file %s\n", link->floFile);
     if(stat(link->floFile, &fInfo)!=-1)
     {
+       Debug("flow file exists.\n");
+
         buff=(unsigned char *)smalloc(fInfo.st_size);
 
         fp=fopen(link->floFile, "r+");
         if (fp==NULL)
         {
-            Log('9', "Can't open flow file for %d:%d/%d.%d!\n",
-                link->hisAka.zone, link->hisAka.net, link->hisAka.node, link->hisAka.point);
+            Log('9', "Can't open flow file for %d:%d/%d.%d, errno=%d\n",
+                link->hisAka.zone, link->hisAka.net,
+                link->hisAka.node, link->hisAka.point, errno);
+            Debug("can't open flow file, errno=%d\n", errno);
             return 0;
         }
 
@@ -290,45 +311,55 @@ int addToFlow(s_link *link, int flavour)
             if (strncmp(line+1, link->packFile, strlen(link->packFile))==0)
             {
                 foundOldBundle=1;
+                Debug("found old bundle, can't add it again.\n");
                 break;
             }
         }
 
         if (!foundOldBundle)
         {
+            Debug("now let's add our bundle.\n");
             rewind(fp);
             if (fread(buff, 1, fInfo.st_size, fp)!=fInfo.st_size)
             {
-                Log('9', "fread() failed, file %s\n", line);
+                Log('9', "Can't read flow file, errno=%d.\n", errno);
+                Debug("fread() failed, errno=%d\n. returning.", errno);
                 return 0;
             }
             fclose(fp);
             fp=fopen(link->floFile, "w+");
             if (fp==NULL)
             {
-                Log('9', "Can't open flow file for %d:%d/%d.%d!\n",
-                    link->hisAka.zone, link->hisAka.net, link->hisAka.node, link->hisAka.point);
+                Log('9', "Can't open flow file for %d:%d/%d.%d, errno=%d\n",
+                    link->hisAka.zone, link->hisAka.net,
+                    link->hisAka.node, link->hisAka.point, errno);
+                Debug("can't open flow file, errno=%d\n", errno);
                 return 0;
             }
             fprintf(fp, "^%s\n", link->packFile);
+            Debug("added our bundle.\n");
             if (fwrite(buff, 1, fInfo.st_size, fp)!=fInfo.st_size)
             {
-                Log('9', "fwrite() failed, file %s\n", line);
+                Log('9', "Can't write to flow file, errno=%d\n", errno);
+                Debug("fwrite() failed, file %s\n", line);
                 return 0;
                 }
-
         }
     }
     else
     {
+        Debug("creating new flow file.\n");
         fp=fopen(link->floFile, "w");
         if (fp==NULL)
         {
-            Log('9', "Can't open flow file for %d:%d/%d.%d!\n",
-                link->hisAka.zone, link->hisAka.net, link->hisAka.node, link->hisAka.point);
+            Log('9', "Can't open flow file for %d:%d/%d.%d, errno=%d\n",
+                link->hisAka.zone, link->hisAka.net,
+                link->hisAka.node, link->hisAka.point, errno);
+            Debug("can't create flow file, errno=%d. returning,\n", errno);
             return 0;
         }
         fprintf(fp, "^%s\n", link->packFile);
+        Debug("added our bundle.\n");
     }
     fclose(fp);
     nfree(buff);
@@ -338,6 +369,7 @@ int addToFlow(s_link *link, int flavour)
 
 void initLink(s_link *link)
 {
+    Debug("allocating memory for this link...\n");
     if (link->hisAka.point)
         link->bsyFile=(char *)smalloc(strlen(fidoConfig->outbound)+5+12+1+12+1);
     else
@@ -361,11 +393,13 @@ void initLink(s_link *link)
         } else
             link->arcmailSize=fidoConfig->defarcmailSize;
     }
+    Debug("arcmailSize for this link is %d kb\n", link->arcmailSize);
 }
 
 
 void releaseLink(s_link *link)
 {
+    Debug("freeing allocated memory for link.\n");
     if (link==NULL) return;
     if (link->bsyFile != NULL)
         nfree(link->bsyFile);
@@ -395,29 +429,39 @@ int createBsy(s_link *link)
     } else
     {
         FILE *fp;
-        fp=fopen(link->bsyFile, "a+");
+        Debug("trying to create bsy flag for this link...\n");
+        fp=fopen(link->bsyFile, "w");
         if (fp == NULL)
         {
             Log('8', "Can't create bsyFile for %d:%d/%d.%d, errno=%d\n",
                 link->hisAka.zone, link->hisAka.net,
                 link->hisAka.node, link->hisAka.point,
                 errno);
+            Debug("couldn't create, errno=%d", errno);
             return 0;
         }
         fprintf(fp, "%d", getpid());
         fclose(fp);
+        Debug("bsy flag %s created successfully.\n", link->bsyFile);
     }
     return 1;
 }
 
 void removeBsy(s_link *link)
 {
-    if (access(link->bsyFile, F_OK)) return;
+    Debug("removing bsy file for this link...\n");
+    if (access(link->bsyFile, F_OK)) {
+        Debug("can't acces bsy file %s, errno=%d. returning.\n", link->bsyFile, errno);
+        return;
+    }
     if(remove(link->bsyFile))
+    {
        Log('9', "Can't remove bsyFile for %d:%d/%d.%d, errno=%d\n",
                 link->hisAka.zone, link->hisAka.net,
                 link->hisAka.node, link->hisAka.point,
-                errno);
+           errno);
+       Debug("can't remove, errno=%d.\n", errno);
+    }
 }
 
 void packNetMailForLink(s_link *link)
@@ -430,12 +474,14 @@ void packNetMailForLink(s_link *link)
     unsigned long nmSize=0;
 
 
+    Debug("packNetmail for this link is on, entered packNetmaiForLink()\n");
     if (link->packerDef == NULL)
     {
         Log('9', "Packer for link %d:%d/%d.%d undefined but 'packNetmail' is on, skipping...\n",
             link->hisAka.zone, link->hisAka.net,
             link->hisAka.node, link->hisAka.point
            );
+        Debug("packer for this link is undefined, returning.\n");
         return;
     }
 
@@ -467,34 +513,46 @@ void packNetMailForLink(s_link *link)
                 if (createPktName(pktname))
                 {
                     sprintf(link->pktFile, "%s/%s.pkt", fidoConfig->tempOutbound, pktname);
+                    Debug("found netmail packet %s, moving to %s\n",
+                          bsoNetMail, link->pktFile);
                     if (rename(bsoNetMail, link->pktFile))
                     {
-                        Log('9', "Error renaming %s to %s, errno=%d\n",
-                            bsoNetMail, link->pktFile, errno);
+                        Log('9', "Error renaming %s to %s\n", bsoNetMail, link->pktFile);
+                        Debug("can't move, errno=%d. exiting!\n", errno);
                         exit(-1);
                     }
                     getBundleName(link, flavour);
                     fillCmdStatement(execstr, link->packerDef->call, link->packFile, link->pktFile, "");
                     Log('6', "Packing %s -> %s\n", bsoNetMail, link->packFile);
+                    Debug("executing packer: %s\n", execstr);
                     if (system(execstr)==-1)
                     {
-                        Log('9', "Error executing packer, errno=%d\n", errno);
+                        Log('9', "Error executing packer\n");
+                        Debug("packer returned error errno=%d\n", errno);
                         exit(-1);
                     }
                     if (addToFlow(link, flavour))
                         if(remove(link->pktFile)==-1)
                         {
                             Log('9', "Can't remove pktFile %s, errno=%d\n", link->pktFile, errno);
+                            Debug("can't remove old pkt file %s, errno=%d\n",
+                                  link->pktFile, errno);
                         }
                 }
         }
     }
     else
-    	if (nmSize)
+        if (nmSize)
+        {
           Log('5', "Found %lu bytes of netmail for %d:%d/%d.%d, leaving unpacked\n", nmSize,
             link->hisAka.zone, link->hisAka.net,
             link->hisAka.node, link->hisAka.point
-            );
+             );
+          Debug("found %lu bytes of netmail for %d:%d/%d.%d, leaving unpacked\n", nmSize,
+            link->hisAka.zone, link->hisAka.net,
+            link->hisAka.node, link->hisAka.point
+               );
+        }
     removeBsy(link);
     releaseLink(link);
     nfree(pktname);

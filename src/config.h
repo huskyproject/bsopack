@@ -12,6 +12,7 @@ extern s_fidoconfig *fidoConfig;
 extern char *logFileName;
 extern int enable_quiet;
 extern int enable_debug;
+extern char *fidoConfigFile;
 
 void getConfig();
 void freeConfig();

@@ -2,6 +2,13 @@ bsopack 0.01 (development version)
 ---------
 
 ----- cvs ci ------
+Sun Apr  8 07:15:48 EEST 2001
+dmitry:
+* OS/2 directory creation fix (can't create "c:\dir\", only "c:\dir")
++ added debug code.
+* makefile.wcw & makefile.wco fix
+
+----- cvs ci ------
 Mon Mar 19 22:17:08 EET 2001
 dmitry:
 + added texinfo documentation
