@@ -1,32 +1,87 @@
 # $Id$
+#
 # Microsoft Visual C++ Makefile for build static program(s)
 # No support for the Husky build environment.
 #
 # Tested on MS Visual C 6.0
 #
+LIBNAME   = bsopack
 
+# Version
+VERMAJOR= 1
+VERMINOR= 9
+VERPATCH= 0
+VERH	= $(VERMAJOR).$(VERMINOR)
+VER	= $(VERH).$(VERPATCH)
+
+USE_HPTZIP=0
+
+!if $(USE_HPTZIP) == 1
+HPTZIPL = ..\..\hptzip\make\hptzip.lib
+HPTZIPI = -I..\..\hptzip
+HPTZIPD = -DUSE_HPTZIP
+!endif
+
+## file suffixes ##
+_C	  = .c
+_OBJ	  = .obj
+_EXP	  = .exp
+_LIB	  = .lib
+_DLL	  = .dll 
+_EXE	  = .exe
+
+_SRC_DIR= ../src/
+H_DIR	= ../h
+
+## programs ##
 CC	= cl
+CFLAGS	= -nologo -Zp1
+CINCL	= -I$(H_DIR) -I..\..\fidoconf -I..\..\smapi -I..\..\huskylib $(HPTZIPI)
+CDEFS	= -D__NT__ -DNT -DWINNT -DWIN32 -D_CONSOLE $(HPTZIPD)
+COPT	= -Ob2
+
+LIBS	= ..\..\fidoconf\make\fconfmvc.lib ..\..\huskylib\make\huskymvc.lib \
+	  $(HPTZIPL)
+
+EXENAMEFLAG = -Fe
+
 RM	= del
 
-CFLAGS	= -nologo -Zp1 -O2
-CINCL	= -I..\h -I..\..\fidoconf -I..\..\smapi -I..\..\huskylib 
-COPT	= -O2
-UNAME	= w32
-CDEFS	= -D__NT__ -DUNAME=\"$(UNAME)\" -DNT -DWINNT -D_CONSOLE
-SRC_DIR	= ..\src
-LIBS	= ..\..\fidoconf\fconfmvc.lib ..\..\huskylib\make\huskymvc.lib
+OBJS	= bsopack$(_OBJ) config$(_OBJ) bsoutil$(_OBJ)
 
-all: bsopack.exe
+PROGRAMS = $(LIBNAME)$(_EXE)
 
-bsopack.exe:
-	$(CC) $(CFLAGS) $(CINCL) $(CDEFS) $(COPT) -Fe$@ $(SRC_DIR)\bsopack.c \
-                                                        $(SRC_DIR)\config.c  \
-                                                        $(SRC_DIR)\bsoutil.c \
-                                                        $(LIBS)
+default:
+	@echo Run 'make programs' to build static version of programs ($(PROGRAMS))
+	@echo Run 'make all' to build all above
+
+all: programs
+programs: $(PROGRAMS)
+
+{$(_SRC_DIR)}$(_C)$(_OBJ):
+	@$(CC) $(CFLAGS) $(CINCL) $(CDEFS) $(COPT) -c $<
+
+$(PROGRAMS): $(OBJS)
+	@echo Create $(PROGRAMS)...
+	@$(CC) $(CFLAGS) $(CINCL) $(COPT) $(CDEFS) $(EXENAMEFLAG)$@ $** $(LIBS)
+
+man:
+
+doc: man
+	man2html$(_EXE) <..\$(LIBNAME).1 >$(LIBNAME).html
 
 clean:
-	$(RM) *.obj
+	-$(RM) $(RMOPT) *$(_OBJ)
 
 distclean: clean
-	$(RM) bsopack.exe
-        
+	-$(RM) $(RMOPT) $(PROGRAMS)
+	-$(RM) $(RMOPT) $(LIBNAME).html
+
+install: programs doc
+	$(INSTALL) $(IBOPT) $(PROGRAMS) $(BINDIR)
+	$(INSTALL) $(IBOPT) ..\$(LIBNAME).1 $(DOCDIR)
+	$(INSTALL) $(IBOPT) $(LIBNAME).html $(DOCDIR)
+
+uninstall:
+	-$(RM) $(RMOPT) $(BINDIR)\$(PROGRAMS)
+	-$(RM) $(RMOPT) $(DOCDIR)\$(LIBNAME).html
