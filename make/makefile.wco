@@ -8,11 +8,10 @@ RM	= del
 
 CFLAGS  = -zq -wx -bt=os2v2 -i=..\.. -oneatx -5
 LFLAGS  = system os2v2
-
 OSTYPE=OS2
-UNAME=OS/2
 
-CDEFS=-D$(OSTYPE) -DUNAME="$(UNAME)"
+
+CDEFS=-D$(OSTYPE) -DUNAME="$(OSTYPE)"
 SRC_DIR=..\SRC\
 
 OBJS= log.obj config.obj bsoutil.obj bsopack.obj
