@@ -27,7 +27,7 @@ $(OBJS): $(SRC_DIR)\*.c
 	$(CC) $(CFLAGS) $(CINCL)  $(CDEFS) $(SRC_DIR)\$*.c
 
 bsopack: $(OBJS)
-	$(LINK) $(LFLAGS) FILE log.obj, config.obj, bsoutil.obj, bsopack.obj, ..\..\fidoconf\fconfwcw.lib, ..\..\huskylib\make\huskywcw.lib NAME bsopack.exe
+	$(LINK) $(LFLAGS) FILE config.obj, bsoutil.obj, bsopack.obj, ..\..\fidoconf\fconfwcw.lib, ..\..\huskylib\make\huskywcw.lib NAME bsopack.exe
 
 
 .IGNORE        
