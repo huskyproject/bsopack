@@ -32,6 +32,10 @@
 #include <fidoconf/fidoconf.h>
 #include <fidoconf/common.h>
 
+#ifdef USE_HPTZIP
+  #include <hptzip/hptzip.h>
+#endif
+
 #include "log.h"
 #include "config.h"
 #include "bsoutil.h"
@@ -488,20 +492,32 @@ void packNetMailForLink(s_link *link)
                         Log('9', "Error renaming %s to %s\n", bsoNetMail, link->pktFile);
                         Debug("can't move, errno=%d. exiting!\n", errno);
                         releaseLink(link, &outbForLink);
-                        exit(-1);
+                        return;
                     }
 
                     getBundleName(link, flavour, outbForLink); // calculating bundleName;
-                    fillCmdStatement(execstr, link->packerDef->call,
-                                     link->packFile, link->pktFile, "");
                     Log('6', "Packing %s -> %s\n", bsoNetMail, link->packFile);
-                    Debug("executing packer: %s\n", execstr);
-                    if ((retval=system(execstr))!=0)
+                    if( fc_stristr(link->packerDef->call, ZIPINTERNAL) )
+                    {
+                        Debug("bundle %s: packing with zlib", link->packFile);
+#ifdef USE_HPTZIP
+                        retval = PackWithZlib(link->packFile, link->pktFile);
+#else
+                        retval = 1;
+                        Log('9', "Can't use zipInternal packer, because bsopack is not compiled with libhptzip");
+#endif
+                    } else {
+                        fillCmdStatement(execstr, link->packerDef->call,
+                                         link->packFile, link->pktFile, "");
+                        Debug("executing packer: %s\n", execstr);
+                        retval=system(execstr);
+                    }
+                    if (retval)
                     {
                         Log('9', "Error executing packer, errorlevel %d\n", retval);
                         Debug("packer returned errorlevel %d, errno=%d\n", retval, errno);
                         releaseLink(link, &outbForLink);
-                        exit(-1);
+                        return;
                     }
 
                     if (addToFlow(link, flavour, outbForLink))

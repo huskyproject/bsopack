@@ -17,6 +17,11 @@ endif
 
 LIBS  = -L$(LIBDIR) -lfidoconfig -lhusky
 
+ifeq ($(USE_HPTZIP), 1)
+  LIBS+= -lhptzip
+  CFLAGS += -DUSE_HPTZIP
+endif
+
 CDEFS=-D$(OSTYPE) -DUNAME=\"$(UNAME)\" $(ADDCDEFS)
 
 SRC_DIR=./src/
