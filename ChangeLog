@@ -2,11 +2,27 @@ bsopack 0.1 (development version)
 ---------
 
 ----- cvs ci ------
+Mon Apr 30 17:32:08 EEST 2001
+dmitry: (thanx to Kees Bergwerf)
+! fix in getOpts() when passing fidoconfig name from command line
+* optimization in getBundleName() and addToFlow()
+! fixed OS/2, Win, DOS bug with bundles adding to *.?lo file.
+* if config filename passed in command line, it overrides environment 
+	variable FIDOCONFIG.
+
+----- cvs ci ------
+Sat Apr 28 17:27:27 EEST 2001
+dmitry:
+! fixed bundle name generation
+* getBundleName() optimization
+
+
+----- cvs ci ------
 Mon Apr 23 00:17:12 EEST 2001
 dmitry:
 * if bundle size = 0 then skip it
-* fixed temporary pkt name creation for OS2
-* fixed *.olo instead *.flo
+! fixed temporary pkt name creation for OS2
+! fixed *.olo instead *.flo
 
 ----- cvs ci ------
 Fri Apr 20 17:18:38 EEST 2001
@@ -17,17 +33,17 @@ dmitry:
 Thu Apr 19 14:17:12 EEST 2001
 dmitry:
 - removed makefile.emx (I don't know how to test it...)
-* fixed makefile.emo again, testing.
+! fixed makefile.emo again, testing.
 
 ----- cvs ci ------
 Wed Apr 18 22:04:08 EEST 2001
 dmitry:
-* fixed segfault in createPktName()
+! fixed segfault in createPktName()
 
 ----- cvs ci ------ 
 Mon Apr 16 20:16:09 EEST 2001
 dmity: (thanx to Kees Bergwerf)
-* fixes in freeConfig(), getNMSizeForLink(), createPktName()...
+! fixes in freeConfig(), getNMSizeForLink(), createPktName()...
 
 ----- cvs ci ------ 
 Fri Apr 13 19:38:09 EEST 2001 
@@ -41,7 +57,7 @@ dmitry:
 Mon Apr  9 14:41:33 EEST 2001
 dmitry: (thanx to Kees Bergwerf)
 + added makefile.emo
-* fixed memory bug for OS/2 in initLink(), createDirIfNex()
+! fixed memory bug for OS/2 in initLink(), createDirIfNex()
 
 ----- cvs ci ------
 Sun Apr  8 19:55:06 EEST 2001
@@ -51,9 +67,9 @@ dmitry:
 ----- cvs ci ------
 Sun Apr  8 07:15:48 EEST 2001
 dmitry:
-* OS/2 directory creation fix (can't create "c:\dir\", only "c:\dir")
+! OS/2 directory creation fix (can't create "c:\dir\", only "c:\dir")
 + added debug code.
-* makefile.wcw & makefile.wco fix
+! makefile.wcw & makefile.wco fix
 
 ----- cvs ci ------
 Mon Mar 19 22:17:08 EET 2001

@@ -28,7 +28,6 @@ void Usage()
 void getOpts(int argc, char **argv)
 {
     int i;
-    int c_asked=0;
 
     fidoConfigFile=getenv("FIDOCONFIG");
     if (fidoConfigFile!=NULL)
@@ -38,8 +37,6 @@ void getOpts(int argc, char **argv)
     {
         if (argv[i][0]=='-')
         {
-            c_asked=0;
-
             if (strchr(argv[i], 'q')) enable_quiet=1;
             if (strchr(argv[i], 'd')) enable_debug=1;
             if ((strchr(argv[i], 'h'))||(!strcmp(argv[i]+1, "-help")))
@@ -55,14 +52,11 @@ void getOpts(int argc, char **argv)
                     Usage();
                     exit(-1);
                 }
-                if (!fidocfg_in_env)
-                {
-                    fidoConfigFile=(char *)smalloc(strlen(argv[i+1]));
-                    sprintf(fidoConfigFile, "%s", argv[i+1]);
-                }
-                c_asked=1;
+                fidoConfigFile=(char *)smalloc(strlen(argv[i+1]+1));
+                sprintf(fidoConfigFile, "%s", argv[i+1]);
+                fidocfg_in_env=0;
+                ++i;
             }
-            if (c_asked) i++;
         }
         else
         {

@@ -120,21 +120,55 @@ void getBundleName(s_link *link, int flavour, char *outb)
     struct stat fInfo;
     FILE *fp;
     char *flowFile=NULL, *flowLine=NULL, *flowLineTmp=NULL;
-    char *sepDir=NULL;
+    char *sepDir=NULL, *outb_end=NULL;
     int foundOtherFlavour=0;
     char Idx='\0';
+    char *IdxPtr;
+    int outbLen=0;
 
     Debug("guessing bundle name...\n");
     time(&t);
     tp=localtime(&t);
     day=tp->tm_wday;
+    outbLen=strlen(outb)+30;
     //  /outb.12b/12345678.pnt/12345678.sep/12345678.su0+'\0';
-    bundleName=(char *)smalloc(strlen(outb)+30);
+    bundleName=(char *)smalloc(outbLen);
     //  /outb.12b/12345678.pnt/12345678.flo+'\0';
-    memset(bundleName, 0, strlen(outb)+30);
-    flowFile=(char *)smalloc(strlen(outb)+17);
+    flowFile=(char *)smalloc(outbLen-13);
     flowLine=(char *)smalloc(256);
     flowLineTmp=flowLine;
+
+    memset(bundleName, 0, outbLen);
+    if (fidoConfig->separateBundles)
+        sprintf(bundleName, "%ssep%c", outb, PATH_DELIM);
+    else
+        strcpy(bundleName, outb);
+    outb_end=bundleName+strlen(bundleName);
+
+    if (fidoConfig->addr->point || link->hisAka.point)
+    {       // /outb.12b/12345678.pnt/12344321.su0
+        sprintf(outb_end, "%04x%04x.%2s0",
+                (fidoConfig->addr->node - link->hisAka.node) & 0xffff,
+                (fidoConfig->addr->point - link->hisAka.point) & 0xffff,
+                daynames[day]);
+    } else
+    {       // /outb/12344321.su0
+        sprintf(outb_end, "%04x%04x.%2s0",
+                (fidoConfig->addr->net - link->hisAka.net) & 0xffff,
+                (fidoConfig->addr->node - link->hisAka.node) & 0xffff,
+                daynames[day]);
+    }
+
+    IdxPtr=bundleName+strlen(bundleName)-1;   // points to the last symbol before '\0'
+
+    if (fidoConfig->separateBundles)
+    {
+        sepDir=(char *)smalloc(strlen(bundleName)-11);
+        memset(sepDir, 0, strlen(bundleName)-11);
+        strncpy(sepDir, bundleName, strlen(bundleName)-12);
+        createDirIfNEx(sepDir);
+        nfree(sepDir);
+    }
 
     for (idx=0;idx<36;idx++)
     {
@@ -142,55 +176,7 @@ void getBundleName(s_link *link, int flavour, char *outb)
             Idx='a'+idx-10;
         else
             Idx='0'+idx;
-
-        if (fidoConfig->addr->point || link->hisAka.point)
-        {
-            if (fidoConfig->separateBundles)
-                // /outb.12b/12345678.pnt/12345678.sep/12344321.su0
-               sprintf(bundleName, "%ssep%c%04x%04x.%2s%1c",
-                       outb, PATH_DELIM,
-                       (fidoConfig->addr->node - link->hisAka.node) & 0xffff,
-                       (fidoConfig->addr->point - link->hisAka.point) & 0xffff,
-                       daynames[day], Idx);
-            else
-            {
-                // /outb.12b/12345678.pnt/12345678. -> /outb.12b/12345678.pnt/
-                strncpy(bundleName, outb, strlen(outb)-9);
-                // /outb.12b/12345678.pnt/12345678.su0
-                sprintf(bundleName+strlen(bundleName), "%04x%04x.%2s%1c",
-                        (fidoConfig->addr->node - link->hisAka.node) & 0xffff,
-                        (fidoConfig->addr->point - link->hisAka.point) & 0xffff,
-                        daynames[day], Idx);
-            }
-        } else
-        {
-            if (fidoConfig->separateBundles)
-                // /outb.12b/12345678.sep/12345678.su0
-                sprintf(bundleName, "%ssep%c%04x%04x.%2s%1c",
-                        outb, PATH_DELIM,
-                        (fidoConfig->addr->net - link->hisAka.net) & 0xffff,
-                        (fidoConfig->addr->node - link->hisAka.node) & 0xffff,
-                        daynames[day], Idx);
-            else
-            {   // /outb.12b/12345678. -> /outb.12b/
-                strncpy(bundleName, outb, strlen(outb)-9);
-                // /outb/12344321.su0
-                sprintf(bundleName+strlen(bundleName), "%04x%04x.%2s%1c",
-                        (fidoConfig->addr->net - link->hisAka.net) & 0xffff,
-                        (fidoConfig->addr->node - link->hisAka.node) & 0xffff,
-                        daynames[day], Idx);
-            }
-
-        }
-
-        if (fidoConfig->separateBundles)
-        {
-            sepDir=(char *)smalloc(strlen(bundleName)-11);
-	    memset(sepDir, 0, strlen(bundleName)-11);
-            strncpy(sepDir, bundleName, strlen(bundleName)-12);
-            createDirIfNEx(sepDir);
-            nfree(sepDir);
-        }
+        *IdxPtr=Idx;
 
         if(stat(bundleName, &fInfo)) break; else
             if((fInfo.st_size <= link->arcmailSize*1024) && (fInfo.st_size!=0))
@@ -217,7 +203,7 @@ void getBundleName(s_link *link, int flavour, char *outb)
                     fclose(fp);
                     if(foundOtherFlavour) break;
                 }
-                if (!foundOtherFlavour && idx<15) break;
+                if (!foundOtherFlavour) break; // this file name is not used for other flavour so we can use it.
             } else continue;
     }
     if (link->packFile==NULL)
@@ -267,8 +253,6 @@ int addToFlow(s_link *link, int flavour, char *outb)
     {
         Debug("flow file exists.\n");
 
-        buff=(unsigned char *)smalloc(fInfo.st_size);
-
         fp=fopen(link->floFile, "r+");
         if (fp==NULL)
         {
@@ -276,14 +260,16 @@ int addToFlow(s_link *link, int flavour, char *outb)
                 link->hisAka.zone, link->hisAka.net,
                 link->hisAka.node, link->hisAka.point, errno);
             Debug("can't open flow file, errno=%d\n", errno);
-            nfree(buff);
             return 0;
         }
 
         line=(char *)smalloc(MAXPATH);
+        buff=(unsigned char *)smalloc(fInfo.st_size);
+        memset(buff, 0, fInfo.st_size);
 
         while(fgets(line, MAXPATH, fp)!=NULL)
         {
+            strcat(buff, line);
             if (strlen(line)<2) continue;
             if (strncmp(line+1, link->packFile, strlen(link->packFile))==0)
             {
@@ -293,39 +279,12 @@ int addToFlow(s_link *link, int flavour, char *outb)
             }
         }
 
-        nfree(line);
-
         if (!foundOldBundle)
         {
             Debug("now let's add our bundle.\n");
             rewind(fp);
-            if (fread(buff, 1, fInfo.st_size, fp)!=fInfo.st_size)
-            {
-                Log('9', "Can't read flow file, errno=%d.\n", errno);
-                Debug("fread() failed, errno=%d\n. returning.", errno);
-                nfree(buff);
-                return 0;
-            }
-            fclose(fp);
-            fp=fopen(link->floFile, "w+");
-            if (fp==NULL)
-            {
-                Log('9', "Can't open flow file for %d:%d/%d.%d, errno=%d\n",
-                    link->hisAka.zone, link->hisAka.net,
-                    link->hisAka.node, link->hisAka.point, errno);
-                Debug("can't open flow file, errno=%d\n", errno);
-                nfree(buff);
-                return 0;
-            }
-            fprintf(fp, "^%s\n", link->packFile);
+            fprintf(fp, "^%s\n%s", link->packFile, buff);
             Debug("added our bundle.\n");
-            if (fwrite(buff, 1, fInfo.st_size, fp)!=fInfo.st_size)
-            {
-                Log('9', "Can't write to flow file, errno=%d\n", errno);
-                Debug("fwrite() failed, file %s\n", line);
-                nfree(buff);
-                return 0;
-                }
         }
         nfree(buff);
     }

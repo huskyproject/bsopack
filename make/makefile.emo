@@ -15,13 +15,13 @@ LFLAGS  = -Zomf -Zsys -Zlinker /PM:VIO $(DEBUG)
 OSTYPE=OS2
 
 
-CDEFS=-D$(OSTYPE) -DUNAME="$(OSTYPE)"
+CDEFS=-D$(OSTYPE) -DUNAME=\"$(OSTYPE)\"
 LIBS=../../fidoconf/fconfemo.lib ../../smapi/smapiemo.lib
 SRC_DIR=../src/
 EXENAMEFLAG=-o 
 EXE=.exe
 
-all: bsopack
+all: bsopack$(EXE)
 
 %$(OBJ): $(SRC_DIR)%.c
 		$(CC) $(CFLAGS) $(CDEFS) $(SRC_DIR)$*.c
