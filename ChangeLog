@@ -1,3 +1,25 @@
+2003-03-15 Saturday 20:21  d_sergienko
+
+	* src/log.h (1.5): fix compiling with huskylib
+
+2003-03-11 Tuesday 21:44  d_sergienko
+
+	* Makefile (1.15), src/bsoutil.c (1.30): depend on huskylib instead
+	smapi; fix making bsopack.1.gz
+
+2003-03-04 Tuesday 13:06  stas_degteff
+
+	* VERSION (1.2): Add version and requirements information
+
+2003-02-26 Wednesday 04:12  sfpavel
+
+	* bsopack.texi (1.9): Update documentation
+
+2003-02-26 Wednesday 03:53  sfpavel
+
+	* INSTALL (1.4), README (1.10), src/config.h (1.8): Update version
+	number
+
 2003-02-20 Thursday 09:26  sfpavel
 
 	* HISTORY (1.1): Add HISTORY file
