@@ -1,0 +1,3 @@
+bsopack 1.9.0-current
+cvs tag: HEAD
+require: huskylib-current, fidoconfig 1.9-current
