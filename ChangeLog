@@ -1,3 +1,7 @@
+2003-02-12 Wednesday 11:41  sfpavel
+
+	* src/bsoutil.c (bsopack-1_4-stable.1): Fix win32 build
+
 2003-02-11 Tuesday 12:25  sfpavel
 
 	* debian/changelog (bsopack-1_4-stable.2): Change debian version to
