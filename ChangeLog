@@ -1,3 +1,8 @@
+2003-01-05 Sunday 08:56  sfpavel
+
+	* debian/changelog (tags: bsopack-0_2_2-release)
+	(bsopack-0_2-stable.5): Change debian version
+
 2002-12-30 Monday 14:44  stas_degteff
 
 	* VERSION (bsopack-0_2-stable.3): Change version to 0.2.2-stable
@@ -29,9 +34,9 @@
 
 2002-11-10 Sunday 08:51  sfpavel
 
-	* VERSION, debian/changelog (tags: bsopack-0_2_2-release),
-	src/config.h (bsopack-0_2-stable.[1,4,3]) (utags:
-	bsopack-0_2-release): bsopack 0.2 release
+	* VERSION, debian/changelog, src/config.h
+	(bsopack-0_2-stable.[1,4,3]) (utags: bsopack-0_2-release): bsopack
+	0.2 release
 
 2002-11-10 Sunday 08:51  sfpavel
 
