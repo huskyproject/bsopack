@@ -1,3 +1,6 @@
 1. Put all outgoing arcmail into separate from echomail directory.
 2. Make switch to select either truncate mailbundles or delete them after send
    (put '#' or '^' in flow file)
+3. Add new keyword to fidoconfig - packFlavour:
+   packFlavour nhi    # pack only normal, hold & immediate mail. The rest flavours 
+   are ignored by bsopack.
