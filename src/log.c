@@ -1,11 +1,7 @@
 /* $Id$ */
 
 #include <stdio.h>
-#if !defined (__FreeBSD__)
-  #include <malloc.h>
-#else
-  #include <stdlib.h>
-#endif
+#include <stdlib.h>
 #include <string.h>
 #include <time.h>
 #include <stdarg.h>
