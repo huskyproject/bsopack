@@ -1,3 +1,9 @@
+2002-08-23 Friday 10:15  sfpavel
+
+	* README (1.8), debian/changelog (1.6), debian/control (1.5),
+	debian/copyright (1.2), debian/rules (1.4), src/config.h (1.4): New
+	debain package
+
 2002-08-18 Sunday 16:38  d_sergienko
 
 	* make/makefile.cyg (1.2): fixed tabs
@@ -80,7 +86,7 @@
 
 2001-07-09 Monday 14:18  d.sergienko
 
-	* bsopack.texi (1.5): ! fixes in bsopack.texi
+	* bsopack.texi (1.5, bsopack-0_2-stable): ! fixes in bsopack.texi
 
 2001-07-08 Sunday 21:39  joerg.jaspert
 
@@ -112,12 +118,14 @@
 
 2001-05-07 Monday 21:07  d.sergienko
 
-	* Makefile (1.6), src/bsoutil.c (1.14), src/bsoutil.h (1.2): +
-	added addr2str() function * fix in getBundleName()
+	* Makefile (1.6, bsopack-0_2-stable), src/bsoutil.c (1.14),
+	src/bsoutil.h (1.2): + added addr2str() function * fix in
+	getBundleName()
 
 2001-05-07 Monday 05:37  d.sergienko
 
-	* make/makefile.emo (1.7), src/bsoutil.c (1.13): 
+	* make/makefile.emo (1.7, bsopack-0_2-stable), src/bsoutil.c
+	(1.13): 
 	fixes, fixes...
 
 2001-04-30 Monday 15:09  d.sergienko
@@ -139,7 +147,8 @@
 
 2001-04-20 Friday 14:22  d.sergienko
 
-	* make/: makefile.emo (1.5), makefile.wco (1.4): 
+	* make/: makefile.emo (1.5), makefile.wco (1.4,
+	bsopack-0_2-stable): 
 	dmitry: * changed logo string to bsopack/OS2 for OS/2.
 
 2001-04-17 Tuesday 19:09  d.sergienko
@@ -149,14 +158,17 @@
 
 2001-04-14 Saturday 15:39  joerg.jaspert
 
-	* man/: README (1.1), bsopack.1 (1.1): Small manpage for bsopack
+	* man/: README (1.1), bsopack.1 (1.1) (utags: bsopack-0_2-stable):
+	Small manpage for bsopack
 
 2001-04-14 Saturday 15:39  joerg.jaspert
 
-	* debian/: README.Debian (1.1), changelog (1.1), control (1.1),
-	copyright (1.1), dirs (1.1), doc-base (1.1), docs (1.1),
-	huskymak.cfg (1.1), manpages (1.1), rules (1.1): Files for Package
-	Building in Debian
+	* debian/: README.Debian (1.1, bsopack-0_2-stable), changelog
+	(1.1), control (1.1), copyright (1.1), dirs (1.1,
+	bsopack-0_2-stable), doc-base (1.1, bsopack-0_2-stable), docs (1.1,
+	bsopack-0_2-stable), huskymak.cfg (1.1), manpages (1.1,
+	bsopack-0_2-stable), rules (1.1): Files for Package Building in
+	Debian
 
 2001-04-14 Saturday 15:38  joerg.jaspert
 
@@ -171,8 +183,9 @@
 2001-04-09 Monday 11:48  d.sergienko
 
 	* make/makefile.emo (1.1), make/makefile.emx (1.2),
-	make/makefile.lnx (1.3), make/makefile.wco (1.3), make/makefile.wcw
-	(1.3), src/bsoutil.c (1.4): 
+	make/makefile.lnx (1.3, bsopack-0_2-stable), make/makefile.wco
+	(1.3), make/makefile.wcw (1.3, bsopack-0_2-stable), src/bsoutil.c
+	(1.4): 
 	dmitry: added makefile.emo and memory leak fix.
 
 2001-04-08 Sunday 17:01  d.sergienko
@@ -197,15 +210,15 @@
 
 2001-03-19 Monday 20:22  d.sergienko
 
-	* make/makefile (1.1), make/makefile.lnx (1.1), make/makefile.wco
-	(1.1), make/makefile.wcw (1.1), src/bsopack.c (1.1), src/bsoutil.c
-	(1.1), src/bsoutil.h (1.1), src/config.c (1.1), src/config.h (1.1),
-	src/log.c (1.1), src/log.h (1.1): 
+	* make/makefile (1.1, bsopack-0_2-stable), make/makefile.lnx (1.1),
+	make/makefile.wco (1.1), make/makefile.wcw (1.1), src/bsopack.c
+	(1.1), src/bsoutil.c (1.1), src/bsoutil.h (1.1), src/config.c
+	(1.1), src/config.h (1.1), src/log.c (1.1), src/log.h (1.1): 
 	directory tree changes.
 
 2001-03-19 Monday 20:18  d.sergienko
 
-	* INSTALL (1.2), Makefile (1.4), TODO (1.6): 
+	* INSTALL (1.2, bsopack-0_2-stable), Makefile (1.4), TODO (1.6): 
 	texinfo docs, directories...
 
 2001-01-28 Sunday 07:40  d.sergienko
