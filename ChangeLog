@@ -2,6 +2,11 @@ bsopack 0.1 (development version)
 ---------
 
 ----- cvs ci ------
+Sat Jun 30 22:28:46 EEST 2001
+dmitry:
+! fixed month output in log
+
+----- cvs ci ------
 Mon May 21 15:56:18 EEST 2001
 dmitry:
 ! fixed segfault in packNetmailForLink() when printing "Found %lu netmail for.."

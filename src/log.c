@@ -43,7 +43,7 @@ void Log(char level, char *msg,...)
         if(strchr(fidoConfig->screenloglevels, level))
         {
             printf("%02d.%02d.%04d %02d:%02d:%02d [%u]: %s",
-                   tp->tm_mday, tp->tm_mon, tp->tm_year+1900, tp->tm_hour, tp->tm_min, tp->tm_sec,
+                   tp->tm_mday, tp->tm_mon+1, tp->tm_year+1900, tp->tm_hour, tp->tm_min, tp->tm_sec,
                    getpid(), params);
         }
     }
@@ -52,7 +52,7 @@ void Log(char level, char *msg,...)
     if (strchr(fidoConfig->loglevels, level))
     {
         fprintf(fp, "%02d.%02d.%04d %02d:%02d:%02d [%u]: %s",
-             tp->tm_mday, tp->tm_mon, tp->tm_year+1900, tp->tm_hour, tp->tm_min, tp->tm_sec,
+             tp->tm_mday, tp->tm_mon+1, tp->tm_year+1900, tp->tm_hour, tp->tm_min, tp->tm_sec,
              getpid(), params);
     }
 
