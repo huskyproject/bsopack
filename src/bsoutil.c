@@ -7,29 +7,31 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/fcntl.h>
 #include <stdarg.h>
 #include <errno.h>
-#include <fidoconf/fidoconf.h>
-#include <fidoconf/common.h>
 #include <smapi/compiler.h>
-#include <smapi/progprot.h>
 
-#if defined (UNIX)
+#ifdef HAS_DIRENT_H
   #include <dirent.h>
+#endif
+#ifdef HAS_UNISTD_H
   #include <unistd.h>
 #endif
 
-#if defined (__WATCOMC__) || defined(_MSC_VER) || defined(__MINGW32__)
+#ifdef HAS_PROCESS_H
   #include <process.h>
+#endif
+#ifdef HAS_DIRECT_H
   #include <direct.h>
+#endif
+#ifdef HAS_IO_H
   #include <io.h>
 #endif
 
-#if defined (__EMX__)
-  #include <io.h>
-  #include <process.h>
-  #include <sys/fcntl.h>
-#endif
+#include <smapi/progprot.h>
+#include <fidoconf/fidoconf.h>
+#include <fidoconf/common.h>
 
 #include "log.h"
 #include "config.h"
@@ -476,7 +478,7 @@ void packNetMailForLink(s_link *link)
             if (!access(bsoNetMail, F_OK))
                 if ((pktname=(char *)createPktName())!=NULL)
                 {
-                    sprintf(link->pktFile, "%s%s.pkt", 
+                    sprintf(link->pktFile, "%s%s.pkt",
 		    fidoConfig->tempOutbound, pktname);
 
                     Debug("found netmail packet %s, moving to %s\n",
