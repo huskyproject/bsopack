@@ -71,8 +71,9 @@ void getZoneOutbound(s_link *link, char **zoneOutbound, char *outbound)
     sprintf((*zoneOutbound), "%s", outbound);
     if (fidoConfig->addr->zone!=link->hisAka.zone)
     {
-        sprintf((*zoneOutbound)+strlen((*zoneOutbound)),".%03x%c",
+        sprintf((*zoneOutbound)+strlen((*zoneOutbound))-1,".%03x%c",
                 link->hisAka.zone, PATH_DELIM);
+
     }
     createDirIfNEx(zoneOutbound);
 }
