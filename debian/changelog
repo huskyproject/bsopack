@@ -1,3 +1,17 @@
+bsopack (0.3-1) unstable; urgency=low
+
+  * New CVS version (0.3-current)
+  * debian/rules: DH_COMPAT=4
+
+ -- Pavel Andreew <pavel@collage.etel.ru>  Fri, 23 Aug 2002 16:05:17 +0600
+
+bsopack (0.2-1) stable; urgency=low
+
+  * New maintainer
+  * New stable release
+
+ -- Pavel Andreew <pavel@collage.etel.ru>  Fri, 23 Aug 2002 13:55:24 +0600
+
 bsopack (0.1-5) unstable; urgency=low
 
   * Used wrong (old) huskymak.cfg. Shit happens
