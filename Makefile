@@ -34,7 +34,10 @@ bsopack: $(OBJS)
         
 
 clean:
-		rm -f *.o *~ bsopack config
+		rm -f *.o *~
+
+distclean: clean
+	rm bsopack
 
 install: bsopack
 #	install -s -o uucp -g uucp -m 4750 bsopack /usr/local/bin

@@ -1,9 +1,5 @@
 1. Put all outgoing arcmail into separate from echomail directory.
-2. Put bundles with netmail into *.?lo files before bundles with echomail, so 
-	they will be transmitted before the rest of files.
-3. More detailed information in log.
-4. 'SeparateBundles' token support.
-5. Add to doc (fidoconfig) information about tokens 'packNetmail' and 
+2. More detailed information in log.
+3. Add to doc (fidoconfig) information about tokens 'packNetmail' and 
 	'maxUnpackedNetmail'.
-
-
+4. Version for Win and other OSes.
