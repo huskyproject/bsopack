@@ -1,0 +1,57 @@
+# Linux legacy makefile
+#
+# tested with gcc 2.7.2.3, egcs-2.91.66
+CC=gcc
+RM=rm
+INCDIR=../..
+LIBDIR=../..
+BINDIR=/usr/local/bin
+SRC_DIR=../src/
+
+WARNFLAGS=-Wall
+OPTCFLAGS=-c -s -O3 -fomit-frame-pointer -fstrength-reduce -fPIC
+DEBCFLAGS=-c -ggdb
+ADDCDEFS=
+DEBUG=1
+SHORTNAMES=0
+OSTYPE=UNIX
+UNAME=bsd
+
+ifeq ($(DEBUG), 1)
+  CFLAGS = -I$(INCDIR) $(DEBCFLAGS) $(WARNFLAGS)
+  LFLAGS = $(DEBLFLAGS)
+else
+  CFLAGS = -I$(INCDIR) $(OPTCFLAGS) $(WARNFLAGS)
+  LFLAGS = $(OPTLFLAGS)
+endif
+
+ifeq ($(SHORTNAME), 1)
+  LIBS  = -L$(LIBDIR)/fidoconf -L$(LIBDIR)/smapi -lfidoconf -lsmapi
+else
+  LIBS  = -L$(LIBDIR)/fidoconf -L$(LIBDIR)/smapi -lfidoconfigbsd -lsmapibsd
+endif
+
+CDEFS=-D$(OSTYPE) -DUNAME=\"$(UNAME)\" $(ADDCDEFS)
+
+
+OBJS= log.o config.o bsoutil.o bsopack.o
+
+all: bsopack
+
+bsopack: $(OBJS)
+		$(CC) $(OBJS) $(LFLAGS) $(LIBS) -o bsopack
+
+
+%.o: $(SRC_DIR)%.c
+	$(CC) $(CFLAGS) $(CDEFS) -c $<
+        
+
+clean:
+		$(RM) -f *.o *~
+
+distclean: clean
+		$(RM) bsopack
+
+install: bsopack
+	$(INSTALL) bsopack $(BINDIR)
+        
