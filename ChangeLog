@@ -2,6 +2,11 @@ bsopack 0.1 (development version)
 ---------
 
 ----- cvs ci ------ 
+Mon Apr 16 20:16:09 EEST 2001
+dmity: (thanx to Kees Bergwerf)
+* fixes in freeConfig(), getNMSizeForLink(), createPktName()...
+
+----- cvs ci ------ 
 Fri Apr 13 19:38:09 EEST 2001 
 dmitry: 
 * rewritten some parts of code to add more reliability, restructured work

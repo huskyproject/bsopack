@@ -27,8 +27,6 @@ $(OBJS): $(SRC_DIR)%.c
 bsopack: $(OBJS)
 		 $(CC) $(LFLAGS) $(OBJS) $(LIBS) -o bsopack.exe
 
-.IGNORE
-
 clean:
 		$(RM) *.o
 

@@ -42,7 +42,7 @@ const char outext[5]={'i', 'c', 'd', 'o', 'h'};
 const char daynames[7][5]={"su","mo","tu","we","th","fr","sa"};
 
 
-int createPktName(char *name)
+int createPktName(char **name)
 {
     unsigned long num;
     t=time(NULL);
@@ -51,11 +51,11 @@ int createPktName(char *name)
     else { serial=0; }
     lastt=t;
     num = (t<<8) + serial;
-    if (name==NULL)
-        name=(char *)smalloc(9);
+    if (*name==NULL)
+        *name=(char *)smalloc(9);
     else
-        name=(char *)srealloc(name, 9);
-    sprintf(name,"%08lx",num);
+        *name=(char *)srealloc(name, 9);
+    sprintf(*name,"%08lx",num);
     Debug("generated pkt name: %s\n", name);
     return 1;
 }
@@ -84,16 +84,19 @@ unsigned long getNMSizeForLink(s_link *link, char *outb)
     unsigned long NMSize=0;
     struct stat fInfo;
     char *fname=NULL;
+    char *p_flavour=NULL;
     int i;
 
     Debug("guessing how much netmail this link has...\n");
-    // /outb/12345678.hut+'\0' = strlen(outb)+13
-    fname=(char *)smalloc(strlen(outb)+13);
-    memset(fname, 0, strlen(outb)+13);
+    // /outb/12345678.hut+'\0' = strlen(outb)+4
+    fname=(char *)smalloc(strlen(outb)+4);
+    strcpy(fname, outb);
+    p_flavour=fname+strlen(outb);
+    strcpy(p_flavour, "?ut");
 
     for (i=0;i<=4;i++)
     {
-        sprintf(fname, "%s%cut", outb, outext[i]);
+        *p_flavour=outext[i];
         if (!stat(fname, &fInfo))
         {
             NMSize+=fInfo.st_size;
@@ -200,7 +203,7 @@ void getBundleName(s_link *link, int flavour, char *outb)
                     fp=fopen(flowFile, "r");
                     while(fgets(flowLine, 256, fp)!=NULL)
                     {
-                        flowLine=flowLineTmp;
+                        flowLineTmp=flowLine;
                         if(strlen(flowLine)<2) continue;
                         if (flowLine[0]=='#' || flowLine[0]=='^' || flowLine[0]=='~')
                             flowLine++;
@@ -224,9 +227,8 @@ void getBundleName(s_link *link, int flavour, char *outb)
     sprintf(link->packFile, "%s", bundleName);
     Debug("bundle name generated: %s\n", link->packFile);
     nfree(bundleName);
-    flowLine=flowLineTmp;
     nfree(flowFile);
-    nfree(flowLine);
+    nfree(flowLineTmp);
 }
 
 void fillCmdStatement(char *cmd, const char *call, const char *archiv, const char *file, const char *path) {
@@ -479,6 +481,7 @@ void packNetMailForLink(s_link *link)
         releaseLink(link, &outbForLink);
         return;
     }
+    nfree(dir);
 
     if (!createBsy(link, outbForLink)) {
         releaseLink(link, &outbForLink);
@@ -503,7 +506,7 @@ void packNetMailForLink(s_link *link)
             sprintf(bsoNetMail, "%s%cut", outbForLink, outext[flavour]);
 
             if (!access(bsoNetMail, F_OK))
-                if (createPktName(pktname))
+                if (createPktName(&pktname))
                 {
                     sprintf(link->pktFile, "%s%c%s.pkt", fidoConfig->tempOutbound,
                             PATH_DELIM, pktname);

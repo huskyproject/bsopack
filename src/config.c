@@ -13,6 +13,7 @@ char *logFileName=NULL;
 int enable_quiet=0;
 int enable_debug=0;
 char *fidoConfigFile=NULL;
+int fidocfg_in_env=0;
 
 void Usage()
 {
@@ -30,6 +31,8 @@ void getOpts(int argc, char **argv)
     int c_asked=0;
 
     fidoConfigFile=getenv("FIDOCONFIG");
+    if (fidoConfigFile!=NULL)
+        fidocfg_in_env=1;
 
     for (i=1;i<argc;i++)
     {
@@ -52,8 +55,11 @@ void getOpts(int argc, char **argv)
                     Usage();
                     exit(-1);
                 }
-                fidoConfigFile=(char *)smalloc(strlen(argv[i+1]));
-                sprintf(fidoConfigFile, "%s", argv[i+1]);
+                if (!fidocfg_in_env)
+                {
+                    fidoConfigFile=(char *)smalloc(strlen(argv[i+1]));
+                    sprintf(fidoConfigFile, "%s", argv[i+1]);
+                }
                 c_asked=1;
             }
             if (c_asked) i++;
@@ -106,5 +112,6 @@ void freeConfig()
     Debug("freeing config...\n");
     disposeConfig(fidoConfig);
     nfree(logFileName);
-    nfree(fidoConfigFile);
+    if (!fidocfg_in_env)
+        nfree(fidoConfigFile);
 }

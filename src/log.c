@@ -8,7 +8,7 @@
 #include <unistd.h>
 #endif
 
-#if defined (__WATCOMC__)
+#if defined (__WATCOMC__) || (OS2)
 #include <process.h>
 #endif
 
