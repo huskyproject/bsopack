@@ -2,6 +2,11 @@ bsopack 0.1 (development version)
 ---------
 
 ----- cvs ci ------
+Sun Apr 21 13:31:56 EEST 2002
+dmitry:
+! fixed memory reallocation in createPktName()
+
+----- cvs ci ------
 Sun Jan  6 13:01:34 EET 2002
 dmitry:
 ! fixed F_OK constant for ANSI C compilers (MSVC)
