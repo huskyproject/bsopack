@@ -30,7 +30,7 @@ void Log(char level, char *msg,...)
         return;
     }
 
-    if (fidoConfig->logEchoToScreen)
+    if (fidoConfig->logEchoToScreen && !enable_quiet)
     {
         if (!fidoConfig->screenloglevels) return;
         if(strchr(fidoConfig->screenloglevels, level))

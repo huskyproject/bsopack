@@ -1,22 +1,49 @@
-26.11.00
-* Put bundles with netmail into *.?lo files before bundles with echomail, so
-        they will be transmitted before the rest of files.
-        
+bsopack 0.01 (development version)
+---------
+
+----- cvs ci ------
+Mon Dec 18 00:55:50 EET 2000
+dmitry:
++ added command line switches processing
++ added switches -q, -d (w/o debug info now), -h (--help)
++ added switch -c <fidoconfig>
+* code cleanup
+* restructured ChangeLog (now looks like all husky logs)
+
+----- cvs ci ------
+12.12.00
+dmitry:
+! if fidoconfig not found print error on stderr instead of log
+* changed output to stdout when errors to stderr
+
+----- cvs ci ------
+09.12.00
+dmitry:
+! added NULL checking for logFileDir, loglevels & screenloglevels
+
+----- cvs ci ------
+06.12.00
+dmitry:
+! incorrect pointer operation in getBundleName()
++ Added target 'distclean' in Makefile and modified target 'clean'
+
+----- cvs ci ------
+05.12.00
+dmitry:
+! incorrect bundle name checking in getBundleName()
+
+----- cvs ci ------
 27.11.00
+dmitry:
 + Added processing 'separateBundles' token in fidoConfig (EXPERIMENTAL)
 + Added in log information about mail with size less than maxUnpackedNetmail
 - Removed in log "Found 0 bytes..." string
 
-05.12.00
-! incorrect bundle name checking in getBundleName()
+----- cvs ci ------
+26.11.00
+dmitry:
+* Put bundles with netmail into *.?lo files before bundles with echomail, so
+        they will be transmitted before the rest of files.
+        
 
-06.12.00
-! incorrect pointer operation in getBundleName()
-+ Added target 'distclean' in Makefile and modified target 'clean'
-
-09.12.00
-! added NULL checking for logFileDir, loglevels & screenloglevels
-
-12.12.00
-! if fidoconfig not found print error on stderr instead of log
-* changed output to stdout when errors to stderr
+--- That's the beginning of ChangeLog :)

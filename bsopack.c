@@ -8,6 +8,7 @@
 int main(int argc, char **argv)
 {
     unsigned int i;
+    getOpts(argc, argv);
     getConfig();
     Log('1', "--- BSOpack %s started ---\n", VERSION);
     for (i=0; i < fidoConfig->linkCount; i++)
@@ -16,6 +17,6 @@ int main(int argc, char **argv)
             packNetMailForLink(&fidoConfig->links[i]);
     }
     Log('1', "--- BSOpack %s stopped ---\n\n", VERSION);
-    disposeConfig(fidoConfig);
+    freeConfig();
     return 0;
 }

@@ -51,8 +51,19 @@ packNetmail on
 maxUnpackedNetmail 0
 
 
+3. Command line switches
+------------------------
 
-3. How this program works
+Usage: bsopack [-c fidconfig] [options]        
+Options:
+	-q            Quiet mode (ignoring screenloglevels in fidoconfig)
+        -d            Debud mode
+        -h or --help  Help screen
+
+You can type several switches in one line like this: -qdc /etc/fido/config
+
+
+4. How this program works
 -------------------------
 
 At first it checks if packNetmail for link is on, this link is not busy
@@ -75,7 +86,7 @@ not to use OS-dependent code.
 Some parts of code was used & modified from hpt.
 
 
-4. Feedback
+5. Feedback
 -----------
 
 Fido	: 2:464/910
