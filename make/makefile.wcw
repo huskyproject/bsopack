@@ -1,0 +1,34 @@
+# Generic Makefile for bsopack
+
+CC      = wcc386
+LINK    = wlink
+RM	= del
+
+CFLAGS  = -zq -wx -bt=nt -i=.. -oneatx -5
+LFLAGS  = system nt
+
+OSTYPE=__NT__
+UNAME=w32
+
+CDEFS=-D$(OSTYPE) -DUNAME="$(UNAME)"
+SRC_DIR=..\src\
+
+OBJS= log.obj config.obj bsoutil.obj bsopack.obj
+
+all: bsopack
+
+$(OBJS): $(SRC_DIR)*.c
+		$(CC) $(CFLAGS) $(CDEFS) $*.c
+
+bsopack: $(OBJS)
+		$(LINK) $(LFLAGS) FILE log.obj, config.obj, bsoutil.obj, bsopack.obj, ..\smapi\smapiwcw.lib, ..\fidoconf\fconfwcw.lib NAME bsopack.exe
+
+
+.IGNORE        
+
+clean:
+		$(RM) *.obj
+
+distclean: clean
+		$(RM) bsopack.exe
+        

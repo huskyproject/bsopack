@@ -1,0 +1,56 @@
+# Generic Makefile for bsopack
+
+CC=gcc
+RM=rm
+INCDIR=/usr/local/include
+LIBDIR=/usr/local/lib
+BINDIR=/usr/local/bin
+SRC_DIR=../src/
+
+WARNFLAGS=-Wall
+OPTCFLAGS=-c -s -O3 -fomit-frame-pointer -fstrength-reduce -fPIC
+DEBCFLAGS=-c -ggdb
+ADDCDEFS=-DHAS_POPEN
+DEBUG=1
+SHORTNAMES=0
+OSTYPE=UNIX
+UNAME=lnx
+
+ifeq ($(DEBUG), 1)
+  CFLAGS = -I$(INCDIR) $(DEBCFLAGS) $(WARNFLAGS)
+  LFLAGS = $(DEBLFLAGS)
+else
+  CFLAGS = -I$(INCDIR) $(OPTCFLAGS) $(WARNFLAGS)
+  LFLAGS = $(OPTLFLAGS)
+endif
+
+ifeq ($(SHORTNAME), 1)
+  LIBS  = -L$(LIBDIR) -lfidoconf -lsmapi
+else
+  LIBS  = -L$(LIBDIR) -lfidoconfig -lsmapi
+endif
+
+CDEFS=-D$(OSTYPE) -DUNAME=\"$(UNAME)\" $(ADDCDEFS)
+
+
+OBJS= log.o config.o bsoutil.o bsopack.o
+
+all: bsopack
+
+bsopack: $(OBJS)
+		$(CC) $(OBJS) $(LFLAGS) $(LIBS) -o bsopack
+
+
+%.o: $(SRC_DIR)%.c
+	$(CC) $(CFLAGS) $(CDEFS) -c $<
+        
+
+clean:
+		$(RM) -f *.o *~
+
+distclean: clean
+		$(RM) bsopack
+
+install: bsopack
+	$(INSTALL) bsopack $(BINDIR)
+        
