@@ -6,7 +6,6 @@ Abstract: This manual describes what bsopack is
 Section: devel
 
 Format: HTML
-Index: /usr/share/doc/bsopack/html/bsopack.html
-Files: /usr/share/doc/bsopack/html/*.html
+Index: /usr/share/doc/bsopack/bsopack.html
+Files: /usr/share/doc/bsopack/*.html
 
-  

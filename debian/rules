@@ -13,50 +13,19 @@ export VERSION=0.3
 # Next Line to build debug-versions !
 # export DEB_BUILD_OPTIONS=nostrip
 
-configure: configure-stamp
-configure-stamp:
-	dh_testdir
-	# Add here commands to configure the package.
-	
-	touch configure-stamp
-
-build: configure-stamp build-stamp
+build: build-stamp
 build-stamp:
 	dh_testdir
-
 	# Add here commands to compile the package.
 	$(MAKE)
-
 	touch build-stamp
 
 clean:
 	dh_testdir
 	dh_testroot
-	rm -f build-stamp configure-stamp
-
+	rm -f build-stamp
 	# Add here commands to clean up after the build process.
-	-$(MAKE) clean
-	-rm -f bsopack.fns
-	-rm -f *~
-	-rm -f bsopack.aux
-	-rm -f bsopack.toc
-	-rm -f bsopack.cp
-	-rm -f bsopack.fn
-	-rm -f bsopack.vr
-	-rm -f bsopack.kr
-	-rm -f bsopack.ke
-	-rm -f bsopack.tp
-	-rm -f bsopack.kes
-	-rm -f bsopack.krs
-	-rm -f bsopack.ky
-	-rm -f bsopack.pg
-	-rm -f bsopack.cps
-	-rm -f bsopack.log
-	-rm -f bsopack.fns
-	-rm -f *~
-	-rm -f bsopack*html
-	-rm -f bsopack.info*
-
+	-$(MAKE) distclean
 	dh_clean
 
 install: build
@@ -64,7 +33,6 @@ install: build
 	dh_testroot
 	dh_clean -k
 	dh_installdirs
-
 	# Add here commands to install the package into debian/bsopack.
 	$(MAKE) install DESTDIR=$(CURDIR)/debian/bsopack
 	rm -f $(CURDIR)/debian/bsopack/usr/share/info/dir*
@@ -99,4 +67,4 @@ binary-arch: build install
 	dh_builddeb
 
 binary: binary-indep binary-arch
-.PHONY: build clean binary-indep binary-arch binary install configure
+.PHONY: build clean binary-indep binary-arch binary install

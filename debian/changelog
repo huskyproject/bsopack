@@ -1,3 +1,12 @@
+bsopack (0.3-4) unstable; urgency=low
+
+  * New cvs version
+  * Install bsopack.info
+  * Remove texi2html from Build-Depends
+  * Make single html-doc and place it to /usr/share/doc/bsopack
+
+ -- Pavel Andreew <pavel@collage.etel.ru>  Fri,  4 Oct 2002 16:14:32 +0600
+
 bsopack (0.3-3) unstable; urgency=low
 
   * New cvs version
