@@ -1,3 +1,8 @@
+2003-12-27 Saturday 21:10  d_sergienko
+
+	* src/bsoutil.c (bsopack-1_4-stable.4): fixed some warnings about
+	unused variables
+
 2003-09-18 Thursday 10:29  sfpavel
 
 	* Makefile (bsopack-1_4-stable.2): Fix static building
