@@ -1,3 +1,13 @@
+2002-10-22 Tuesday 15:10  stas_degteff
+
+	* make/makefile.djg (bsopack-0_2-stable.2): Set DJGPP biuld name to
+	bsopack/dpmi
+
+2002-10-22 Tuesday 15:08  stas_degteff
+
+	* src/: bsopack.c, config.c, config.h (bsopack-0_2-stable.[1,1,2]):
+	Implement husky-standard version info
+
 2002-10-17 Thursday 10:52  stas_degteff
 
 	* make/makefile.cyg (bsopack-0_2-stable.2): MFC: Win32 makefile for
