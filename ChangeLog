@@ -1,3 +1,14 @@
+2003-02-11 Tuesday 12:25  sfpavel
+
+	* debian/changelog (bsopack-1_4-stable.2): Change debian version to
+	1.4.0-beta1
+
+2003-02-11 Tuesday 07:38  sfpavel
+
+	* VERSION, debian/changelog, debian/control, man/bsopack.1,
+	src/config.h (bsopack-1_4-stable.[1,1,1,1,1]): Update version to
+	1.4.0, New debian package
+
 2003-02-05 Wednesday 18:03  stas_degteff
 
 	* src/bsoutil.c (1.28): Use defines from compiler.h
@@ -26,6 +37,11 @@
 
 	* src/bsopack.c (1.6): fix spelling (thanx to Pavel Scvortsov,
 	2:5055/80.333)
+
+2002-11-10 Sunday 08:51  sfpavel
+
+	* VERSION (1.1): file VERSION was initially added on branch
+	bsopack-0_2-stable.
 
 2002-10-22 Tuesday 10:29  sfpavel
 
