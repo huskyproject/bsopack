@@ -4,7 +4,7 @@
 #include "log.h"
 #include "config.h"
 #include "bsoutil.h"
-#include <cvsdate.h>
+#include "cvsdate.h"
 
 int main(int argc, char **argv)
 {
