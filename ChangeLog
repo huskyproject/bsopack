@@ -2,6 +2,12 @@ bsopack 0.1 (development version)
 ---------
 
 ----- cvs ci ------
+Sun Apr 21 13:31:56 EEST 2002
+dmitry:
+! fixed memory reallocation in createPktName()
++ backported MSVC support from current branch
+
+----- cvs ci ------
 Mon Jul  9 17:17:34 EEST 2001
 dmitry:
 ! fixed bsopack.texi (Prev field of node `packNetmail' not pointed to),
