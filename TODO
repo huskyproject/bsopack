@@ -1,4 +1,4 @@
 1. Put all outgoing arcmail into separate from echomail directory.
 2. bsopack -d - debug mode (add debug messages)
 3. More detailed information in log.
-4. Version for Win and other OSes (any volunteers? :)
+4. Version for other OSes (any volunteers? :)

@@ -2,8 +2,6 @@
 
 include ../huskymak.cfg
 
-SRCDIR=./
-
 ifeq ($(DEBUG), 1)
   CFLAGS = -I$(INCDIR) $(DEBCFLAGS) $(WARNFLAGS)
   LFLAGS = $(DEBLFLAGS)
@@ -18,7 +16,7 @@ else
   LIBS  = -L$(LIBDIR) -lfidoconfig -lsmapi
 endif
 
-CDEFS=-D$(OSTYPE) $(ADDCDEFS)
+CDEFS=-D$(OSTYPE) -DUNAME=\"$(UNAME)\" $(ADDCDEFS)
 
 
 OBJS= log.o config.o bsoutil.o bsopack.o
@@ -29,7 +27,7 @@ bsopack: $(OBJS)
 		gcc $(OBJS) $(LFLAGS) $(LIBS) -o bsopack
 
 
-%.o: $(SRCDIR)%.c
+%.o: %.c
 	$(CC) $(CFLAGS) $(CDEFS) -c $<
         
 

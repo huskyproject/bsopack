@@ -1,7 +1,7 @@
 #ifndef _CONFIG_H
 #define _CONFIG_H
 
-#define VERSION "0.01/LNX"
+#define VERSION "0.01/"UNAME
 
 #include <fidoconf/fidoconf.h>
 

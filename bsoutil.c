@@ -2,15 +2,24 @@
 #include <malloc.h>
 #include <string.h>
 #include <time.h>
-#include <unistd.h>
 #include <stdlib.h>
-#include <dirent.h>
 #include <sys/stat.h>
 #include <stdarg.h>
 #include <errno.h>
 #include <fidoconf/fidoconf.h>
 #include <fidoconf/common.h>
 #include <smapi/compiler.h>
+
+#if defined (UNIX)
+  #include <dirent.h>
+  #include <unistd.h>
+#endif
+
+#if defined (__WATCOMC__)
+  #include <process.h>
+  #include <direct.h>
+  #include <io.h>
+#endif
 
 #include "log.h"
 #include "config.h"
@@ -354,7 +363,7 @@ void initLink(s_link *link)
 }
 
 
-void freeLink(s_link *link)
+void releaseLink(s_link *link)
 {
     if (link==NULL) return;
     if (link->bsyFile != NULL)
@@ -486,7 +495,7 @@ void packNetMailForLink(s_link *link)
             link->hisAka.node, link->hisAka.point
             );
     removeBsy(link);
-    freeLink(link);
+    releaseLink(link);
     nfree(pktname);
     nfree(execstr);
     nfree(bsoNetMail);

@@ -1,5 +1,3 @@
-#define VERSION "0.01/LNX"
-
 #include <fidoconf/fidoconf.h>
 #include "log.h"
 #include "config.h"

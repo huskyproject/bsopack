@@ -2,6 +2,14 @@ bsopack 0.01 (development version)
 ---------
 
 ----- cvs ci ------
+Mon Dec 18 22:51:22 EET 2000
+dmitry:
++ added watcom c (win32) porting
++ added FIDOCONFIG environment variable processing
+! fixed bugs with -c option
+* restructured makefiles
+
+----- cvs ci ------
 Mon Dec 18 00:55:50 EET 2000
 dmitry:
 + added command line switches processing

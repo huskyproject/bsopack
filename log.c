@@ -2,8 +2,16 @@
 #include <malloc.h>
 #include <string.h>
 #include <time.h>
-#include <unistd.h>
 #include <stdarg.h>
+
+#if defined (UNIX)
+#include <unistd.h>
+#endif
+
+#if defined (__WATCOMC__)
+#include <process.h>
+#endif
+
 #include "config.h"
 #include "log.h"
 
@@ -35,7 +43,7 @@ void Log(char level, char *msg,...)
         if (!fidoConfig->screenloglevels) return;
         if(strchr(fidoConfig->screenloglevels, level))
         {
-            printf("%02d.%02d.%04d %02d:%02d:%02d [%d]: %s",
+            printf("%02d.%02d.%04d %02d:%02d:%02d [%u]: %s",
                    tp->tm_mday, tp->tm_mon, tp->tm_year+1900, tp->tm_hour, tp->tm_min, tp->tm_sec,
                    getpid(), params);
         }
@@ -44,7 +52,7 @@ void Log(char level, char *msg,...)
     if (!fidoConfig->loglevels) return;
     if (strchr(fidoConfig->loglevels, level))
     {
-        fprintf(fp, "%02d.%02d.%04d %02d:%02d:%02d [%d]: %s",
+        fprintf(fp, "%02d.%02d.%04d %02d:%02d:%02d [%u]: %s",
              tp->tm_mday, tp->tm_mon, tp->tm_year+1900, tp->tm_hour, tp->tm_min, tp->tm_sec,
              getpid(), params);
     }
