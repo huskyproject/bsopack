@@ -1,3 +1,9 @@
+bsopack (0.3-20021022-1) unstable; urgency=low
+
+  * New cvs version
+
+ -- Pavel Andreew <pavel@collage.etel.ru>  Tue, 22 Oct 2002 16:27:04 +0600
+
 bsopack (0.3-20021008-1) unstable; urgency=low
 
   * Add release date to version number
