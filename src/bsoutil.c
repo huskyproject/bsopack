@@ -238,7 +238,7 @@ void getBundleName(s_link *link, int flavour, char *outb)
     nfree(flowFile);
     nfree(flowLine);
 }
-
+/* moved to fidoconfig
 void fillCmdStatement(char *cmd, const char *call, const char *archiv, const char *file, const char *path) {
    const char *start, *tmp, *add;
 
@@ -257,7 +257,7 @@ void fillCmdStatement(char *cmd, const char *call, const char *archiv, const cha
    };
    strcat(cmd, tmp);
 }
-
+*/
 int addToFlow(s_link *link, int flavour, char *outb)
 {
     FILE *fp;
