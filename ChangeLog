@@ -2,6 +2,10 @@ bsopack 0.1 (development version)
 ---------
 
 ----- cvs ci ------
+dmitry:
+* changed #if defined (OS2) to #if defined (__EMX__) in bsopack.c for watcom C
+
+----- cvs ci ------
 Wed May  9 10:03:00 EEST 2001
 dmitry:
 ! fixed one more big in getBundleName() (xxxxyyyyyyyy.mo0 when separateBundles in on)

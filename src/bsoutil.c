@@ -22,7 +22,7 @@
   #include <io.h>
 #endif
 
-#if defined (OS2)
+#if defined (__EMX__)
   #include <io.h>
   #include <process.h>
   #include <sys/fcntl.h>
@@ -153,7 +153,7 @@ void getBundleName(s_link *link, int flavour, char *outb)
     if (fidoConfig->separateBundles)
     {
         sprintf(bundleName, "%ssep%c", outb, PATH_DELIM);
-        outb_end=bundleName+strlen(bundleName);
+        outb_end=bundleName+strlen(bundleName)s;
     }
     else
     {
