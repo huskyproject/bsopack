@@ -5,7 +5,7 @@
 #
 # Tested on MS Visual C 6.0
 #
-LIBNAME   = bsopack
+include makefile.inc
 
 # Version
 VERMAJOR= 1
@@ -30,9 +30,6 @@ _LIB	  = .lib
 _DLL	  = .dll 
 _EXE	  = .exe
 
-_SRC_DIR= ../src/
-H_DIR	= ../h
-
 ## programs ##
 CC	= cl
 CFLAGS	= -nologo -MD -Zp1
@@ -44,15 +41,10 @@ LIBS	= ..\..\fidoconf\make\fconfmvc.lib ..\..\huskylib\make\huskymvc.lib \
 	  $(HPTZIPL) \
 	  USER32.LIB msvcrt.lib Kernel32.lib
 
-
 EXEFLAGS= /link /opt:nowin98
 EXENAMEFLAG = -Fe
 
 RM	= del
-
-OBJS	= bsopack$(_OBJ) config$(_OBJ) bsoutil$(_OBJ)
-
-PROGRAMS = $(LIBNAME)$(_EXE)
 
 default:
 	@echo Run 'make programs' to build dinamic version of programs ($(PROGRAMS))
