@@ -47,7 +47,7 @@ This document applies to version @value{VERSION} of BSOpack.
 @chapter Introdusing BSOpack
 BSOpack is used to pack outgoing netmail for links. It is a part of
 @emph{HUSKY} project and requires its files.
-You should use @code{fidoconfig 0.10c} or more fresh. If you don't have these 
+You should use @code{fidoconfig 0.10c} or more recent. If you don't have these 
 packages, download them from @url{http://husky.physcip.uni-stuttgart.de/}
 
 
@@ -93,7 +93,7 @@ This statement can only be repeated for different links.
 
       Determines how much unpacked netmail in kilobytes we should leave for 
 this link. If we have more outgoing netmail - it will be packed into bundles.
-You also can have packed &  unpacked netmail in your outbound
+You also can have packed & unpacked netmail in your outbound
 simultaneously - packet, which had had size more than @code{maxUnpackedNetmail}
 was packed into bundle and new packed with size less than
 @code{maxUnpackedNetmail} was created.
@@ -136,17 +136,18 @@ maxUnpackedNetmail 0
 @chapter How this program works
 
 At first it checks if @code{packNetmail} for link is on, this link is not busy
-and packer is defined. Then it searches for *.?ut files in outbound. if
-size of all found *.?ut is more than maxUnpackedNetmail, this files will be
-renamed to *.pkt (using @code{tempOutbound} token) and put into arcmail
-bundle. So, your mail should never be lost. If any error occurs - hpt
-scan will find this packet and (if this packet will be for link, listed in
-fidoconfig) pack into bundle with echomail. Packet will be added to
-last used bundle until size of bundle is more than @code{arcmailSize} for
-link. If you select @code{bundleNameStyle addrDiff} your netmail will be
+and a packer is defined. Then it searches for *.?ut files in the outbound. If
+the size of all found *.?ut is greater than maxUnpackedNetmail, these files 
+will be renamed to *.pkt (using @code{tempOutbound} token) and put into an 
+arcmail bundle. Thus, your mail should never be lost. If any error occurs hpt
+scan will find this packet and (if this packet is for a link listed in
+fidoconfig) pack it into a bundle with echomail. The packet will be added to
+the most recently used bundle until the size of the bundle is more than 
+@code{arcmailSize} for the link. 
+If you select @code{bundleNameStyle addrDiff} your netmail will be
 packed together with echomail. Each flavour is processed independently.
-It creates bundle names using algorithm of two addresses difference.
-Log file @code{bsopack.log} is located in @code{logFileDir} directory.
+It creates bundle names using an algorithm of two addresses differences.
+The log file @code{bsopack.log} is located in @code{logFileDir} directory.
 
 
 @node Feedback, , How this program works, Top

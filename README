@@ -9,7 +9,7 @@
 
 BSOpack is used to pack outgoing netmail for links. It works with
 HUSKY package and requires its files. You must use fidoconfig from
-Oct 29 2000 or more fresh. If you don't have these packages, download them
+Oct 29 2000 or more recent. If you don't have these packages, download them
 from http://husky.physcip.uni-stuttgart.de/
 
 
@@ -23,13 +23,13 @@ a) packNetmail <on/off>
 b) maxUnpackedNetmail <size in kb>
 	Determines how much unpacked netmail we should leave for this link.
         If we have more outgoing netmail - it will be packed.
-        You also can have packed &  unpacked netmail in your outbound
+        You also can have packed & unpacked netmail in your outbound
         simultaneously - packet, which had had size more than maxUnpackedNetmail
         was packed into bundle and new packed with size less than
         maxUnpackedNetmail was created.
         If you select 0 kb - all netmail will be packed.
         
-Attention: If you use 'packNetmail on' - you *must* define packer for this 
+Attention: If you use 'packNetmail on' - you *must* define a packer for this 
 	link.
 
 Example:
@@ -65,24 +65,24 @@ You can type several switches in one line like this: -qdc /etc/fido/config
 
 4. How this program works
 -------------------------
-
-At first it checks if packNetmail for link is on, this link is not busy
-and packer is defined. Then it searches for *.?ut files in outbound. if
-size of all found *.?ut is more than maxUnpackedNetmail, this files will be
-renamed to *.pkt (using tempOutbound token) and put into arcmail
-bundle. So, your mail should never be lost. If any error occurs - hpt
-scan will find this packet and (if this packet will be for link, listed in
-fidoconfig) pack into bundle with echomail. Packet will be added to
-last used bundle until size of bundle is more than 'arcmailSize' for
-link. If you select 'bundleNameStyle addrDiff' your netmail will be
-packed together with echomail. Each flavour is processed independently. 
-It creates bundle names using algorithm of two addresses difference.
-Log file 'bsopack.log' is placed into 'logFileDir'.
+At first it checks if packNetmail for the link is on, if this link is not busy
+and if a packer is defined. Then it searches for *.?ut files in the outbound. 
+If the size of all found *.?ut is greater than maxUnpackedNetmail, these files
+will be renamed to *.pkt (using tempOutbound token) and put into an arcmail
+bundle. So, your mail should never be lost. If any error occurs hpt
+scan will find this packet and (if this packet is for a link listed in
+fidoconfig) pack it into a bundle with echomail. The packet will be added to
+the most recently used bundle until the size of the bundle is greater than 
+'arcmailSize' for the link. If you select 'bundleNameStyle addrDiff' your 
+netmail will be packed together with echomail. Each flavour is processed 
+independently. 
+It creates bundle names using an algorithm of two addresses differences.
+The log file 'bsopack.log' is placed into 'logFileDir'.
 
 This program now supports only Win32 and Linux. Because I don't have other 
 OSes, I cant' compile & test for other platforms.
 
-Some parts of code was used & modified from hpt.
+Some parts of code were used & modified from hpt.
 
 
 5. Feedback
@@ -92,7 +92,7 @@ Fido	: 2:464/910
 e-mail	: trooper@unity.net
 ICQ	: 38304000
 
-If you got an error - report me, including all needed information about
+If you got an error - report it to me, including all needed information about
 it.
 
 Regards, 
