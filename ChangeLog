@@ -1,3 +1,16 @@
+2003-02-26 Wednesday 03:55  sfpavel
+
+	* bsopack.texi (bsopack-1_4-stable.1): Update documentation
+
+2003-02-26 Wednesday 03:50  sfpavel
+
+	* README (bsopack-1_4-stable.1): Update documentation
+
+2003-02-25 Tuesday 09:52  sfpavel
+
+	* debian/changelog (bsopack-1_4-stable.4): New debian version:
+	1.4-beta2
+
 2003-02-19 Wednesday 04:53  sfpavel
 
 	* debian/: changelog, control, rules (bsopack-1_4-stable.[3,2,1]):
