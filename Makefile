@@ -16,9 +16,9 @@ else
 endif
 
 ifeq ($(SHORTNAME), 1)
-  LIBS  = -L$(LIBDIR) -lfidoconf -lsmapi
+  LIBS  = -L$(LIBDIR) -lfidoconf -lhusky
 else
-  LIBS  = -L$(LIBDIR) -lfidoconfig -lsmapi
+  LIBS  = -L$(LIBDIR) -lfidoconfig -lhusky
 endif
 
 CDEFS=-D$(OSTYPE) -DUNAME=\"$(UNAME)\" $(ADDCDEFS)
@@ -42,7 +42,9 @@ html:
 
 docs: info html
 
-man: man/bsopack.1
+FORCE:
+
+man: FORCE
 	gzip -9c man/bsopack.1 > bsopack.1.gz
 
 clean:

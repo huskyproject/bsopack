@@ -9,7 +9,7 @@
 #include <sys/stat.h>
 #include <stdarg.h>
 #include <errno.h>
-#include <smapi/compiler.h>
+#include <huskylib/compiler.h>
 
 #ifdef HAS_DIRENT_H
   #include <dirent.h>
@@ -28,7 +28,7 @@
   #include <io.h>
 #endif
 
-#include <smapi/progprot.h>
+#include <huskylib/huskylib.h>
 #include <fidoconf/fidoconf.h>
 #include <fidoconf/common.h>
 
