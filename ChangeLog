@@ -1,3 +1,34 @@
+2002-09-18 Wednesday 07:28  sfpavel
+
+	* debian/rules, src/bsoutil.c (bsopack-0_2-stable.[2,1]): Fix
+	compiling under win32
+
+2002-09-18 Wednesday 07:06  sfpavel
+
+	* debian/info (1.1): file info was initially added on branch
+	bsopack-0_2-stable.
+
+2002-09-18 Wednesday 07:06  sfpavel
+
+	* INSTALL, debian/README.Debian, debian/changelog, debian/control,
+	debian/doc-base, debian/huskymak.cfg, debian/info, debian/manpages,
+	debian/rules, man/bsopack.1
+	(bsopack-0_2-stable.[1,1,2,1,1,1,1,1,1,1]): New debian package
+
+2002-09-18 Wednesday 07:05  sfpavel
+
+	* Makefile (bsopack-0_2-stable.2): Install and uninstall man page
+
+2002-09-18 Wednesday 06:30  sfpavel
+
+	* Makefile, make/makefile, make/makefile.cyg, make/makefile.mvc,
+	make/makefile.mvcdll (bsopack-0_2-stable.[1,1,1,1,1]): Update
+	makefiles from current branch
+
+2002-08-26 Monday 11:28  d_sergienko
+
+	* make/makefile.cyg (1.3): use cvsdate in version
+
 2002-08-26 Monday 05:49  sfpavel
 
 	* .cvs2cl (bsopack-0_2-stable.1): Add .cvs2cl
@@ -20,6 +51,19 @@
 	(1.2.2.3), log.c (1.5.2.2) (utags: bsopack-0_1-stable): Set version
 	0.2-stable
 
+2002-08-18 Sunday 16:38  d_sergienko
+
+	* make/makefile.cyg (1.2): fixed tabs
+
+2002-07-31 Wednesday 19:45  stas
+
+	* make/makefile.mvcdll (1.3): Change comments in makefiles
+
+2002-07-31 Wednesday 19:45  stas
+
+	* make/makefile.cyg (1.1): Add makefile for Cygwin & mingw (tested
+	with mingw & gcc3.1). Patch from Leonid Kukharenko 2:463/375.128)
+
 2002-05-12 Sunday 13:09  d.sergienko
 
 	* .cvs2cl (1.1): trying to get cvs2cl working...
@@ -35,6 +79,15 @@
 
 	* src/bsoutil.c (1.19.2.1): fixed bug with memory reallocation in
 	createPktName(); backported MSVC support from current branch
+
+2002-02-15 Friday 10:33  mche
+
+	* make/makefile.mvcdll (1.2): minimized binaries size
+
+2002-01-04 Friday 17:31  mche
+
+	* make/: makefile.mvc (1.1), makefile.mvcdll (1.1): making bsopack
+	with MSVC
 
 2001-08-26 Sunday 13:11  d.sergienko
 
