@@ -81,7 +81,7 @@ void createDirIfNEx(char *dir)
         *pp = '\0';        /* we can't create "c:\dir\", only "c:\dir" */
 
 /*    if (access(dir, F_OK))*/
-    if (direxist(dir))
+    if (!direxist(dir))
     {
         Debug("creating directory %s...\n", dir);
         if (mymkdir(dir))
