@@ -1,0 +1,41 @@
+# This builds a DOS DPMI executable with DJGPP
+#
+
+.SUFFIXES:
+.SUFFIXES: .c .o
+
+CC      = gcc
+RM	= del
+
+DEBUG=-s
+# set to -g for debugging
+
+CFLAGS  = -I../.. -c -O3 -DMSDOS -DNOSEMAPHORES -mcpu=i486 -Wall -Wno-char-subscripts $(DEBUG)
+LFLAGS=-s
+OSTYPE=MSDOS
+UNAME=dos
+
+
+CDEFS=-D$(OSTYPE) -DUNAME=\"$(UNAME)\"
+LIBS  = ../../fidoconf/fconfdjg.a ../../smapi/smapidjg.a
+SRC_DIR=../src/
+EXENAMEFLAG=-o 
+EXE=.exe
+OBJ=.o
+
+all: bsopack$(EXE)
+
+%$(OBJ): $(SRC_DIR)%.c
+		$(CC) $(CFLAGS) $(CDEFS) $(SRC_DIR)$*.c
+
+
+bsopack$(EXE): config$(OBJ) log$(OBJ) bsoutil$(OBJ) bsopack$(OBJ)
+		$(CC) $(LFLAGS) $(EXENAMEFLAG)bsopack$(EXE) bsopack$(OBJ) config$(OBJ) log$(OBJ) bsoutil$(OBJ) $(LIBS)
+
+clean:
+		$(RM) *$(OBJ)
+		$(RM) *~
+
+distclean: clean
+		$(RM) bsopack$(EXE)
+
