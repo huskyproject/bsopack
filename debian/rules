@@ -9,7 +9,7 @@
 export DH_COMPAT=3
 export DEBIAN=1
 export PACKAGE=bsopack
-export VERSION=0.1
+export VERSION=0.2
 # Next Line to build debug-versions !
 # export DEB_BUILD_OPTIONS=nostrip
 
@@ -18,7 +18,6 @@ configure-stamp:
 	dh_testdir
 	# Add here commands to configure the package.
 	
-
 	touch configure-stamp
 
 build: configure-stamp build-stamp

@@ -1,5 +1,9 @@
+/* $Id$ */
+
 #include <stdio.h>
-#include <malloc.h>
+#if !defined(__FreeBSD__)
+  #include <malloc.h>
+#endif
 #include <string.h>
 #include <time.h>
 #include <stdlib.h>
@@ -16,7 +20,7 @@
   #include <unistd.h>
 #endif
 
-#if defined (__WATCOMC__)
+#if defined (__WATCOMC__) || (_MSC_VER)
   #include <process.h>
   #include <direct.h>
   #include <io.h>
@@ -32,7 +36,11 @@
 #include "config.h"
 #include "bsoutil.h"
 
+/* ANSI C knows nothing about this constant */
 
+#ifndef F_OK
+#define F_OK 0
+#endif
 
 time_t t;
 unsigned long serial;
@@ -43,22 +51,27 @@ const char flowext[5]={'i', 'c', 'd', 'f', 'h'};
 const char daynames[7][5]={"su","mo","tu","we","th","fr","sa"};
 
 
-int createPktName(char **name)
+char *createPktName()
 {
     unsigned long num;
+    static char name[9];
+
     t=time(NULL);
-    if (serial==MAXPATH) { if (lastt==t) return 0; else serial=0; }
-    if(t == lastt) serial++;
-    else { serial=0; }
+    if (serial==MAXPATH) {
+        if (lastt==t)
+            return 0;
+        else
+            serial=0;
+    }
+    if(t == lastt)
+        serial++;
+    else
+        serial=0;
     lastt=t;
     num = (t<<8) + serial;
-    if (*name==NULL)
-        *name=(char *)smalloc(9);
-    else
-        *name=(char *)srealloc(*name, 9);
-    sprintf(*name,"%08lx",num);
-    Debug("generated pkt name: %s\n", *name);
-    return 1;
+    sprintf(name,"%08lx",num);
+    Debug("generated pkt name: %s\n", name);
+    return name;
 }
 
 void createDirIfNEx(char *dir)
@@ -447,7 +460,6 @@ void packNetMailForLink(s_link *link)
         return;
     }
 
-    pktname=(char *)smalloc(9);
     execstr=(char *)smalloc(MAXPATH);
     bsoNetMail=(char *)smalloc(strlen(outbForLink)+4);
 
@@ -462,7 +474,7 @@ void packNetMailForLink(s_link *link)
             sprintf(bsoNetMail, "%s%cut", outbForLink, outext[flavour]);
 
             if (!access(bsoNetMail, F_OK))
-                if (createPktName(&pktname))
+                if ((pktname=(char *)createPktName())!=NULL)
                 {
                     sprintf(link->pktFile, "%s%s.pkt", 
 		    fidoConfig->tempOutbound, pktname);
@@ -507,7 +519,6 @@ void packNetMailForLink(s_link *link)
 
     removeBsy(link);
     releaseLink(link, &outbForLink);
-    nfree(pktname);
     nfree(execstr);
     nfree(bsoNetMail);
 }

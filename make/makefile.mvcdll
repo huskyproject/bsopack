@@ -1,4 +1,4 @@
-# Makefile for MSVC (Win32)
+# Makefile for MSVC (Win32): dll version
 
 CC  = cl
 RM	= del
@@ -9,11 +9,11 @@ UNAME=w32
 CDEFS=-D__NT__ -DUNAME=\"$(UNAME)\" -DNT -DWINNT -D_CONSOLE -D_MAKE_DLL
 SRC_DIR=..\SRC
 LIBS=..\..\fidoconf\fconfmvc.lib ..\..\smapi\smapimvc.lib \
-     USER32.LIB msvcrt.lib Kernel32.lib
+     USER32.LIB msvcrt.lib Kernel32.lib /link /opt:nowin98
 
 all: bsopack.exe
 
-bsopack.exe: 
+bsopack.exe:
 		$(CC) $(CFLAGS) $(CDEFS) $(COPT) -Fe$@ $(SRC_DIR)\bsopack.c \
                                                $(SRC_DIR)\log.c     \
                                                $(SRC_DIR)\config.c  \
@@ -25,4 +25,4 @@ clean:
 
 distclean: clean
 		$(RM) bsopack.exe
-        
+

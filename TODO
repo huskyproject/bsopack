@@ -5,3 +5,4 @@
    packFlavour nhi    # pack only normal, hold & immediate mail. The rest flavours 
    are ignored by bsopack.
 4. Fileboxes support.
+5. ASO support.

@@ -1,7 +1,11 @@
+/* $Id$ */
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <malloc.h>
+#if !defined(__FreeBSD__)
+  #include <malloc.h>
+#endif
 #include <fidoconf/fidoconf.h>
 #include <fidoconf/common.h>
 #include "config.h"
