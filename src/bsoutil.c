@@ -36,7 +36,7 @@
   #include <hptzip/hptzip.h>
 #endif
 
-#include "log.h"
+#include <huskylib/log.h>
 #include "config.h"
 #include "bsoutil.h"
 
@@ -74,7 +74,7 @@ char *createPktName()
     lastt=t;
     num = (t<<8) + serial;
     sprintf(name,"%08lx",num);
-    Debug("generated pkt name: %s\n", name);
+    w_log(LL_DEBUG, "generated pkt name: %s", name);
     return name;
 }
 
@@ -87,12 +87,12 @@ void createDirIfNEx(char *dir)
 /*    if (access(dir, F_OK))*/
     if (!direxist(dir))
     {
-        Debug("creating directory %s...\n", dir);
+        w_log(LL_DEBUG, "creating directory %s...", dir);
         if (mymkdir(dir) && errno!=EEXIST)
         {
-            Log('9', "Can't create directory %s, errno=%d\n",
+            w_log(LL_CRIT, "Can't create directory %s, errno=%d",
                 dir, errno);
-            Debug("can't create, errno=%d. exiting!", errno);
+            w_log(LL_DEBUG, "can't create, errno=%d. exiting!", errno);
             exit(-1);
         }
     }
@@ -118,7 +118,7 @@ unsigned long getNMSizeForLink(s_link *link, char *outb)
     char *p_flavour=NULL;
     int i;
 
-    Debug("guessing how much netmail this link has...\n");
+    w_log(LL_DEBUG, "guessing how much netmail this link has...");
     // /outb/12345678.hut+'\0' = strlen(outb)+4
     fname=(char *)smalloc(strlen(outb)+4);
     strcpy(fname, outb);
@@ -131,10 +131,10 @@ unsigned long getNMSizeForLink(s_link *link, char *outb)
         if (!stat(fname, &fInfo))
         {
             NMSize+=fInfo.st_size;
-            Debug("found file %s, size=%lu\n", fname, fInfo.st_size);
+            w_log(LL_DEBUG, "found file %s, size=%lu", fname, fInfo.st_size);
         }
     }
-    Debug("found %lu bytes of netmail.\n", NMSize);
+    w_log(LL_DEBUG, "found %lu bytes of netmail.", NMSize);
     nfree(fname);
     return NMSize;
 }
@@ -155,7 +155,7 @@ void getBundleName(s_link *link, int flavour, char *outb)
     char *IdxPtr;
     int outbLen=0;
 
-    Debug("guessing bundle name...\n");
+    w_log(LL_DEBUG, "guessing bundle name...");
     time(&t);
     day=localtime(&t)->tm_wday;
 
@@ -168,7 +168,7 @@ void getBundleName(s_link *link, int flavour, char *outb)
     flowLineTmp=flowLine;
 
     memset(bundleName, 0, outbLen);
-    if (fidoConfig->separateBundles)
+    if (config->separateBundles)
     {
         sprintf(bundleName, "%ssep%c", outb, PATH_DELIM);
         outb_end=bundleName+strlen(bundleName);
@@ -179,23 +179,23 @@ void getBundleName(s_link *link, int flavour, char *outb)
         outb_end=bundleName+strlen(bundleName)-9;
     }
 
-    if (fidoConfig->addr->point || link->hisAka.point)
+    if (config->addr->point || link->hisAka.point)
     {       // /outb.12b/12345678.pnt/12344321.su0
         sprintf(outb_end, "%04x%04x.%2s0",
-                (fidoConfig->addr->node - link->hisAka.node) & 0xffff,
-                (fidoConfig->addr->point - link->hisAka.point) & 0xffff,
+                (config->addr->node - link->hisAka.node) & 0xffff,
+                (config->addr->point - link->hisAka.point) & 0xffff,
                 daynames[day]);
     } else
     {       // /outb/12344321.su0
         sprintf(outb_end, "%04x%04x.%2s0",
-                (fidoConfig->addr->net - link->hisAka.net) & 0xffff,
-                (fidoConfig->addr->node - link->hisAka.node) & 0xffff,
+                (config->addr->net - link->hisAka.net) & 0xffff,
+                (config->addr->node - link->hisAka.node) & 0xffff,
                 daynames[day]);
     }
 
     IdxPtr=bundleName+strlen(bundleName)-1;   // points to the last symbol before '\0'
 
-    if (fidoConfig->separateBundles)
+    if (config->separateBundles)
     {
         sepDir=(char *)smalloc(strlen(bundleName)-11);
         memset(sepDir, 0, strlen(bundleName)-11);
@@ -240,31 +240,12 @@ void getBundleName(s_link *link, int flavour, char *outb)
     }
 
     copyString(bundleName, &(link->packFile));
-    Debug("bundle name generated: %s\n", link->packFile);
+    w_log(LL_DEBUG, "bundle name generated: %s", link->packFile);
     nfree(bundleName);
     nfree(flowFile);
     nfree(flowLine);
 }
-/* moved to fidoconfig
-void fillCmdStatement(char *cmd, const char *call, const char *archiv, const char *file, const char *path) {
-   const char *start, *tmp, *add;
 
-   *cmd = '\0';  start = NULL;
-   for (tmp = call; (start = (char *) strchr(tmp, '$')) != NULL; tmp = start + 2) {
-      switch(*(start + 1)) {
-         case 'a': add = archiv; break;
-         case 'p': add = path; break;
-         case 'f': add = file; break;
-         default:
-            strncat(cmd, tmp, (size_t) (start - tmp + 1));
-            start--; continue;
-      };
-      strncat(cmd, tmp, (size_t) (start - tmp));
-      strcat(cmd, add);
-   };
-   strcat(cmd, tmp);
-}
-*/
 int addToFlow(s_link *link, int flavour, char *outb)
 {
     FILE *fp;
@@ -275,18 +256,18 @@ int addToFlow(s_link *link, int flavour, char *outb)
 
     sprintf(link->floFile,"%s%clo", outb, flowext[flavour]);
 
-    Debug("adding bundle to flow file %s\n", link->floFile);
+    w_log(LL_DEBUG, "adding bundle to flow file %s", link->floFile);
 
     if(stat(link->floFile, &fInfo)!=-1)
     {
-        Debug("flow file exists.\n");
+        w_log(LL_DEBUG, "flow file exists.");
 
         fp=fopen(link->floFile, "r+");
         if (fp==NULL)
         {
-            Log('9', "Can't open flow file for %2, errno=%d\n",
+            w_log(LL_CRIT, "Can't open flow file for %2, errno=%d",
                 addr2str(link), errno);
-            Debug("can't open flow file, errno=%d\n", errno);
+            w_log(LL_DEBUG, "can't open flow file, errno=%d", errno);
             return 0;
         }
 
@@ -301,33 +282,33 @@ int addToFlow(s_link *link, int flavour, char *outb)
             if (strncmp(line+1, link->packFile, strlen(link->packFile))==0)
             {
                 foundOldBundle=1;
-                Debug("found old bundle, can't add it again.\n");
+                w_log(LL_DEBUG, "found old bundle, can't add it again.");
                 break;
             }
         }
 
         if (!foundOldBundle)
         {
-            Debug("now let's add our bundle.\n");
+            w_log(LL_DEBUG, "now let's add our bundle.");
             rewind(fp);
             fprintf(fp, "^%s\n%s", link->packFile, buff);
-            Debug("added our bundle.\n");
+            w_log(LL_DEBUG, "added our bundle.");
         }
         nfree(buff);
     }
     else
     {
-        Debug("creating new flow file.\n");
+        w_log(LL_DEBUG, "creating new flow file.");
         fp=fopen(link->floFile, "w");
         if (fp==NULL)
         {
-            Log('9', "Can't open flow file for %s, errno=%d\n",
+            w_log(LL_CRIT, "Can't open flow file for %s, errno=%d",
                 addr2str(link), errno);
-            Debug("can't create flow file, errno=%d. returning,\n", errno);
+            w_log(LL_DEBUG, "can't create flow file, errno=%d. returning.", errno);
             return 0;
         }
         fprintf(fp, "^%s\n", link->packFile);
-        Debug("added our bundle.\n");
+        w_log(LL_DEBUG, "added our bundle.");
     }
     fclose(fp);
     return 1;
@@ -336,14 +317,14 @@ int addToFlow(s_link *link, int flavour, char *outb)
 char *initLink(s_link *link)
 {
     char *outb;
-    Debug("allocating memory for this link...\n");
+    w_log(LL_DEBUG, "allocating memory for this link...");
 
     /*    /outbound.12b/01234567.pnt/12345678.  +1 = strlen(outb)+5+13+9+1
      and that's enough for nodes too. */
 
-    outb=(char *)scalloc(strlen(fidoConfig->outbound)+28, 1);
-    sprintf(outb, "%s", fidoConfig->outbound);
-    if (fidoConfig->addr->zone!=link->hisAka.zone)
+    outb=(char *)scalloc(strlen(config->outbound)+28, 1);
+    sprintf(outb, "%s", config->outbound);
+    if (config->addr->zone!=link->hisAka.zone)
         sprintf(outb+strlen(outb)-1,".%03x%c",
                 link->hisAka.zone, PATH_DELIM);
 
@@ -358,26 +339,26 @@ char *initLink(s_link *link)
     link->floFile=(char *)scalloc(strlen(outb)+4, 1);
 
     if (link->pktFile==NULL)
-        link->pktFile=(char *)smalloc(strlen(fidoConfig->tempOutbound)+13);
+        link->pktFile=(char *)smalloc(strlen(config->tempOutbound)+13);
     else
         link->pktFile=(char *)srealloc(link->pktFile,
-                                       strlen(fidoConfig->tempOutbound)+13);
+                                       strlen(config->tempOutbound)+13);
     if (!link->arcmailSize)
     {
-        if (!fidoConfig->defarcmailSize)
+        if (!config->defarcmailSize)
         {
             link->arcmailSize=100;
         } else
-            link->arcmailSize=fidoConfig->defarcmailSize;
+            link->arcmailSize=config->defarcmailSize;
     }
-    Debug("arcmailSize for this link is %d kb\n", link->arcmailSize);
+    w_log(LL_DEBUG, "arcmailSize for this link is %d kb", link->arcmailSize);
     return outb;
 }
 
 
 void releaseLink(s_link *link, char **outb)
 {
-    Debug("freeing allocated memory for link.\n");
+    w_log(LL_DEBUG, "freeing allocated memory for link.");
     if (link==NULL) return;
     nfree(link->bsyFile);
     nfree(link->floFile);
@@ -390,39 +371,39 @@ int createBsy(s_link *link, char *outb)
 {
     if (!access(link->bsyFile, F_OK))
     {
-        Log('6', "Link %s is busy now.\n", addr2str(link));
+        w_log(LL_EXEC, "Link %s is busy now.", addr2str(link));
         return 0;
     } else
     {
         FILE *fp;
-        Debug("trying to create bsy flag for this link...\n");
+        w_log(LL_DEBUG, "trying to create bsy flag for this link...");
         fp=fopen(link->bsyFile, "w");
         if (fp == NULL)
         {
-            Log('8', "Can't create bsyFile for %s, errno=%d\n",
+            w_log(LL_BUSY, "Can't create bsyFile for %s, errno=%d",
                 addr2str(link), errno);
-            Debug("couldn't create, errno=%d", errno);
+            w_log(LL_DEBUG, "couldn't create, errno=%d", errno);
             return 0;
         }
         fprintf(fp, "%d", getpid());
         fclose(fp);
-        Debug("bsy flag %s created successfully.\n", link->bsyFile);
+        w_log(LL_DEBUG, "bsy flag %s created successfully.", link->bsyFile);
     }
     return 1;
 }
 
 void removeBsy(s_link *link)
 {
-    Debug("removing bsy file for this link...\n");
+    w_log(LL_DEBUG, "removing bsy file for this link...");
     if (access(link->bsyFile, F_OK)) {
-        Debug("can't acces bsy file %s, errno=%d. returning.\n", link->bsyFile, errno);
+        w_log(LL_DEBUG, "can't acces bsy file %s, errno=%d. returning.", link->bsyFile, errno);
         return;
     }
     if(remove(link->bsyFile))
     {
-       Log('9', "Can't remove bsyFile for %s, errno=%d\n",
+       w_log(LL_CRIT, "Can't remove bsyFile for %s, errno=%d",
            addr2str(link), errno);
-       Debug("can't remove, errno=%d.\n", errno);
+       w_log(LL_DEBUG, "can't remove, errno=%d.", errno);
     }
 }
 
@@ -438,12 +419,12 @@ void packNetMailForLink(s_link *link)
     unsigned long nmSize=0;
 
 
-    Debug("packNetmail for this link is on, trying to pack...\n");
+    w_log(LL_DEBUG, "packNetmail for this link is on, trying to pack...");
     if (link->packerDef == NULL)
     {
-        Log('9', "Packer for link %s undefined but 'packNetmail' is on, skipping...\n",
+        w_log(LL_CRIT, "Packer for link %s undefined but 'packNetmail' is on, skipping...",
             addr2str(link));
-        Debug("packer for this link is undefined, returning.\n");
+        w_log(LL_DEBUG, "packer for this link is undefined, returning.");
         return;
     }
 
@@ -453,7 +434,7 @@ void packNetMailForLink(s_link *link)
     strncpy(dir, outbForLink, strlen(outbForLink)-10);
     if (access(dir, F_OK))
     {
-        Debug("directory %s doesn't exist, skipping...\n", dir);
+        w_log(LL_DEBUG, "directory %s doesn't exist, skipping...", dir);
         nfree(dir);
         releaseLink(link, &outbForLink);
         return;
@@ -472,7 +453,7 @@ void packNetMailForLink(s_link *link)
 
     if ((nmSize!=0) && (nmSize >= (link->maxUnpackedNetmail*1024)))
     {
-        Log('5', "Found %lu bytes of netmail for %s\n", nmSize, addr2str(link));
+        w_log(LL_POSTING, "Found %lu bytes of netmail for %s", nmSize, addr2str(link));
 
         for (flavour=0;flavour<5;flavour++)
         {
@@ -482,47 +463,47 @@ void packNetMailForLink(s_link *link)
                 if ((pktname=(char *)createPktName())!=NULL)
                 {
                     sprintf(link->pktFile, "%s%s.pkt",
-		    fidoConfig->tempOutbound, pktname);
+		    config->tempOutbound, pktname);
 
-                    Debug("found netmail packet %s, moving to %s\n",
+                    w_log(LL_DEBUG, "found netmail packet %s, moving to %s",
                           bsoNetMail, link->pktFile);
 
                     if (rename(bsoNetMail, link->pktFile))
                     {
-                        Log('9', "Error renaming %s to %s\n", bsoNetMail, link->pktFile);
-                        Debug("can't move, errno=%d. exiting!\n", errno);
+                        w_log(LL_CRIT, "Error renaming %s to %s", bsoNetMail, link->pktFile);
+                        w_log(LL_DEBUG, "can't move, errno=%d. exiting!", errno);
                         releaseLink(link, &outbForLink);
                         return;
                     }
 
                     getBundleName(link, flavour, outbForLink); // calculating bundleName;
-                    Log('6', "Packing %s -> %s\n", bsoNetMail, link->packFile);
+                    w_log(LL_EXEC, "Packing %s -> %s\n", bsoNetMail, link->packFile);
                     if( fc_stristr(link->packerDef->call, ZIPINTERNAL) )
                     {
-                        Debug("bundle %s: packing with zlib", link->packFile);
+                        w_log(LL_DEBUG, "bundle %s: packing with zlib", link->packFile);
 #ifdef USE_HPTZIP
                         retval = PackWithZlib(link->packFile, link->pktFile);
 #else
                         retval = 1;
-                        Log('9', "Can't use zipInternal packer, because bsopack is not compiled with libhptzip");
+                        w_log(LL_CRIT, "Can't use zipInternal packer, because bsopack is not compiled with libhptzip");
 #endif
                     } else {
                         fillCmdStatement(execstr, link->packerDef->call,
                                          link->packFile, link->pktFile, "");
-                        Debug("executing packer: %s\n", execstr);
+                        w_log(LL_DEBUG, "executing packer: %s", execstr);
                         retval=system(execstr);
                     }
                     if (retval)
                     {
-                        Log('9', "Error executing packer, errorlevel %d\n", retval);
-                        Debug("packer returned errorlevel %d, errno=%d\n", retval, errno);
+                        w_log(LL_CRIT, "Error executing packer, errorlevel %d", retval);
+                        w_log(LL_DEBUG, "packer returned errorlevel %d, errno=%d", retval, errno);
                         releaseLink(link, &outbForLink);
                         return;
                     }
 
                     if (addToFlow(link, flavour, outbForLink))
                         if(remove(link->pktFile)==-1)
-                            Log('9', "Can't remove pktFile %s, errno=%d\n",
+                            w_log(LL_CRIT, "Can't remove pktFile %s, errno=%d",
                                 link->pktFile, errno);
                 } // if (createPktName(pktname))
         } // for()
@@ -530,7 +511,7 @@ void packNetMailForLink(s_link *link)
     else
     {
         if (nmSize)
-            Log('5', "Found %lu bytes of netmail for %s\n", nmSize, addr2str(link));
+            w_log(LL_POSTING, "Found %lu bytes of netmail for %s", nmSize, addr2str(link));
     }
 
 
