@@ -1,5 +1,18 @@
 bsopack 0.1 (development version)
 ---------
+
+----- cvs ci ------
+Mon Apr 23 00:17:12 EEST 2001
+dmitry:
+* if bundle size = 0 then skip it
+* fixed temporary pkt name creation for OS2
+* fixed *.olo instead *.flo
+
+----- cvs ci ------
+Fri Apr 20 17:18:38 EEST 2001
+dmitry:
+* changed logo string for OS/2 to bsopack/OS2.
+
 ----- cvs ci ------
 Thu Apr 19 14:17:12 EEST 2001
 dmitry:

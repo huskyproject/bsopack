@@ -39,6 +39,7 @@ unsigned long serial;
 time_t lastt;
 
 const char outext[5]={'i', 'c', 'd', 'o', 'h'};
+const char outext[5]={'i', 'c', 'd', 'f', 'h'};
 const char daynames[7][5]={"su","mo","tu","we","th","fr","sa"};
 
 
@@ -192,13 +193,13 @@ void getBundleName(s_link *link, int flavour, char *outb)
         }
 
         if(stat(bundleName, &fInfo)) break; else
-            if(fInfo.st_size <= link->arcmailSize*1024)
+            if((fInfo.st_size <= link->arcmailSize*1024) && (fInfo.st_size!=0))
             {
                 foundOtherFlavour=0;
                 for(i=0;i<5;i++)
                 {
                     if(i==flavour) continue;
-                    sprintf(flowFile, "%s%clo", outb, outext[i]);
+                    sprintf(flowFile, "%s%clo", outb, flowext[i]);
                     if (access(flowFile, F_OK)) continue;
                     fp=fopen(flowFile, "r");
                     while(fgets(flowLine, 256, fp)!=NULL)
@@ -258,7 +259,7 @@ int addToFlow(s_link *link, int flavour, char *outb)
     unsigned char *buff=NULL;
     struct stat fInfo;
 
-    sprintf(link->floFile,"%s%clo", outb, outext[flavour]);
+    sprintf(link->floFile,"%s%clo", outb, flowext[flavour]);
 
     Debug("adding bundle to flow file %s\n", link->floFile);
 
@@ -453,6 +454,7 @@ void removeBsy(s_link *link)
 void packNetMailForLink(s_link *link)
 {
     int flavour=0;
+    int retval;
     char *pktname=NULL;
     char *execstr=NULL;
     char *bsoNetMail=NULL;   // /outb.12b/12345678.pnt/12345678.hut
@@ -510,8 +512,8 @@ void packNetMailForLink(s_link *link)
             if (!access(bsoNetMail, F_OK))
                 if (createPktName(&pktname))
                 {
-                    sprintf(link->pktFile, "%s%c%s.pkt", fidoConfig->tempOutbound,
-                            PATH_DELIM, pktname);
+                    sprintf(link->pktFile, "%s%s.pkt", 
+		    fidoConfig->tempOutbound, pktname);
 
                     Debug("found netmail packet %s, moving to %s\n",
                           bsoNetMail, link->pktFile);
@@ -529,10 +531,10 @@ void packNetMailForLink(s_link *link)
                                      link->packFile, link->pktFile, "");
                     Log('6', "Packing %s -> %s\n", bsoNetMail, link->packFile);
                     Debug("executing packer: %s\n", execstr);
-                    if (system(execstr)==-1)
+                    if ((retval=system(execstr))!=0)
                     {
-                        Log('9', "Error executing packer\n");
-                        Debug("packer returned error errno=%d\n", errno);
+                        Log('9', "Error executing packer, errorlevel %d\n", retval);
+                        Debug("packer returned errorlevel %d, errno=%d\n", retval, errno);
                         releaseLink(link, &outbForLink);
                         exit(-1);
                     }
