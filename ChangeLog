@@ -1,3 +1,17 @@
+2003-05-21 Wednesday 08:55  sfpavel
+
+	* debian/control (bsopack-1_4-stable.3): Change debian maintainer's
+	E-mail
+
+2003-05-21 Wednesday 08:33  sfpavel
+
+	* Makefile, debian/changelog (bsopack-1_4-stable.[1,5]): New
+	version: 1.4-RC1
+
+2003-05-21 Wednesday 08:30  sfpavel
+
+	* src/bsoutil.c (bsopack-1_4-stable.2): C++ comments -> C comments
+
 2003-02-26 Wednesday 03:55  sfpavel
 
 	* bsopack.texi (bsopack-1_4-stable.1): Update documentation
