@@ -30,7 +30,7 @@ int main(int argc, char **argv)
               fidoConfig->links[i].hisAka.point);
         if (fidoConfig->links[i].packNetmail)
             packNetMailForLink(&fidoConfig->links[i]);
-        else Debug("packNetmail for this link if off.\n");
+        else Debug("packNetmail for this link is off.\n");
     }
     Log('1', "--- BSOpack %s %s stopped ---\n\n", VERSION, cvs_date);
     Debug("exiting main code...\n");
