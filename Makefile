@@ -33,17 +33,43 @@ bsopack: $(OBJS)
 
 %.o: $(SRC_DIR)%.c
 		$(CC) $(CFLAGS) $(CDEFS) -c $<
-        
+     
+info:
+	makeinfo --no-split bsopack.texi
+
+html:
+	makeinfo --html bsopack.texi
+
+docs: info html
 
 clean:
 		rm -f *.o *~ src/*.o src/*~
 
 distclean: clean
-	rm bsopack
+	-$(RM) $(RMOPT) bsopack
+	-$(RM) $(RMOPT) bsopack.info
+	-$(RM) $(RMOPT) bsopack.html
 
-all: bsopack
+all: bsopack docs
 
-install: bsopack
-#	install -s -o uucp -g uucp -m 4750 bsopack /usr/local/bin
+install: all
 	$(INSTALL) bsopack $(BINDIR)
-        
+ifdef INFODIR
+	-$(MKDIR) $(MKDIROPT) $(INFODIR)
+	$(INSTALL)  bsopack.info $(INFODIR)
+	-install-info --info-dir=$(INFODIR)  $(INFODIR)$(DIRSEP)bsopack.info
+endif
+ifdef HTMLDIR
+	-$(MKDIR) $(MKDIROPT) $(HTMLDIR)
+	$(INSTALL)  bsopack*html $(HTMLDIR)
+endif
+
+uninstall:
+	$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)bsopack$(EXE)
+ifdef INFODIR
+	$(RM) $(RMOPT) $(INFODIR)$(DIRSEP)bsopack.info
+endif
+ifdef HTMLDIR
+	$(RM) $(RMOPT) $(HTMLDIR)$(DIRSEP)bsopack.html
+endif
+
