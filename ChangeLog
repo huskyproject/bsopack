@@ -1,3 +1,13 @@
+2002-07-31 Wednesday 21:45  stas
+
+	* make/: makefile (1.2), makefile.mvcdll (1.3): Change comments in
+	makefiles
+
+2002-07-31 Wednesday 21:45  stas
+
+	* make/makefile.cyg (1.1): Add makefile for Cygwin & mingw (tested
+	with mingw & gcc3.1). Patch from Leonid Kukharenko 2:463/375.128)
+
 2002-05-19 Sunday 11:10  d.sergienko
 
 	* Makefile (1.7): moved target "all" after "distclean"
