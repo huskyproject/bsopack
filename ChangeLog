@@ -2,13 +2,18 @@ bsopack 0.1 (development version)
 ---------
 
 ----- cvs ci ------
+Sun May 20 23:40:35 EEST 2001
+dmitry:
+! strange error in cvs source tree. Fixed line #156 in bsopack.c
+
+----- cvs ci ------
 dmitry:
 * changed #if defined (OS2) to #if defined (__EMX__) in bsopack.c for watcom C
 
 ----- cvs ci ------
 Wed May  9 10:03:00 EEST 2001
 dmitry:
-! fixed one more big in getBundleName() (xxxxyyyyyyyy.mo0 when separateBundles in on)
+! fixed one more big in getBundleName() (xxxxyyyyyyyy.mo0 when separateBundles is on)
 
 ----- cvs ci ------
 Mon May  7 23:50:59 EEST 2001
