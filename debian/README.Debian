@@ -1,7 +1,0 @@
-bsopack for Debian
-------------------
-
-The upstream makefile does not build the html or info documentation out of
-the .texi, so i added this to debian/rules.
-
- -- Joerg Jaspert (JJ) <joerg@goliathbbs.dnsalias.net>, Sat, 14 Apr 2001 17:04:25 +0200
