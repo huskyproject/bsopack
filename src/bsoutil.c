@@ -54,9 +54,9 @@ int createPktName(char **name)
     if (*name==NULL)
         *name=(char *)smalloc(9);
     else
-        *name=(char *)srealloc(name, 9);
+        *name=(char *)srealloc(*name, 9);
     sprintf(*name,"%08lx",num);
-    Debug("generated pkt name: %s\n", name);
+    Debug("generated pkt name: %s\n", *name);
     return 1;
 }
 
@@ -100,7 +100,7 @@ unsigned long getNMSizeForLink(s_link *link, char *outb)
         if (!stat(fname, &fInfo))
         {
             NMSize+=fInfo.st_size;
-            Debug("found file %s, size=%l\n", fname, fInfo.st_size);
+            Debug("found file %s, size=%lu\n", fname, fInfo.st_size);
         }
     }
     Debug("found %lu bytes of netmail.\n", NMSize);
