@@ -36,7 +36,7 @@ int main(int argc, char **argv)
               fidoConfig->links[i]->hisAka.node,
               fidoConfig->links[i]->hisAka.point);
         if (fidoConfig->links[i]->packNetmail)
-            packNetMailForLink(&fidoConfig->links[i]);
+            packNetMailForLink(fidoConfig->links[i]);
         else Debug("packNetmail for this link is off.\n");
     }
     Log('1', "--- Stop -- %s\n\n", VERSION);
