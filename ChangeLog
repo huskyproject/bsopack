@@ -1,3 +1,8 @@
+2003-02-19 Wednesday 04:53  sfpavel
+
+	* debian/: changelog, control, rules (bsopack-1_4-stable.[3,2,1]):
+	New debian version - change section to main
+
 2003-02-12 Wednesday 11:41  sfpavel
 
 	* src/bsoutil.c (bsopack-1_4-stable.1): Fix win32 build
