@@ -7,7 +7,7 @@ CC      = wcc386
 LINK    = wlink
 RM	= del
 
-CFLAGS  = -zq -wx -bt=nt -i=..\.. -oneatx -5
+CFLAGS  = -zq -wx -bt=nt -i=..\..;..\h -oneatx -5
 LFLAGS  = system nt
 
 OSTYPE=__NT__

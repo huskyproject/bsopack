@@ -4,6 +4,7 @@
 #include "log.h"
 #include "config.h"
 #include "bsoutil.h"
+#include <cvsdate.h>
 
 int main(int argc, char **argv)
 {
@@ -17,7 +18,7 @@ int main(int argc, char **argv)
         Debug("using default fidoconfig.\n");
     getConfig();
     Debug("config read successfully.\n");
-    Log('1', "--- BSOpack %s started ---\n", VERSION);
+    Log('1', "--- BSOpack %s %s started ---\n", VERSION, cvs_date);
     Debug("starting main code...\n");
     Debug("found %d links.\n", fidoConfig->linkCount);
     for (i=0; i < fidoConfig->linkCount; i++)
@@ -31,7 +32,7 @@ int main(int argc, char **argv)
             packNetMailForLink(&fidoConfig->links[i]);
         else Debug("packNetmail for this link if off.\n");
     }
-    Log('1', "--- BSOpack %s stopped ---\n\n", VERSION);
+    Log('1', "--- BSOpack %s %s stopped ---\n\n", VERSION, cvs_date);
     Debug("exiting main code...\n");
     freeConfig();
     return 0;

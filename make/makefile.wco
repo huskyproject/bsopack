@@ -6,7 +6,7 @@ CC      = wcc386
 LINK    = wlink
 RM	= del
 
-CFLAGS  = -zq -wx -bt=os2v2 -i=..\.. -oneatx -5
+CFLAGS  = -zq -wx -bt=os2v2 -i=..\..;..\h -oneatx -5
 LFLAGS  = system os2v2
 OSTYPE=OS2
 
