@@ -1,3 +1,26 @@
+2002-09-19 Thursday 11:06  sfpavel
+
+	* make/makefile.emx (1.4): Add makefile.emx
+
+2002-09-19 Thursday 08:55  sfpavel
+
+	* src/: bsoutil.c (1.26), config.c (1.8), log.c (1.9): Remove
+	include of malloc.h
+
+2002-09-19 Thursday 08:00  sfpavel
+
+	* src/: bsoutil.h (1.4), config.h (1.5), log.h (1.4): Fix sources
+	(add '\r' before EOF)
+
+2002-09-19 Thursday 07:56  sfpavel
+
+	* make/makefile.djg (1.2): Add makefile for DJGPP build
+
+2002-09-19 Thursday 07:54  sfpavel
+
+	* make/makefile.djg (1.1): file makefile.djg was initially added on
+	branch bsopack-0_2-stable.
+
 2002-09-18 Wednesday 07:06  sfpavel
 
 	* debian/info (1.1): file info was initially added on branch
