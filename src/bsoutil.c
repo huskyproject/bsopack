@@ -78,7 +78,7 @@ void createDirIfNEx(char *dir)
 {   char *pp;
 
     if ( *(pp=(char*)(dir + strlen(dir) -1)) == PATH_DELIM )
-        *pp = '\0';        // we can't create "c:\dir\", only "c:\dir"
+        *pp = '\0';        /* we can't create "c:\dir\", only "c:\dir" */
 
 /*    if (access(dir, F_OK))*/
     if (direxist(dir))
@@ -115,7 +115,7 @@ unsigned long getNMSizeForLink(s_link *link, char *outb)
     int i;
 
     Debug("guessing how much netmail this link has...\n");
-    // /outb/12345678.hut+'\0' = strlen(outb)+4
+    /* /outb/12345678.hut+'\0' = strlen(outb)+4 */
     fname=(char *)smalloc(strlen(outb)+4);
     strcpy(fname, outb);
     p_flavour=fname+strlen(outb);
@@ -156,9 +156,9 @@ void getBundleName(s_link *link, int flavour, char *outb)
     day=localtime(&t)->tm_wday;
 
     outbLen=strlen(outb)+30;
-    //  /outb.12b/12345678.pnt/12345678.sep/12345678.su0+'\0';
+    /*  /outb.12b/12345678.pnt/12345678.sep/12345678.su0+'\0'; */
     bundleName=(char *)smalloc(outbLen);
-    //  /outb.12b/12345678.pnt/12345678.flo+'\0';
+    /*  /outb.12b/12345678.pnt/12345678.flo+'\0'; */
     flowFile=(char *)smalloc(outbLen-13);
     flowLine=(char *)smalloc(256);
     flowLineTmp=flowLine;
@@ -176,20 +176,20 @@ void getBundleName(s_link *link, int flavour, char *outb)
     }
 
     if (fidoConfig->addr->point || link->hisAka.point)
-    {       // /outb.12b/12345678.pnt/12344321.su0
+    {       /* /outb.12b/12345678.pnt/12344321.su0 */
         sprintf(outb_end, "%04x%04x.%2s0",
                 (fidoConfig->addr->node - link->hisAka.node) & 0xffff,
                 (fidoConfig->addr->point - link->hisAka.point) & 0xffff,
                 daynames[day]);
     } else
-    {       // /outb/12344321.su0
+    {       /* /outb/12344321.su0 */
         sprintf(outb_end, "%04x%04x.%2s0",
                 (fidoConfig->addr->net - link->hisAka.net) & 0xffff,
                 (fidoConfig->addr->node - link->hisAka.node) & 0xffff,
                 daynames[day]);
     }
 
-    IdxPtr=bundleName+strlen(bundleName)-1;   // points to the last symbol before '\0'
+    IdxPtr=bundleName+strlen(bundleName)-1;   /* points to the last symbol before '\0' */
 
     if (fidoConfig->separateBundles)
     {
@@ -231,7 +231,7 @@ void getBundleName(s_link *link, int flavour, char *outb)
                     fclose(fp);
                     if(foundOtherFlavour) break;
                 }
-                if (!foundOtherFlavour) break; // this file name is not used for other flavour so we can use it.
+                if (!foundOtherFlavour) break; /* this file name is not used for other flavour so we can use it. */
             } else continue;
     }
 
@@ -349,7 +349,7 @@ char *initLink(s_link *link)
         sprintf(outb+strlen(outb), "%04x%04x.pnt%c%08x.", link->hisAka.net,
                 link->hisAka.node, PATH_DELIM, link->hisAka.point);
 
-    link->bsyFile=(char *)smalloc(strlen(outb)+4); // *outb+"bsy"+'\0'
+    link->bsyFile=(char *)smalloc(strlen(outb)+4); /* *outb+"bsy"+'\0' */
     sprintf(link->bsyFile, "%sbsy", outb);
     link->floFile=(char *)scalloc(strlen(outb)+4, 1);
 
@@ -428,9 +428,9 @@ void packNetMailForLink(s_link *link)
     int retval;
     char *pktname=NULL;
     char *execstr=NULL;
-    char *bsoNetMail=NULL;   // /outb.12b/12345678.pnt/12345678.hut
-    char *outbForLink=NULL; // /outb.12b/12345678.pnt/12345678.
-    char *dir=NULL;          // /outb.12b/12345678.pnt
+    char *bsoNetMail=NULL;   /* /outb.12b/12345678.pnt/12345678.hut */
+    char *outbForLink=NULL;  /* /outb.12b/12345678.pnt/12345678. */
+    char *dir=NULL;          /* /outb.12b/12345678.pnt */
     unsigned long nmSize=0;
 
 
@@ -444,7 +444,7 @@ void packNetMailForLink(s_link *link)
     }
 
     outbForLink=initLink(link);
-    dir=(char *)smalloc(strlen(outbForLink)-9); // strlen(outb)-10 + '\0';
+    dir=(char *)smalloc(strlen(outbForLink)-9); /* strlen(outb)-10 + '\0'; */
     memset(dir, 0, strlen(outbForLink)-9);
     strncpy(dir, outbForLink, strlen(outbForLink)-10);
     if (access(dir, F_OK))
@@ -491,7 +491,7 @@ void packNetMailForLink(s_link *link)
                         exit(-1);
                     }
 
-                    getBundleName(link, flavour, outbForLink); // calculating bundleName;
+                    getBundleName(link, flavour, outbForLink); /* calculating bundleName; */
                     fillCmdStatement(execstr, link->packerDef->call,
                                      link->packFile, link->pktFile, "");
                     Log('6', "Packing %s -> %s\n", bsoNetMail, link->packFile);
@@ -508,9 +508,9 @@ void packNetMailForLink(s_link *link)
                         if(remove(link->pktFile)==-1)
                             Log('9', "Can't remove pktFile %s, errno=%d\n",
                                 link->pktFile, errno);
-                } // if (createPktName(pktname))
-        } // for()
-    } // if (nmSize...)
+                } /* if (createPktName(pktname)) */
+        } /* for() */
+    } /* if (nmSize...) */
     else
     {
         if (nmSize)
