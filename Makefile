@@ -36,7 +36,7 @@ bsopack: $(OBJS)
         
 
 clean:
-		rm -f *.o *~
+		rm -f *.o *~ src/*.o src/*~
 
 distclean: clean
 	rm bsopack
