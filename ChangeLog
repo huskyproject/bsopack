@@ -2,6 +2,12 @@ bsopack 0.1 (development version)
 ---------
 
 ----- cvs ci ------
+Mon May  7 23:50:59 EEST 2001
+dmitry:
++ added addr2str function (patch from Kees Bergwerf)
+! fixed big in getBundleName() (xxxxxxxx.yyyyyyyy.mo0 instead of yyyyyyyy.mo0)
+
+----- cvs ci ------
 Sat May  5 17:26:29 EEST 2001
 dmitry: (patch from Kees)
 * optimization in getBundleName()

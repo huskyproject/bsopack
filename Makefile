@@ -30,11 +30,11 @@ OBJS= log.o config.o bsoutil.o bsopack.o
 all: bsopack
 
 bsopack: $(OBJS)
-		gcc $(OBJS) $(LFLAGS) $(LIBS) -o bsopack
+		$(CC) $(OBJS) $(LFLAGS) $(LIBS) -o bsopack
 
 
 %.o: $(SRC_DIR)%.c
-	$(CC) $(CFLAGS) $(CDEFS) -c $<
+		$(CC) $(CFLAGS) $(CDEFS) -c $<
         
 
 clean:
