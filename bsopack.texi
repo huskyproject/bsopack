@@ -180,7 +180,7 @@ Thanx to Max Chernogor (2:464/108) for MSVC compiler support.
 @item Author:
 @code{Dmitry Sergienko}
 @item E-mail:
-@email{trooper@@mail.unity.net}
+@email{trooper@@email.dp.ua}
 @item FidoNet: 
 @code{2:464/910}
 @item ICQ:
