@@ -16,7 +16,7 @@
   #include <unistd.h>
 #endif
 
-#if defined (__WATCOMC__)
+#if defined (__WATCOMC__) || (_MSC_VER)
   #include <process.h>
   #include <direct.h>
   #include <io.h>

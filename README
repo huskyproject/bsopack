@@ -84,6 +84,9 @@ You are welcome to port this program to other platforms
 
 Some parts of code were used & modified from hpt.
 
+Thanx to Kees Bergwerf for OS/2 porting
+Thanx to Oleg W Levchenko (2:6035/6) for testing
+Thanx to Max Chernogor for MSVC compiler support
 
 5. Feedback
 -----------

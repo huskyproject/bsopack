@@ -168,6 +168,10 @@ packed together with echomail. Each flavour is processed independently.
 It creates bundle names using an algorithm of two addresses differences.
 The log file @code{bsopack.log} is located in @code{logFileDir} directory.
 
+Thanx to Kees Bergwerf <c.bergwerf@@hccnet.nl> for OS/2 porting.
+Thanx to Oleg W Levchenko (2:6035/6) for testing.
+Thanx to Max Chernogor (2:464/108) for MSVC compiler support.
+
 
 @node Feedback, , How this program works, Top
 @chapter Contacting the author
