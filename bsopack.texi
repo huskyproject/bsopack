@@ -176,7 +176,7 @@ The log file @code{bsopack.log} is located in @code{logFileDir} directory.
 @item Author:
 @code{Dmitry Sergienko}
 @item E-mail:
-@email{trooper@@mail.unity.net}
+@email{trooper@@email.dp.ua}
 @item FidoNet: 
 @code{2:464/910}
 @item ICQ:
