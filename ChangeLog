@@ -1,3 +1,8 @@
+2003-01-09 Thursday 12:53  stas_degteff
+
+	* Makefile (1.13): set permissions for install documentations &
+	libraries. Patch from Max Khon <fjoe@iclub.nsu.ru>
+
 2002-12-27 Friday 20:30  d_sergienko
 
 	* src/bsopack.c (1.6): fix spelling (thanx to Pavel Scvortsov,
