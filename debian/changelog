@@ -1,3 +1,10 @@
+bsopack (0.1-3) unstable; urgency=low
+
+  * Newest cvs.
+  * Build with debug enabled.
+
+ -- Joerg Jaspert (JJ) <joerg@goliathbbs.dnsalias.net>  Sat, 21 Apr 2001 16:34:27 +0200
+
 bsopack (0.1-2) unstable; urgency=low
 
   * Wrote man-page for it.
