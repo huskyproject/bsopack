@@ -38,9 +38,12 @@ info:
 	makeinfo --no-split bsopack.texi
 
 html:
-	texi2html -split_node -number -menu bsopack.texi
+	export LC_ALL=C; makeinfo --html --no-split bsopack.texi
 
 docs: info html
+
+man: man/bsopack.1
+	gzip -9c man/bsopack.1 > bsopack.1.gz
 
 clean:
 		rm -f *.o *~ src/*.o src/*~
@@ -49,19 +52,24 @@ distclean: clean
 	-$(RM) $(RMOPT) bsopack
 	-$(RM) $(RMOPT) bsopack.info
 	-$(RM) $(RMOPT) bsopack.html
+	-$(RM) $(RMOPT) bsopack.1.gz
 
-all: bsopack docs
+all: bsopack docs man
 
 install: all
 	$(INSTALL) bsopack $(BINDIR)
 ifdef INFODIR
 	-$(MKDIR) $(MKDIROPT) $(INFODIR)
-	$(INSTALL)  bsopack.info $(INFODIR)
+	$(INSTALL) $(IMOPT) bsopack.info $(INFODIR)
 	-install-info --info-dir=$(INFODIR)  $(INFODIR)$(DIRSEP)bsopack.info
 endif
 ifdef HTMLDIR
 	-$(MKDIR) $(MKDIROPT) $(HTMLDIR)
-	$(INSTALL)  bsopack*html $(HTMLDIR)
+	$(INSTALL) $(IMOPT) bsopack*html $(HTMLDIR)
+endif
+ifdef MANDIR
+	-$(MKDIR) $(MKDIROPT) $(MANDIR)$(DIRSEP)man1
+	$(INSTALL) $(IMOPT) bsopack.1.gz $(MANDIR)$(DIRSEP)man1
 endif
 
 uninstall:
@@ -71,5 +79,8 @@ ifdef INFODIR
 endif
 ifdef HTMLDIR
 	$(RM) $(RMOPT) $(HTMLDIR)$(DIRSEP)bsopack.html
+endif
+ifdef MANDIR
+	$(RM) $(RMOPT) $(MANDIR)$(DIRSEP)man1$(DIRSEP)bsopack.1.gz
 endif
 
