@@ -15,7 +15,6 @@ int main(int argc, char **argv)
 
     VERSION = GenVersionStr( "BSOpack", VER_MAJOR, VER_MINOR, VER_PATCH,
                                VER_BRANCH, cvs_date );
-
     getOpts(argc, argv);
     if (enable_quiet) Debug("[command line args] quiet mode\n");
     if (enable_debug) Debug("[command line args] debug mode\n");
@@ -23,6 +22,7 @@ int main(int argc, char **argv)
         Debug("config file is %s\n", fidoConfigFile);
     else
         Debug("using default fidoconfig.\n");
+    setvar("module", "bsopack");
     getConfig();
     Debug("config read successfully.\n");
     Log('1', "--- Start - %s\n", VERSION);
