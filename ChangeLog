@@ -1,3 +1,12 @@
+2003-09-18 Thursday 10:29  sfpavel
+
+	* Makefile (bsopack-1_4-stable.2): Fix static building
+
+2003-09-18 Thursday 05:54  sfpavel
+
+	* debian/changelog (bsopack-1_4-stable.6): New stable version:
+	1.4-RC2
+
 2003-07-27 Sunday 12:37  d_sergienko
 
 	* src/bsoutil.c (bsopack-1_4-stable.3): fixed directory existanse
