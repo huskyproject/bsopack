@@ -1,3 +1,18 @@
+2004-02-06 Friday 06:30  andr_lukyanov
+
+	* bsopack.texi, man/bsopack.1 (bsopack-1_4-stable.[2,2]): Fix
+	documentation with previous patch
+
+2004-02-06 Friday 06:14  andr_lukyanov
+
+	* make/makefile.cyg, make/makefile.djg, make/makefile.emo,
+	make/makefile.emx, make/makefile.lnx, make/makefile.mgw,
+	make/makefile.mvc, make/makefile.mvcdll, make/makefile.wco,
+	make/makefile.wcw, src/bsopack.c, src/bsoutil.c, src/config.c,
+	src/config.h, src/log.c, src/log.h
+	(bsopack-1_4-stable.[1,1,1,1,1,1,1,1,1,1,1,5,1,2,1,1]): Add
+	modulename 'bsopack'. Set standart fidoconfig log output
+
 2003-12-27 Saturday 21:10  d_sergienko
 
 	* src/bsoutil.c (bsopack-1_4-stable.4): fixed some warnings about
