@@ -1,3 +1,18 @@
+2003-10-21 Tuesday 05:11  andr_lukyanov
+
+	* make/: makefile.mvc (1.7), makefile.mvcdll (1.11): Fix MSVC
+	compilation
+
+2003-10-21 Tuesday 01:57  andr_lukyanov
+
+	* make/: makefile.mvc (1.6), makefile.mvcdll (1.10): Fix MSVC
+	compilation
+
+2003-10-21 Tuesday 01:46  andr_lukyanov
+
+	* make/: makefile.mvc (1.5), makefile.mvcdll (1.9): Fix MSVC
+	compilation
+
 2003-10-20 Monday 03:40  andr_lukyanov
 
 	* h/bsoutil.h (1.2), make/makefile.mvcdll (1.8): Fix MSVC
