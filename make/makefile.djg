@@ -10,7 +10,7 @@ RM	= del
 DEBUG=-s
 # set to -g for debugging
 
-CFLAGS  = -I../.. -c -O3 -DMSDOS -DNOSEMAPHORES -mcpu=i486 -Wall -Wno-char-subscripts $(DEBUG)
+CFLAGS  = -I../.. -I../h -c -O3 -DMSDOS -DNOSEMAPHORES -mcpu=i486 -Wall -Wno-char-subscripts $(DEBUG)
 LFLAGS=-s
 OSTYPE=MSDOS
 UNAME=dos
