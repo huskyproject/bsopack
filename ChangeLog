@@ -1,3 +1,8 @@
+2003-10-20 Monday 03:40  andr_lukyanov
+
+	* h/bsoutil.h (1.2), make/makefile.mvcdll (1.8): Fix MSVC
+	compilation
+
 2003-10-17 Friday 08:32  andr_lukyanov
 
 	* h/config.h (1.2): Fix DJGPP compilation
