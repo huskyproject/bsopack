@@ -151,10 +151,15 @@ void getBundleName(s_link *link, int flavour, char *outb)
 
     memset(bundleName, 0, outbLen);
     if (fidoConfig->separateBundles)
+    {
         sprintf(bundleName, "%ssep%c", outb, PATH_DELIM);
+        outb_end=bundleName+strlen(bundleName)-13;
+    }
     else
+    {
         strcpy(bundleName, outb);
-    outb_end=bundleName+strlen(bundleName)-9;
+        outb_end=bundleName+strlen(bundleName)-9;
+    }
 
     if (fidoConfig->addr->point || link->hisAka.point)
     {       // /outb.12b/12345678.pnt/12344321.su0

@@ -60,7 +60,7 @@ packages, download them from @url{http://husky.physcip.uni-stuttgart.de/}
 * sample::
 @end menu
 
-@node packNetmail, maxUnpackedNetmail, FidoConfig, FidoConfig
+@node packNetmail, maxUnpackedNetmail, Top, FidoConfig
 @section packNetmail
 @table @asis
 @item Syntax:
