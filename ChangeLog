@@ -1,3 +1,18 @@
+2002-10-17 Thursday 10:52  stas_degteff
+
+	* make/makefile.cyg (bsopack-0_2-stable.2): MFC: Win32 makefile for
+	Cygwin
+
+2002-10-17 Thursday 10:50  stas_degteff
+
+	* make/makefile.mgw (bsopack-0_2-stable.1): MFC: makefile for MinGW
+
+2002-10-14 Monday 08:33  stas_degteff
+
+	* make/makefile.mgw (1.1): Fix cygwin compilation; rename old
+	makefile.cyg to makefile.mgw: this is makefile for mingw32, not
+	cygwin
+
 2002-09-19 Thursday 11:06  sfpavel
 
 	* make/: makefile.emx (bsopack-0_2-stable.1), makefile.emx (1.4):
