@@ -1,3 +1,8 @@
+2004-06-07 Monday 11:16  sfpavel
+
+	* debian/compat (1.1): file compat was initially added on branch
+	bsopack-1_4-stable.
+
 2004-01-14 Wednesday 02:56  andr_lukyanov
 
 	* h/bsoutil.h (1.3), h/version.h (1.2), src/bsopack.c (1.13): Small
