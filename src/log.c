@@ -14,7 +14,7 @@
 #include <unistd.h>
 #endif
 
-#if defined (__WATCOMC__) || (OS2) || (_MSC_VER)
+#if defined (__WATCOMC__) || defined(__NT__) || defined(__DOS__) || defined(__OS2__)
 #include <process.h>
 #endif
 

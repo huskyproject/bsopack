@@ -20,7 +20,7 @@
   #include <unistd.h>
 #endif
 
-#if defined (__WATCOMC__) || (_MSC_VER)
+#if defined (__WATCOMC__) || defined(__NT__) || defined(__DOS__) || defined(__OS2__)
   #include <process.h>
   #include <direct.h>
   #include <io.h>
@@ -76,9 +76,11 @@ char *createPktName()
 
 void createDirIfNEx(char *dir)
 {
+    register unsigned dirlast;
 
-    if ((char) *(dir + strlen(dir) -1) == PATH_DELIM)
-        (char) *(dir + strlen(dir) -1) = '\0';        // we can't create "c:\dir\", only "c:\dir"
+    dirlast = strlen(dir)-1;
+    if (dir[dirlast] == PATH_DELIM)
+        dir[dirlast] = '\0';        /* we can't create "c:\dir\", only "c:\dir" */
 
     if (access(dir, F_OK))
     {
@@ -292,7 +294,7 @@ int addToFlow(s_link *link, int flavour, char *outb)
 
         while(fgets(line, MAXPATH, fp)!=NULL)
         {
-            strcat(buff, line);
+            strcat((char*)buff, line);
             if (strlen(line)<2) continue;
             if (strncmp(line+1, link->packFile, strlen(link->packFile))==0)
             {
