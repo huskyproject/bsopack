@@ -1,3 +1,7 @@
+2003-07-25 Friday 20:25  d_sergienko
+
+	* src/bsoutil.c (1.32): yet another fix.
+
 2003-07-23 Wednesday 20:01  d_sergienko
 
 	* src/bsoutil.c (1.31): fix bug with message "Can't create
