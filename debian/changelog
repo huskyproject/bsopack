@@ -1,3 +1,12 @@
+bsopack (1.3-20030205-1) unstable; urgency=low
+
+  * New cvs version
+  * Build with common huskymak.cfg from huskybase package
+  * Update standarts to 3.5.8
+  * Fix lintian warnings
+
+ -- Pavel Andreew <pavel@collage.etel.ru>  Wed,  5 Feb 2003 17:05:19 +0500
+
 bsopack (0.3-20021022-1) unstable; urgency=low
 
   * New cvs version
