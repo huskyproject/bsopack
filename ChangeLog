@@ -326,8 +326,9 @@
 
 2001-05-07 Monday 05:37  d.sergienko
 
-	* make/makefile.emo (1.7, bsopack-0_2_2-release,
-	bsopack-0_2-release, bsopack-0_1-stable), src/bsoutil.c (1.13): 
+	* make/makefile.emo (1.7, bsopack-0_2_4-release,
+	bsopack-0_2_2-release, bsopack-0_2-release, bsopack-0_1-stable),
+	src/bsoutil.c (1.13): 
 	fixes, fixes...
 
 2001-04-30 Monday 15:09  d.sergienko
@@ -350,7 +351,8 @@
 2001-04-20 Friday 14:22  d.sergienko
 
 	* make/: makefile.emo (1.5), makefile.wco (1.4,
-	bsopack-0_2_2-release, bsopack-0_2-release, bsopack-0_1-stable): 
+	bsopack-0_2_4-release, bsopack-0_2_2-release, bsopack-0_2-release,
+	bsopack-0_1-stable): 
 	dmitry: * changed logo string to bsopack/OS2 for OS/2.
 
 2001-04-17 Tuesday 19:09  d.sergienko
@@ -360,19 +362,20 @@
 
 2001-04-14 Saturday 15:39  joerg.jaspert
 
-	* man/: README (1.1, bsopack-0_2_2-release, bsopack-0_2-release),
-	bsopack.1 (1.1) (utags: bsopack-0_1-stable): Small manpage for
-	bsopack
+	* man/: README (1.1, bsopack-0_2_4-release, bsopack-0_2_2-release,
+	bsopack-0_2-release), bsopack.1 (1.1) (utags: bsopack-0_1-stable):
+	Small manpage for bsopack
 
 2001-04-14 Saturday 15:39  joerg.jaspert
 
 	* debian/: README.Debian (1.1, bsopack-0_1-stable), changelog
 	(1.1), control (1.1), copyright (1.1), dirs (1.1,
-	bsopack-0_2_2-release, bsopack-0_2-release, bsopack-0_1-stable),
-	doc-base (1.1, bsopack-0_1-stable), docs (1.1,
-	bsopack-0_2_2-release, bsopack-0_2-release, bsopack-0_1-stable),
-	huskymak.cfg (1.1), manpages (1.1, bsopack-0_1-stable), rules
-	(1.1): Files for Package Building in Debian
+	bsopack-0_2_4-release, bsopack-0_2_2-release, bsopack-0_2-release,
+	bsopack-0_1-stable), doc-base (1.1, bsopack-0_1-stable), docs (1.1,
+	bsopack-0_2_4-release, bsopack-0_2_2-release, bsopack-0_2-release,
+	bsopack-0_1-stable), huskymak.cfg (1.1), manpages (1.1,
+	bsopack-0_1-stable), rules (1.1): Files for Package Building in
+	Debian
 
 2001-04-14 Saturday 15:38  joerg.jaspert
 
@@ -387,9 +390,10 @@
 2001-04-09 Monday 11:48  d.sergienko
 
 	* make/makefile.emo (1.1), make/makefile.emx (1.2),
-	make/makefile.lnx (1.3, bsopack-0_2_2-release, bsopack-0_2-release,
-	bsopack-0_1-stable), make/makefile.wco (1.3), make/makefile.wcw
-	(1.3, bsopack-0_2_2-release, bsopack-0_2-release,
+	make/makefile.lnx (1.3, bsopack-0_2_4-release,
+	bsopack-0_2_2-release, bsopack-0_2-release, bsopack-0_1-stable),
+	make/makefile.wco (1.3), make/makefile.wcw (1.3,
+	bsopack-0_2_4-release, bsopack-0_2_2-release, bsopack-0_2-release,
 	bsopack-0_1-stable), src/bsoutil.c (1.4): 
 	dmitry: added makefile.emo and memory leak fix.
 
