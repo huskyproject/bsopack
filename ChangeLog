@@ -1,5 +1,10 @@
-bsopack 0.01 (development version)
+bsopack 0.1 (development version)
 ---------
+
+----- cvs ci ------
+Sun Apr  8 19:55:06 EEST 2001
+dmitry:
++ added makefile.emx (test it!)
 
 ----- cvs ci ------
 Sun Apr  8 07:15:48 EEST 2001

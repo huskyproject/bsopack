@@ -4,6 +4,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include <sys/stat.h>
+#include <sys/types.h>
 #include <stdarg.h>
 #include <errno.h>
 #include <fidoconf/fidoconf.h>
@@ -15,7 +16,7 @@
   #include <unistd.h>
 #endif
 
-#if defined (__WATCOMC__)
+#if defined (__WATCOMC__) || (OS2)
   #include <process.h>
   #include <direct.h>
   #include <io.h>
