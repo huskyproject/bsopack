@@ -1,0 +1,16 @@
+Source: bsopack
+Section: mail
+Priority: extra
+Maintainer: Joerg Jaspert (JJ) <joerg@goliathbbs.dnsalias.net>
+Build-Depends: debhelper (>> 3.0.0), smapi (>= 1.6.4-14), fidoconf (>= 0.11-1)
+Standards-Version: 3.5.2
+
+Package: bsopack
+Architecture: any
+Depends: ${shlibs:Depends}
+Description: Netmail Packer (unstable)
+ BSOpack is used to pack outgoing netmail for links. It works with
+ HUSKY package and requires its files.
+ .
+ This is the UNSTABLE Release.
+

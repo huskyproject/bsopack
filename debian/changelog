@@ -1,0 +1,15 @@
+bsopack (0.1-2) unstable; urgency=low
+
+  * Wrote man-page for it.
+
+ -- Joerg Jaspert (JJ) <joerg@goliathbbs.dnsalias.net>  Sat, 14 Apr 2001 17:33:10 +0200
+
+bsopack (0.1-1) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Joerg Jaspert (JJ) <joerg@goliathbbs.dnsalias.net>  Sat, 14 Apr 2001 17:04:25 +0200
+
+Local variables:
+mode: debian-changelog
+End:

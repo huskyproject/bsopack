@@ -1,0 +1,12 @@
+Document: bsopack
+Title: Debian bsopack Manual
+Author: The Husky-Team
+Abstract: This manual describes what bsopack is
+ and what you can do with it.
+Section: devel
+
+Format: HTML
+Index: /usr/share/doc/bsopack/html/bsopack.html
+Files: /usr/share/doc/bsopack/html/*.html
+
+  
