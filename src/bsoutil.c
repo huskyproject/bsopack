@@ -32,7 +32,11 @@
 #include "config.h"
 #include "bsoutil.h"
 
+/* ANSI C knows nothing about this constant */
 
+#ifndef F_OK
+#define F_OK 0
+#endif
 
 time_t t;
 unsigned long serial;
