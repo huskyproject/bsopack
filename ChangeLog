@@ -1,3 +1,8 @@
+2004-11-14 Sunday 19:11  d_sergienko
+
+	* Makefile (bsopack-1_4-stable.4): 
+	add log.o to OBJS
+
 2004-07-04 Sunday 23:54  d_sergienko
 
 	* make/: makefile.cyg, makefile.djg, makefile.emo, makefile.emx,
