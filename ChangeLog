@@ -1,3 +1,8 @@
+2003-07-27 Sunday 12:37  d_sergienko
+
+	* src/bsoutil.c (bsopack-1_4-stable.3): fixed directory existanse
+	checking
+
 2003-05-21 Wednesday 08:55  sfpavel
 
 	* debian/control (bsopack-1_4-stable.3): Change debian maintainer's
