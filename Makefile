@@ -57,7 +57,7 @@ distclean: clean
 all: bsopack docs man
 
 install: all
-	$(INSTALL) bsopack $(BINDIR)
+	$(INSTALL) $(IBOPT) bsopack $(BINDIR)
 ifdef INFODIR
 	-$(MKDIR) $(MKDIROPT) $(INFODIR)
 	$(INSTALL) $(IMOPT) bsopack.info $(INFODIR)
