@@ -19,7 +19,7 @@ UNAME	= dos
 
 
 CDEFS	= -D$(OSTYPE) -DUNAME=\"$(UNAME)\"
-LIBS	= ../../fidoconf/fconfdjg.a ../../huskylib/make/huskydjg.a
+LIBS	= ../../fidoconf/make/fconfdjg.a ../../huskylib/make/huskydjg.a
 SRC_DIR	= ../src/
 
 EXE	=.exe
