@@ -16,7 +16,7 @@ UNAME=w32
 CDEFS=-D$(OSTYPE) -DUNAME="$(UNAME)"
 SRC_DIR=..\SRC\
 
-OBJS= config.obj bsoutil.obj bsopack.obj
+OBJS= log.obj config.obj bsoutil.obj bsopack.obj
 
 all: bsopack
 

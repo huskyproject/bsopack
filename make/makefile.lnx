@@ -34,7 +34,7 @@ endif
 CDEFS=-D$(OSTYPE) -DUNAME=\"$(UNAME)\" $(ADDCDEFS)
 
 
-OBJS= config.o bsoutil.o bsopack.o
+OBJS= log.o config.o bsoutil.o bsopack.o
 
 all: bsopack
 
