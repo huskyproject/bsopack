@@ -1,37 +1,40 @@
-# Makefile for Watcom C (Win32)
+# $Id$
+# Makefile for bilnd static program with Watcom C 11.0c for Win32
 #
-# tested with Watcom C 11.0
+# Predefines: __WATCOMC__,
+# __NT__ (-bt=nt)
 
 
 CC      = wcc386
 LINK    = wlink
 RM	= del
 
-CFLAGS  = -zq -wx -bt=nt -i=..\..;..\h -oneatx -5
+CFLAGS  = -zq -wx -bt=nt -i=..\h;..\..;..\..\huskylib;..\..smapi -oneatx -5
 LFLAGS  = system nt
 
-OSTYPE=__NT__
-UNAME=w32
+OSTYPE	= __NT__
+UNAME	= w32
 
-CDEFS=-D$(OSTYPE) -DUNAME="$(UNAME)"
-SRC_DIR=..\SRC\
+CDEFS	= -D$(OSTYPE) -DUNAME="$(UNAME)"
+SRC_DIR	= ..\src\
 
-OBJS= log.obj config.obj bsoutil.obj bsopack.obj
+OBJS	= log.obj config.obj bsoutil.obj bsopack.obj
 
 all: bsopack
 
 $(OBJS): $(SRC_DIR)\*.c
-		$(CC) $(CFLAGS) $(CDEFS) $(SRC_DIR)\$*.c
+	$(CC) $(CFLAGS) $(CDEFS) $(SRC_DIR)\$*.c
 
 bsopack: $(OBJS)
-		$(LINK) $(LFLAGS) FILE log.obj, config.obj, bsoutil.obj, bsopack.obj, ..\..\smapi\smapiwcw.lib, ..\..\fidoconf\fconfwcw.lib NAME bsopack.exe
+	$(LINK) $(LFLAGS) FILE log.obj, config.obj, bsoutil.obj, bsopack.obj, ..\..\fidoconf\fconfwcw.lib, ..\..\huskylib\make\huskywcw.lib NAME bsopack.exe
 
 
 .IGNORE        
 
 clean:
-		$(RM) *.obj
+	$(RM) *.obj
+	$(RM) *.err
 
 distclean: clean
-		$(RM) bsopack.exe
+	$(RM) bsopack.exe
         

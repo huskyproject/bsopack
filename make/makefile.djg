@@ -1,5 +1,6 @@
-# This builds a DOS DPMI executable with DJGPP
-#
+# $Id$
+# Makefile to build DOS DPMI program(s) with DJGPP
+# No support for the Husky build environment.
 
 .SUFFIXES:
 .SUFFIXES: .c .o
@@ -10,32 +11,34 @@ RM	= del
 DEBUG=-s
 # set to -g for debugging
 
-CFLAGS  = -I../.. -I../h -c -O3 -DMSDOS -DNOSEMAPHORES -mcpu=i486 -Wall -Wno-char-subscripts $(DEBUG)
-LFLAGS=-s
-OSTYPE=MSDOS
-UNAME=dos
+CFLAGS  = -c -O3 -DMSDOS -mcpu=i486 -Wall -Wno-char-subscripts $(DEBUG) -I../h -I../.. -I../../huskylib -I../../smapi
+LFLAGS	= -s
+OSTYPE	= MSDOS
+UNAME	= dos
 
 
-CDEFS=-D$(OSTYPE) -DUNAME=\"$(UNAME)\"
-LIBS  = ../../fidoconf/fconfdjg.a ../../smapi/smapidjg.a
-SRC_DIR=../src/
+CDEFS	= -D$(OSTYPE) -DUNAME=\"$(UNAME)\"
+LIBS	= ../../fidoconf/fconfdjg.a ../../huskylib/make/huskydjg.a
+SRC_DIR	= ../src/
+
+EXE	=.exe
+OBJ	=.o
+
 EXENAMEFLAG=-o 
-EXE=.exe
-OBJ=.o
 
 all: bsopack$(EXE)
 
 %$(OBJ): $(SRC_DIR)%.c
-		$(CC) $(CFLAGS) $(CDEFS) $(SRC_DIR)$*.c
+	$(CC) $(CFLAGS) $(CDEFS) $(SRC_DIR)$*.c
 
 
 bsopack$(EXE): config$(OBJ) log$(OBJ) bsoutil$(OBJ) bsopack$(OBJ)
-		$(CC) $(LFLAGS) $(EXENAMEFLAG)bsopack$(EXE) bsopack$(OBJ) config$(OBJ) log$(OBJ) bsoutil$(OBJ) $(LIBS)
+	$(CC) $(LFLAGS) $(EXENAMEFLAG)bsopack$(EXE) bsopack$(OBJ) config$(OBJ) log$(OBJ) bsoutil$(OBJ) $(LIBS)
 
 clean:
-		$(RM) *$(OBJ)
-		$(RM) *~
+	$(RM) *$(OBJ)
+	$(RM) *~
 
 distclean: clean
-		$(RM) bsopack$(EXE)
+	$(RM) bsopack$(EXE)
 

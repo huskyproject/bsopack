@@ -1,35 +1,38 @@
-# Makefile for Watcom C (OS/2)
+# $Id$
+# Makefile for bilnd static program with Watcom C 11.0c for OS/2
 #
-# tested with Watcom C 11.0
+# Predefines: __WATCOMC__,
+# __OS2V2__ (-bt=os2v2)
 
 CC      = wcc386
 LINK    = wlink
 RM	= del
 
-CFLAGS  = -zq -wx -bt=os2v2 -i=..\..;..\h -oneatx -5
+CFLAGS  = -zq -wx -bt=os2v2 -i=..\h;..\..;..\..\huskylib;..\..smapi -oneatx -5
 LFLAGS  = system os2v2
-OSTYPE=OS2
+OSTYPE	= OS2
 
 
-CDEFS=-D$(OSTYPE) -DUNAME="$(OSTYPE)"
-SRC_DIR=..\SRC\
+CDEFS	= -D$(OSTYPE) -DUNAME="$(OSTYPE)"
+SRC_DIR	= ..\src\
 
 OBJS= log.obj config.obj bsoutil.obj bsopack.obj
 
 all: bsopack
 
 $(OBJS): $(SRC_DIR)\*.c
-		$(CC) $(CFLAGS) $(CDEFS) $(SRC_DIR)\$*.c
+	$(CC) $(CFLAGS) $(CDEFS) $(SRC_DIR)\$*.c
 
 bsopack: $(OBJS)
-		$(LINK) $(LFLAGS) FILE log.obj, config.obj, bsoutil.obj, bsopack.obj, ..\..\smapi\smapiwco.lib, ..\..\fidoconf\fconfwco.lib NAME bsopack.exe
+	$(LINK) $(LFLAGS) FILE log.obj, config.obj, bsoutil.obj, bsopack.obj, ..\..\fidoconf\fconfwco.lib, ..\..\huskylib\make\huskywco.lib  NAME bsopack.exe
 
 
 .IGNORE
 
 clean:
-		$(RM) *.obj
+	$(RM) *.obj
+	$(RM) *.err
 
 distclean: clean
-		$(RM) bsopack.exe
+	$(RM) bsopack.exe
 

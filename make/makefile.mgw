@@ -1,32 +1,32 @@
-# Win32 makefile for Cygwin and MinGW
-# From Leonid Kukharenko 2:463/375.128
-# tested with mingw & gcc3.1
-#
-CC=gcc
-RM=rm
-INCDIR=../..
-LIBDIR=../..
-BINDIR=../..
-SRC_DIR=../src/
+# $Id$
+# Makefile for bilnd static program with with cross-compiler Mingw32
+# No support for the Husky build environment.
 
-WARNFLAGS=-Wall
-OPTCFLAGS=-c -s -O3 -mno-cygwin
-DEBCFLAGS=-c -ggdb
+CC	= gcc
+RM	= rm
+INCDIR	= -I../h -I../.. -I../../huskylib -I../../smapi
+LIBDIR	= ../..
+BINDIR	= ../..
+SRC_DIR	= ../src/
+
+WARNFLAGS= -Wall
+OPTCFLAGS= -c -s -O3 -mno-cygwin
+DEBCFLAGS= -c -ggdb
 ADDCDEFS=
-DEBUG=0
+DEBUG	= 0
 SHORTNAMES=1
-OSTYPE=WINNT
-UNAME=Win32
+OSTYPE	= WINNT
+UNAME	= Win32
 
 ifeq ($(DEBUG), 1)
-  CFLAGS = -I$(INCDIR) -I../h $(DEBCFLAGS) $(WARNFLAGS)
+  CFLAGS = $(INCDIR) $(DEBCFLAGS) $(WARNFLAGS)
   LFLAGS = $(DEBLFLAGS)
 else
-  CFLAGS = -I$(INCDIR) -I../h $(OPTCFLAGS) $(WARNFLAGS)
+  CFLAGS = $(INCDIR) $(OPTCFLAGS) $(WARNFLAGS)
   LFLAGS = $(OPTLFLAGS)
 endif
 
-LIBS  = ../../fidoconf/libfidoconfigcyg.a ../../smapi/libsmapicyg.a
+LIBS  = ../../fidoconf/libfidoconfigcyg.a ../../huskylib/make/libhuskycyg.a
 
 CDEFS=-D$(OSTYPE) -DUNAME=\"$(UNAME)\" $(ADDCDEFS)
 
@@ -36,15 +36,15 @@ OBJS= log.o config.o bsoutil.o bsopack.o
 all: bsopack
 
 bsopack: $(OBJS)
-		$(CC) $(OBJS) $(LFLAGS) $(LIBS) -o bsopack
+	$(CC) $(OBJS) $(LFLAGS) $(LIBS) -o bsopack
 
 
 %.o: $(SRC_DIR)%.c
-		$(CC) $(CFLAGS) $(CDEFS) -c $<
+	$(CC) $(CFLAGS) $(CDEFS) -c $<
 
 
 clean:
-		$(RM) -f *.o *~
+	$(RM) -f *.o *~
 
 distclean: clean
-		$(RM) bsopack.exe
+	$(RM) bsopack.exe

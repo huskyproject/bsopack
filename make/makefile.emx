@@ -1,5 +1,6 @@
-# EMX OS/2 OMF STYLE MAKEFILE
-#
+# $Id$
+# Makefile for EMX on OS/2 with a.out style linkage (EMX Runtime)
+# No support for the Husky build environment
 
 .SUFFIXES:
 .SUFFIXES: .c .o
@@ -7,33 +8,35 @@
 CC      = gcc
 RM	= cmd /c del
 
-DEBUG=-s
+DEBUG	= -s
 # set to -g for debugging
 
-CFLAGS=-I../h -I../.. -c -O3 $(DEBUG)
-LFLAGS=-Zcrtdll $(DEBUG)
-OSTYPE=OS2
+CFLAGS	= -c -O3 $(DEBUG) -I../h -I../.. -I../../huskylib -I../../smapi
+LFLAGS	= -Zcrtdll $(DEBUG)
+OSTYPE	= OS2
 
 
-CDEFS=-D$(OSTYPE) -DUNAME=\"$(OSTYPE)\"
-LIBS=../../fidoconf/fconfemx.a ../../smapi/smapiemx.a
-SRC_DIR=../src/
+CDEFS	= -D$(OSTYPE) -DUNAME=\"$(OSTYPE)\"
+LIBS	= ../../fidoconf/fconfemx.a ../../huskylib/make/huskyemx.a
+SRC_DIR	=../src/
+
+EXE	=.exe
+OBJ	=.o
+
 EXENAMEFLAG=-o 
-EXE=.exe
-OBJ=.o
 
 all: bsopack$(EXE)
 
 %$(OBJ): $(SRC_DIR)%.c
-		$(CC) $(CFLAGS) $(CDEFS) $(SRC_DIR)$*.c
+	$(CC) $(CFLAGS) $(CDEFS) $(SRC_DIR)$*.c
 
 
 bsopack$(EXE): config$(OBJ) log$(OBJ) bsoutil$(OBJ) bsopack$(OBJ)
-		$(CC) $(LFLAGS) $(EXENAMEFLAG)bsopack$(EXE) bsopack$(OBJ) config$(OBJ) log$(OBJ) bsoutil$(OBJ) $(LIBS)
+	$(CC) $(LFLAGS) $(EXENAMEFLAG)bsopack$(EXE) bsopack$(OBJ) config$(OBJ) log$(OBJ) bsoutil$(OBJ) $(LIBS)
 
 clean:
-		$(RM) *$(OBJ)
-		$(RM) *~
+	$(RM) *$(OBJ)
+	$(RM) *~
 
 distclean: clean
 		$(RM) bsopack$(EXE)

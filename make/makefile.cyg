@@ -1,64 +1,57 @@
-# Win32 makefile for Cygwin
-# (a) Stas Degteff 2:5080/102 g@grumbler.org
-# Based on hpt/make/makefile.cyg & 
-# "Win32 makefile for Cygwin and MinGW From Leonid Kukharenko 2:463/375.128"
-#
-# tested with Cygwin 2.218.2.9
-#
-# Ussage:
-# make -f makefile.cyg
-#
+# $Id$
+# Makefile to build win32 with Mingw32 from Cygwin.
+# No support for the Husky build environment.
 
-# Set to 1 for debug purposes
-DEBUG=      0
+DEBUG	= 0
 
 ADDCDEFS=
 
 SHORTNAMES= 1
-OSTYPE=     __NT__
-UNAME=      Win32
+OSTYPE	= __NT__
+UNAME	= Win32
 
-CC=gcc
-RM=rm
-INCDIR=../..
-LIBDIR=../..
-BINDIR=../..
-SRC_DIR=../src/
-WARNFLAGS=  -Wall
-OPTCFLAGS=  -c -s -O3 -mno-cygwin -pedantic
-OPTLFLAGS=  -mno-cygwin
-DEBCFLAGS=  -c -ggdb
+CC	= gcc
+RM	= rm
+
+INCDIR	= -I../h -I../.. -I../../huskylib -I../../smapi
+LIBDIR	= ../..
+BINDIR	= ../..
+SRC_DIR	= ../src/
+WARNFLAGS= -Wall
+OPTCFLAGS= -c -s -O3 -mno-cygwin -pedantic
+OPTLFLAGS= -mno-cygwin
+DEBCFLAGS= -c -ggdb
 
 
 
 ifeq ($(DEBUG), 1)
-  CFLAGS = -I$(INCDIR) -I../h $(DEBCFLAGS) $(WARNFLAGS)
+  CFLAGS = $(INCDIR) $(DEBCFLAGS) $(WARNFLAGS)
   LFLAGS = $(DEBLFLAGS) $(OPTLFLAGS)
 else
-  CFLAGS = -I$(INCDIR) -I../h $(OPTCFLAGS) $(WARNFLAGS)
+  CFLAGS = $(INCDIR) $(OPTCFLAGS) $(WARNFLAGS)
   LFLAGS = $(OPTLFLAGS)
 endif
 
-LIBS  = ../../fidoconf/libfidoconfigcyg.a ../../smapi/libsmapicyg.a
+LIBS	= ../../fidoconf/libfidoconfigcyg.a ../../huskylib/make/libhuskycyg.a
 # -lmingwex
 
-CDEFS=-D$(OSTYPE) -DUNAME=\"$(UNAME)\" $(ADDCDEFS)
+CDEFS	= -D$(OSTYPE) -DUNAME=\"$(UNAME)\" $(ADDCDEFS)
 
 
-OBJS= log.o config.o bsoutil.o bsopack.o
+OBJS	= log.o config.o bsoutil.o bsopack.o
 
 all: bsopack
 
 bsopack: $(OBJS)
-		$(CC) $(OBJS) $(LFLAGS) $(LIBS) -o bsopack
+	$(CC) $(OBJS) $(LFLAGS) $(LIBS) -o bsopack
 
 
 %.o: $(SRC_DIR)%.c
-		$(CC) $(CFLAGS) $(CDEFS) -c $<
+	$(CC) $(CFLAGS) $(CDEFS) -c $<
 
 
 clean:
-		$(RM) -f *.o *~
+	$(RM) -f *.o *~
 
 distclean: clean
 		$(RM) bsopack.exe
