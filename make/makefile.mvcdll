@@ -1,4 +1,4 @@
-# Makefile for MSVC (Win32)
+# Makefile for MSVC (Win32): dll version
 
 CC  = cl
 RM	= del
@@ -13,7 +13,7 @@ LIBS=..\..\fidoconf\fconfmvc.lib ..\..\smapi\smapimvc.lib \
 
 all: bsopack.exe
 
-bsopack.exe: 
+bsopack.exe:
 		$(CC) $(CFLAGS) $(CDEFS) $(COPT) -Fe$@ $(SRC_DIR)\bsopack.c \
                                                $(SRC_DIR)\log.c     \
                                                $(SRC_DIR)\config.c  \
@@ -25,4 +25,4 @@ clean:
 
 distclean: clean
 		$(RM) bsopack.exe
-        
+

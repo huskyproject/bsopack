@@ -1,4 +1,6 @@
 # Generic Makefile for bsopack
+#
+# Use husky build enviroment and GNU version of 'make' utility
 
 include ../../huskymak.cfg
 
@@ -30,7 +32,7 @@ bsopack: $(OBJS)
 
 %.o: $(SRC_DIR)%.c
 	$(CC) $(CFLAGS) $(CDEFS) -c $<
-        
+
 
 clean:
 		rm -f *.o *~
@@ -41,4 +43,4 @@ distclean: clean
 install: bsopack
 #	install -s -o uucp -g uucp -m 4750 bsopack /usr/local/bin
 	$(INSTALL) bsopack $(BINDIR)
-        
+
