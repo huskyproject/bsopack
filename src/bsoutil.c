@@ -153,7 +153,7 @@ void getBundleName(s_link *link, int flavour, char *outb)
     if (fidoConfig->separateBundles)
     {
         sprintf(bundleName, "%ssep%c", outb, PATH_DELIM);
-        outb_end=bundleName+strlen(bundleName)-13;
+        outb_end=bundleName+strlen(bundleName);
     }
     else
     {
