@@ -1,3 +1,7 @@
+2002-10-08 Tuesday 06:41  sfpavel
+
+	* debian/changelog (1.10): New debian package
+
 2002-10-04 Friday 10:41  sfpavel
 
 	* debian/: README.Debian (1.2), changelog (1.9), control (1.6),
