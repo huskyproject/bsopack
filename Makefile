@@ -26,7 +26,7 @@ CDEFS=-D$(OSTYPE) -DUNAME=\"$(UNAME)\" $(ADDCDEFS)
 
 SRC_DIR=./src/
 
-OBJS= log.o config.o bsoutil.o bsopack.o
+OBJS= config.o bsoutil.o bsopack.o
 
 bsopack: $(OBJS)
 		$(CC) $(OBJS) $(LFLAGS) $(LIBS) -o bsopack
