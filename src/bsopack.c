@@ -31,11 +31,11 @@ int main(int argc, char **argv)
     for (i=0; i < fidoConfig->linkCount; i++)
     {
         Debug("processing link #%d: %d:%d/%d.%d\n", i,
-              fidoConfig->links[i].hisAka.zone,
-              fidoConfig->links[i].hisAka.net,
-              fidoConfig->links[i].hisAka.node,
-              fidoConfig->links[i].hisAka.point);
-        if (fidoConfig->links[i].packNetmail)
+              fidoConfig->links[i]->hisAka.zone,
+              fidoConfig->links[i]->hisAka.net,
+              fidoConfig->links[i]->hisAka.node,
+              fidoConfig->links[i]->hisAka.point);
+        if (fidoConfig->links[i]->packNetmail)
             packNetMailForLink(&fidoConfig->links[i]);
         else Debug("packNetmail for this link is off.\n");
     }
