@@ -3,7 +3,7 @@
 #ifndef _CONFIG_H
 #define _CONFIG_H
 
-#define VERSION "0.1-stable/"UNAME
+#define VERSION "0.2-stable/"UNAME
 
 #include <fidoconf/fidoconf.h>
 
