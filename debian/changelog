@@ -1,3 +1,11 @@
+bsopack (0.2.4-1) stable; urgency=low
+
+  * bsopack 0.2.4 release
+  * New maintainer's E-mail
+  * Debhelper V4
+
+ -- Pavel Andreew <sfpavel@users.sourceforge.net>  Tue, 27 May 2003 17:16:12 +0600
+
 bsopack (0.2.2-1) stable; urgency=low
 
   * bsopack 0.2.2 release
