@@ -1,5 +1,7 @@
 /* $Id$ */
 
+#include <huskylib/compiler.h>
+#include <huskylib/huskylib.h>
 #include <fidoconf/fidoconf.h>
 #include <fidoconf/version.h>
 #include "log.h"
