@@ -1,3 +1,8 @@
+2003-07-23 Wednesday 20:01  d_sergienko
+
+	* src/bsoutil.c (1.31): fix bug with message "Can't create
+	directory ..., errno=17"
+
 2003-06-25 Wednesday 07:32  andr_lukyanov
 
 	* make/makefile.mvcdll (1.6): Add internal zip (hptzip) support
