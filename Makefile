@@ -18,6 +18,7 @@ endif
 
 CDEFS=-D$(OSTYPE) -DUNAME=\"$(UNAME)\" $(ADDCDEFS)
 
+SRC_DIR=./src/
 
 OBJS= log.o config.o bsoutil.o bsopack.o
 
@@ -27,7 +28,7 @@ bsopack: $(OBJS)
 		gcc $(OBJS) $(LFLAGS) $(LIBS) -o bsopack
 
 
-%.o: %.c
+%.o: $(SRC_DIR)%.c
 	$(CC) $(CFLAGS) $(CDEFS) -c $<
         
 

@@ -8,7 +8,7 @@ Unix:
 0. Packages "smapi" and "fidoconfig" are required for bsopack.
 	If you don't have them, please download these packages from
         http://husky.physcip.uni-stuttgart.de/
-        You need fidoconfig not older than 29.10.2000
+        You need fidoconfig at least version 0.10c
         Compile, install and configure them.
         
 1. Unpack bsopack package to make following source tree:
