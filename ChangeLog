@@ -1,3 +1,7 @@
+2005-03-20 Sunday 01:45  sfpavel
+
+	* debian/changelog (bsopack-1_4-stable.8): 1.4-RC3 release
+
 2004-11-14 Sunday 19:11  d_sergienko
 
 	* Makefile (bsopack-1_4-stable.4): 
