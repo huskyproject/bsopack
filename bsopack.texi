@@ -142,13 +142,11 @@ maxUnpackedNetmail 0
 @item Usage:
 @code{bsopack [-c fidconfig] [options]}
 @item Options:
-@code{-q}  Quiet mode (ignoring screenLogLevels in fidoconfig)
-@item
 @code{-h}  Help screen
 @item
 @code{--help} The same as @code{-h}
 @item Example:
-@code{bsopack -qc /etc/fido/config}
+@code{bsopack -c /etc/fido/config}
 @end table                        
 
 @node How this program works, Feedback, Command line switches, Top
@@ -191,6 +189,7 @@ FidoNet conferences:
 
 @example
 ru.husky (Russian)
+ru.husky.devel (Russian)
 fidosoft.husky (English)
 @end example
 
