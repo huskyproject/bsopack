@@ -1,3 +1,7 @@
+2003-02-20 Thursday 09:26  sfpavel
+
+	* HISTORY (1.1): Add HISTORY file
+
 2003-02-12 Wednesday 11:40  sfpavel
 
 	* src/bsoutil.c (1.29): Fix win32 build
