@@ -14,7 +14,6 @@ all: bsopack.exe
 
 bsopack.exe: 
 		$(CC) $(CFLAGS) $(CDEFS) $(COPT) -Fe$@ $(SRC_DIR)\bsopack.c \
-                                               $(SRC_DIR)\log.c     \
                                                $(SRC_DIR)\config.c  \
                                                $(SRC_DIR)\bsoutil.c \
                                                $(LIBS)

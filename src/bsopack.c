@@ -1,44 +1,78 @@
 /* $Id$ */
 
 #include <fidoconf/fidoconf.h>
+#include <fidoconf/log.h>
+#include <fidoconf/xstr.h>
 #include <fidoconf/version.h>
-#include "log.h"
 #include "config.h"
 #include "bsoutil.h"
 #include "cvsdate.h"
 
+int lock_fd;
+
+#define LOGFILE "bsopack.log"
+
 int main(int argc, char **argv)
 {
+    s_fidoconfig *config;
+    char *versionStr = NULL;
     unsigned int i;
 
-    VERSION = GenVersionStr( "BSOpack", VER_MAJOR, VER_MINOR, VER_PATCH,
-                               VER_BRANCH, cvs_date );
+    versionStr = GenVersionStr( "BSOpack", VER_MAJOR, VER_MINOR, VER_PATCH,
+                              VER_BRANCH, cvs_date );
+    printf("%s\n\n", versionStr);
+
+    setvar("module", "bsopack");
+    config = readConfig(NULL);
+
+    if (!config) {
+        printf("Could not read fido config\n");
+        return 1;
+    }
+
+    if (config->lockfile) {
+        lock_fd = lockFile(config->lockfile, config->advisoryLock);
+        if( lock_fd < 0 )
+        {
+            disposeConfig(config);
+            exit(EX_CANTCREAT);
+        }
+    }
 
     getOpts(argc, argv);
-    if (enable_quiet) Debug("[command line args] quiet mode\n");
-    if (enable_debug) Debug("[command line args] debug mode\n");
+
+    openLog(LOGFILE, versionStr, config);
+
     if (fidoConfigFile!=NULL)
-        Debug("config file is %s\n", fidoConfigFile);
+        w_log(LL_DEBUG, "config file is %s", fidoConfigFile);
     else
-        Debug("using default fidoconfig.\n");
-    getConfig();
-    Debug("config read successfully.\n");
-    Log('1', "--- Start - %s\n", VERSION);
-    Debug("starting main code...\n");
-    Debug("found %d links.\n", fidoConfig->linkCount);
-    for (i=0; i < fidoConfig->linkCount; i++)
+        w_log(LL_DEBUG, "using default fidoconfig.");
+
+    w_log(LL_DEBUG, "config read successfully.");
+
+    w_log(LL_START, "Start");
+
+    w_log(LL_DEBUG, "starting main code...");
+    w_log(LL_DEBUG, "found %d links.", config->linkCount);
+
+    for (i=0; i < config->linkCount; i++)
     {
-        Debug("processing link #%d: %d:%d/%d.%d\n", i,
-              fidoConfig->links[i].hisAka.zone,
-              fidoConfig->links[i].hisAka.net,
-              fidoConfig->links[i].hisAka.node,
-              fidoConfig->links[i].hisAka.point);
-        if (fidoConfig->links[i].packNetmail)
-            packNetMailForLink(&fidoConfig->links[i]);
-        else Debug("packNetmail for this link is off.\n");
+        w_log(LL_DEBUG, "processing link #%d: %d:%d/%d.%d", i,
+              config->links[i].hisAka.zone,
+              config->links[i].hisAka.net,
+              config->links[i].hisAka.node,
+              config->links[i].hisAka.point);
+        if (config->links[i].packNetmail)
+            packNetMailForLink(&config->links[i]);
+        else w_log(LL_DEBUG, "packNetmail for this link is off.");
     }
-    Log('1', "--- Stop -- %s\n\n", VERSION);
-    Debug("exiting main code...\n");
-    freeConfig();
+
+    w_log(LL_STOP,"End");
+    closeLog();
+
+    if (config->lockfile) {
+        FreelockFile(config->lockfile ,lock_fd);
+    }
+    disposeConfig(config);
     return 0;
 }

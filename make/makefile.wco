@@ -14,7 +14,7 @@ OSTYPE=OS2
 CDEFS=-D$(OSTYPE) -DUNAME="$(OSTYPE)"
 SRC_DIR=..\SRC\
 
-OBJS= log.obj config.obj bsoutil.obj bsopack.obj
+OBJS= config.obj bsoutil.obj bsopack.obj
 
 all: bsopack
 

@@ -45,7 +45,7 @@ LIBS  = ../../fidoconf/libfidoconfigcyg.a ../../smapi/libsmapicyg.a
 CDEFS=-D$(OSTYPE) -DUNAME=\"$(UNAME)\" $(ADDCDEFS)
 
 
-OBJS= log.o config.o bsoutil.o bsopack.o
+OBJS= config.o bsoutil.o bsopack.o
 
 all: bsopack
 

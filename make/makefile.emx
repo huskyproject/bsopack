@@ -28,8 +28,8 @@ all: bsopack$(EXE)
 		$(CC) $(CFLAGS) $(CDEFS) $(SRC_DIR)$*.c
 
 
-bsopack$(EXE): config$(OBJ) log$(OBJ) bsoutil$(OBJ) bsopack$(OBJ)
-		$(CC) $(LFLAGS) $(EXENAMEFLAG)bsopack$(EXE) bsopack$(OBJ) config$(OBJ) log$(OBJ) bsoutil$(OBJ) $(LIBS)
+bsopack$(EXE): config$(OBJ) bsoutil$(OBJ) bsopack$(OBJ)
+		$(CC) $(LFLAGS) $(EXENAMEFLAG)bsopack$(EXE) bsopack$(OBJ) config$(OBJ) bsoutil$(OBJ) $(LIBS)
 
 clean:
 		$(RM) *$(OBJ)
