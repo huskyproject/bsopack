@@ -42,7 +42,9 @@ html:
 
 docs: info html
 
-man: man/bsopack.1
+FORCE:
+
+man: FORCE
 	gzip -9c man/bsopack.1 > bsopack.1.gz
 
 clean:

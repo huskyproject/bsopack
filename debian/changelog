@@ -1,3 +1,10 @@
+bsopack (1.4.0+rc1-1) unstable; urgency=low
+
+  * New stable version
+  * Change maintainer's E-mail
+
+ -- Pavel Andreew <sfpavel@users.sourceforge.net>  Wed, 21 May 2003 14:21:37 +0600
+
 bsopack (1.4.0+beta2-1) unstable; urgency=low
 
   * New cvs version
