@@ -3,7 +3,7 @@
 #ifndef _BSOUTIL_H_
 #define _BSOUTIL_H_
 
-#if !defined MAXPATH
+#ifndef MAXPATH
 #define MAXPATH 256
 #endif
 

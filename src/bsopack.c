@@ -3,7 +3,6 @@
 #include <huskylib/compiler.h>
 #include <huskylib/huskylib.h>
 #include <fidoconf/fidoconf.h>
-#include <fidoconf/version.h>
 #include <huskylib/log.h>
 #include <huskylib/locking.h>
 #include "config.h"
@@ -11,6 +10,8 @@
 #include "version.h"
 
 #define LOGFILE "bsopack.log"
+
+char *versionStr;
 
 int lock_fd;
 
