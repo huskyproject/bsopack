@@ -1,0 +1,173 @@
+\input texinfo @c -*-texinfo-*-
+@c %**start of header
+@setfilename bsopack.info
+@settitle BSOpack Manual
+@set VERSION 0.01
+@setchapternewpage odd
+@c %**end of header
+
+@ifinfo
+This file documents BSOpack @value{VERSION}.
+
+@end ifinfo
+
+@titlepage
+@title BSOpack @value{VERSION} Manual
+@author Dmitry Sergienko
+
+@page
+@vskip 0pt plus 1filll
+Copyright @copyright{} 2000-2001 Dmitry Sergienko 
+
+@end titlepage
+
+@ifinfo
+
+@dircategory Fidonet Software
+@direntry
+* BSOpack: (bsopack).	Binkley-Style outbound netmail packer.
+@end direntry
+
+@node Top, , , (dir)
+@top bsopack
+
+This document applies to version @value{VERSION} of BSOpack.
+
+@end ifinfo
+
+@menu
+* Introduction::  
+* FidoConfig::   
+* Command line switches::       
+* How this program works::    
+* Feedback::       
+@end menu
+
+@node Introduction, FidoConfig, Top, Top
+@chapter Introdusing BSOpack
+BSOpack is used to pack outgoing netmail for links. It is a part of
+@emph{HUSKY} project and requires its files.
+You should use @code{fidoconfig 0.10c} or more fresh. If you don't have these 
+packages, download them from @url{http://husky.physcip.uni-stuttgart.de/}
+
+
+@node FidoConfig, Command line switches, Introduction, Top
+@chapter FidoConfig keywords and configuration
+
+@menu
+* packNetmail::
+* maxUnpackedNetmail::
+* sample::
+@end menu
+
+@node packNetmail, maxUnpackedNetmail, FidoConfig, FidoConfig
+@section packNetmail
+@table @asis
+@item Syntax:
+@code{packNetmail <bool>}
+@item Example:
+@code{packNetmail on}
+@item Default: 
+@code{packNetmail off}
+@end table
+
+      Determines if you want to pack outgoing netmail for this link.
+Used only in link definition.
+
+Attention: If you use @code{packNetmail on} - you must define a packer for this
+link.
+
+This statement can only be repeated for different links.
+                
+
+@node maxUnpackedNetmail, sample, packNetmail, FidoConfig
+@section maxUnpackedNetmail
+@table @asis
+@item Syntax:
+@code{maxUnpackedNetmail <integer>}
+@item Example:
+@code{maxUnpackedNetmail 0}
+@item Default:
+@code{maxUnpackedNetmail 20}
+@end table
+
+      Determines how much unpacked netmail in kilobytes we should leave for 
+this link. If we have more outgoing netmail - it will be packed into bundles.
+You also can have packed &  unpacked netmail in your outbound
+simultaneously - packet, which had had size more than @code{maxUnpackedNetmail}
+was packed into bundle and new packed with size less than
+@code{maxUnpackedNetmail} was created.
+If you select 0 kb - all netmail will be packed.
+                                                
+@node sample, , maxUnpackedNetmail, FidoConfig
+@section Sample link definition
+
+@example
+Link            Dmitry Sergienko
+AKA             2:464/910
+ourAka          2:464/910.1
+Password        xxxxxxxx
+autoAreaCreate  on
+autoFileCreate  on
+forwardRequests on
+AutoAreaCreateDefaults -p 14 -dupeCheck move -dupeHistory 11
+Packer          zip
+allowEmptyPktPwd on
+packNetmail on
+maxUnpackedNetmail 0
+@end example
+
+@node Command line switches, How this program works, FidoConfig, Top
+@chapter Command line switches
+@table @asis
+@item Usage:
+@code{bsopack [-c fidconfig] [options]}
+@item Options:
+@code{-q}  Quiet mode (ignoring screenLogLevels in fidoconfig)
+@item
+@code{-h}  Help screen
+@item
+@code{--help} The same as @code{-h}
+@item Example:
+@code{bsopack -qc /etc/fido/config}
+@end table                        
+
+@node How this program works, Feedback, Command line switches, Top
+@chapter How this program works
+
+At first it checks if @code{packNetmail} for link is on, this link is not busy
+and packer is defined. Then it searches for *.?ut files in outbound. if
+size of all found *.?ut is more than maxUnpackedNetmail, this files will be
+renamed to *.pkt (using @code{tempOutbound} token) and put into arcmail
+bundle. So, your mail should never be lost. If any error occurs - hpt
+scan will find this packet and (if this packet will be for link, listed in
+fidoconfig) pack into bundle with echomail. Packet will be added to
+last used bundle until size of bundle is more than @code{arcmailSize} for
+link. If you select @code{bundleNameStyle addrDiff} your netmail will be
+packed together with echomail. Each flavour is processed independently.
+It creates bundle names using algorithm of two addresses difference.
+Log file @code{bsopack.log} is located in @code{logFileDir} directory.
+
+
+@node Feedback, , How this program works, Top
+@chapter Contacting the author
+
+@table @asis
+@item Author:
+@code{Dmitry Sergienko}
+@item E-mail:
+@email{trooper@@mail.unity.net}
+@item FidoNet: 
+@code{2:464/910}
+@item ICQ:
+@code{38304000}
+@end table
+
+FidoNet conferences:
+
+@example
+ru.husky (Russian)
+fidosoft.husky (English)
+@end example
+
+@bye
