@@ -1,7 +1,11 @@
 /* $Id$ */
 
 #include <stdio.h>
-#include <malloc.h>
+#if !defined(__FreeBSD__)
+  #include <malloc.h>
+#else
+  #include <stdlib.h>
+#endif
 #include <string.h>
 #include <time.h>
 #include <stdarg.h>
@@ -10,7 +14,7 @@
 #include <unistd.h>
 #endif
 
-#if defined (__WATCOMC__) || (OS2)
+#if defined (__WATCOMC__) || (OS2) || (_MSC_VER)
 #include <process.h>
 #endif
 
