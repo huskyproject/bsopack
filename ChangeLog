@@ -1,0 +1,94 @@
+bsopack 0.1 (development version)
+---------
+
+----- cvs ci ------ 
+Fri Apr 13 19:38:09 EEST 2001 
+dmitry: 
+* rewritten some parts of code to add more reliability, restructured work
+	with pointers [initLink()] and trying to run bsopack under OS/2 
+        again.
+* changed output to stdout instead of stderr (for OS/2 & Win32)
+
+----- cvs ci ------
+Mon Apr  9 14:41:33 EEST 2001
+dmitry: (thanx to Kees Bergwerf)
++ added makefile.emo
+* fixed memory bug for OS/2 in initLink(), createDirIfNex()
+
+----- cvs ci ------
+Sun Apr  8 19:55:06 EEST 2001
+dmitry:
++ added makefile.emx (test it!)
+
+----- cvs ci ------
+Sun Apr  8 07:15:48 EEST 2001
+dmitry:
+* OS/2 directory creation fix (can't create "c:\dir\", only "c:\dir")
++ added debug code.
+* makefile.wcw & makefile.wco fix
+
+----- cvs ci ------
+Mon Mar 19 22:17:08 EET 2001
+dmitry:
++ added texinfo documentation
+* remade directory sructure
+
+----- cvs ci ------
+Sun Jan 28 09:33:20 EET 2001
+dmitry:
+! fixed bug with incorrect zone outbound creating
+
+----- cvs ci ------
+Mon Dec 18 22:51:22 EET 2000
+dmitry:
++ added watcom c (win32) porting
++ added FIDOCONFIG environment variable processing
+! fixed bugs with -c option
+* restructured makefiles
+
+----- cvs ci ------
+Mon Dec 18 00:55:50 EET 2000
+dmitry:
++ added command line switches processing
++ added switches -q, -d (w/o debug info now), -h (--help)
++ added switch -c <fidoconfig>
+* code cleanup
+* restructured ChangeLog (now looks like all husky logs)
+
+----- cvs ci ------
+12.12.00
+dmitry:
+! if fidoconfig not found print error on stderr instead of log
+* changed output to stdout when errors to stderr
+
+----- cvs ci ------
+09.12.00
+dmitry:
+! added NULL checking for logFileDir, loglevels & screenloglevels
+
+----- cvs ci ------
+06.12.00
+dmitry:
+! incorrect pointer operation in getBundleName()
++ Added target 'distclean' in Makefile and modified target 'clean'
+
+----- cvs ci ------
+05.12.00
+dmitry:
+! incorrect bundle name checking in getBundleName()
+
+----- cvs ci ------
+27.11.00
+dmitry:
++ Added processing 'separateBundles' token in fidoConfig (EXPERIMENTAL)
++ Added in log information about mail with size less than maxUnpackedNetmail
+- Removed in log "Found 0 bytes..." string
+
+----- cvs ci ------
+26.11.00
+dmitry:
+* Put bundles with netmail into *.?lo files before bundles with echomail, so
+        they will be transmitted before the rest of files.
+        
+
+--- That's the beginning of ChangeLog :)

@@ -63,10 +63,8 @@ int createPktName(char *name)
 void createDirIfNEx(char *dir)
 {
 
-#if defined (OS2)
-    if ((dir + strlen(dir)) == PATH_DELIM)
-        (dir + strlen(dir)) = '\0';        // we can't create "c:\dir\", only "c:\dir"
-#endif
+    if ((char) *(dir + strlen(dir) -1) == PATH_DELIM)
+        (char) *(dir + strlen(dir) -1) = '\0';        // we can't create "c:\dir\", only "c:\dir"
 
     if (access(dir, F_OK))
     {
@@ -80,45 +78,6 @@ void createDirIfNEx(char *dir)
         }
     }
 }
-
-/*
-
-void getZoneOutbound(s_link *link, char *zoneOutbound, char *outbound)
-{
-    sprintf(zoneOutbound, "%s", outbound);
-    if (fidoConfig->addr->zone!=link->hisAka.zone)
-    {
-        sprintf(zoneOutbound+strlen(zoneOutbound)-1,".%03x%c",
-                link->hisAka.zone, PATH_DELIM);
-
-    }
-    createDirIfNEx(zoneOutbound);
-}
-
-void getOutboundForLink(s_link *link, char **outb)
-{
-    char *dir=NULL;
-    dir=(char *)smalloc(strlen(fidoConfig->outbound)+21);
-    getZoneOutbound(link, &dir, fidoConfig->outbound);
-    if ((*outb)==NULL)
-        (*outb)=(char *)smalloc(21);
-    else
-        (*outb)=(char *)srealloc((*outb), 21);
-	
-    if (link->hisAka.point==0)
-        sprintf((*outb), "%04x%04x", link->hisAka.net, link->hisAka.node);
-    else
-    {
-      sprintf((char *)(dir+strlen(dir)), "%04x%04x.pnt", link->hisAka.net, link->hisAka.node);
-      createDirIfNEx(dir);
-      sprintf((*outb), "%04x%04x.pnt%c%08x", link->hisAka.net,
-              link->hisAka.node, PATH_DELIM, link->hisAka.point);
-    }
-    nfree(dir);
-    return;
-}
-
-*/
 
 unsigned long getNMSizeForLink(s_link *link, char *outb)
 {
@@ -184,24 +143,26 @@ void getBundleName(s_link *link, int flavour, char *outb)
         {
             if (fidoConfig->separateBundles)
                 // /outb.12b/12345678.pnt/12345678.sep/12344321.su0
-               sprintf(bundleName, "%spnt%c%08x.sep%c%04x%04x.%2s%1c",
+               sprintf(bundleName, "%ssep%c%04x%04x.%2s%1c",
                        outb, PATH_DELIM,
-                       link->hisAka.point, PATH_DELIM,
                        (fidoConfig->addr->node - link->hisAka.node) & 0xffff,
                        (fidoConfig->addr->point - link->hisAka.point) & 0xffff,
                        daynames[day], Idx);
             else
+            {
+                // /outb.12b/12345678.pnt/12345678. -> /outb.12b/12345678.pnt/
+                strncpy(bundleName, outb, strlen(outb)-9);
                 // /outb.12b/12345678.pnt/12345678.su0
-               sprintf(bundleName, "%spnt%c%04x%04x.%2s%1c",
-                       outb, PATH_DELIM,
-                       (fidoConfig->addr->node - link->hisAka.node) & 0xffff,
-                       (fidoConfig->addr->point - link->hisAka.point) & 0xffff,
-                       daynames[day], Idx);
+                sprintf(bundleName+strlen(bundleName), "%04x%04x.%2s%1c",
+                        (fidoConfig->addr->node - link->hisAka.node) & 0xffff,
+                        (fidoConfig->addr->point - link->hisAka.point) & 0xffff,
+                        daynames[day], Idx);
+            }
         } else
         {
             if (fidoConfig->separateBundles)
                 // /outb.12b/12345678.sep/12345678.su0
-                sprintf(bundleName, "%ssep%c%04x%04x.%2s%1x",
+                sprintf(bundleName, "%ssep%c%04x%04x.%2s%1c",
                         outb, PATH_DELIM,
                         (fidoConfig->addr->net - link->hisAka.net) & 0xffff,
                         (fidoConfig->addr->node - link->hisAka.node) & 0xffff,
@@ -210,13 +171,14 @@ void getBundleName(s_link *link, int flavour, char *outb)
             {   // /outb.12b/12345678. -> /outb.12b/
                 strncpy(bundleName, outb, strlen(outb)-9);
                 // /outb/12344321.su0
-                sprintf(bundleName+strlen(bundleName), "%04x%04x.%2s%1x",
+                sprintf(bundleName+strlen(bundleName), "%04x%04x.%2s%1c",
                         (fidoConfig->addr->net - link->hisAka.net) & 0xffff,
                         (fidoConfig->addr->node - link->hisAka.node) & 0xffff,
                         daynames[day], Idx);
             }
 
         }
+
         if (fidoConfig->separateBundles)
         {
             sepDir=(char *)smalloc(strlen(bundleName)-11);
@@ -495,7 +457,7 @@ void packNetMailForLink(s_link *link)
     unsigned long nmSize=0;
 
 
-    Debug("packNetmail for this link is on, entered packNetmaiForLink()\n");
+    Debug("packNetmail for this link is on, trying to pack...\n");
     if (link->packerDef == NULL)
     {
         Log('9', "Packer for link %d:%d/%d.%d undefined but 'packNetmail' is on, skipping...\n",
@@ -528,23 +490,27 @@ void packNetMailForLink(s_link *link)
     bsoNetMail=(char *)smalloc(strlen(outbForLink)+4);
 
     nmSize=getNMSizeForLink(link, outbForLink);
+
     if ((nmSize!=0) && (nmSize >= (link->maxUnpackedNetmail*1024)))
     {
-	if (nmSize)
-          Log('5', "Found %lu bytes of netmail for %d:%d/%d.%d\n", nmSize,
-            link->hisAka.zone, link->hisAka.net,
+        Log('5', "Found %lu bytes of netmail for %d:%d/%d.%d\n",
+            nmSize, link->hisAka.zone, link->hisAka.net,
             link->hisAka.node, link->hisAka.point
-            );
+           );
+
         for (flavour=0;flavour<5;flavour++)
         {
             sprintf(bsoNetMail, "%s%cut", outbForLink, outext[flavour]);
+
             if (!access(bsoNetMail, F_OK))
                 if (createPktName(pktname))
                 {
                     sprintf(link->pktFile, "%s%c%s.pkt", fidoConfig->tempOutbound,
                             PATH_DELIM, pktname);
+
                     Debug("found netmail packet %s, moving to %s\n",
                           bsoNetMail, link->pktFile);
+
                     if (rename(bsoNetMail, link->pktFile))
                     {
                         Log('9', "Error renaming %s to %s\n", bsoNetMail, link->pktFile);
@@ -552,8 +518,10 @@ void packNetMailForLink(s_link *link)
                         releaseLink(link, &outbForLink);
                         exit(-1);
                     }
-                    getBundleName(link, flavour, outbForLink);
-                    fillCmdStatement(execstr, link->packerDef->call, link->packFile, link->pktFile, "");
+
+                    getBundleName(link, flavour, outbForLink); // calculating bundleName;
+                    fillCmdStatement(execstr, link->packerDef->call,
+                                     link->packFile, link->pktFile, "");
                     Log('6', "Packing %s -> %s\n", bsoNetMail, link->packFile);
                     Debug("executing packer: %s\n", execstr);
                     if (system(execstr)==-1)
@@ -563,28 +531,24 @@ void packNetMailForLink(s_link *link)
                         releaseLink(link, &outbForLink);
                         exit(-1);
                     }
+
                     if (addToFlow(link, flavour, outbForLink))
                         if(remove(link->pktFile)==-1)
-                        {
-                            Log('9', "Can't remove pktFile %s, errno=%d\n", link->pktFile, errno);
-                            Debug("can't remove old pkt file %s, errno=%d\n",
-                                  link->pktFile, errno);
-                        }
-                }
-        }
-    }
+                            Log('9', "Can't remove pktFile %s, errno=%d\n",
+                                link->pktFile, errno);
+                } // if (createPktName(pktname))
+        } // for()
+    } // if (nmSize...)
     else
+    {
         if (nmSize)
-        {
-          Log('5', "Found %lu bytes of netmail for %d:%d/%d.%d, leaving unpacked\n", nmSize,
-            link->hisAka.zone, link->hisAka.net,
-            link->hisAka.node, link->hisAka.point
-             );
-          Debug("found %lu bytes of netmail for %d:%d/%d.%d, leaving unpacked\n", nmSize,
-            link->hisAka.zone, link->hisAka.net,
-            link->hisAka.node, link->hisAka.point
+            Log('5', "Found %lu bytes of netmail for %d:%d/%d.%d\n",
+                nmSize, link->hisAka.zone, link->hisAka.net,
+                link->hisAka.node, link->hisAka.point
                );
-        }
+    }
+
+
     removeBsy(link);
     releaseLink(link, &outbForLink);
     nfree(pktname);
