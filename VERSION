@@ -1,3 +1,3 @@
 bsopack 0.2.4-release
 cvs tag: bsopack-0_2_4-release
-required: fidoconfig 0.14.x-release, smapi 2.2.x-release
+required: fidoconfig 0.14.4-release, smapi 2.2.4-release

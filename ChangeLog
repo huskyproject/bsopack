@@ -1,3 +1,24 @@
+2003-05-30 Friday 07:38  d_sergienko
+
+	* README, bsopack.texi (bsopack-0_2-stable.[1,2]): 
+	update info
+
+2003-05-27 Tuesday 11:22  sfpavel
+
+	* Makefile, VERSION, debian/changelog, debian/control,
+	debian/rules, src/config.h (bsopack-0_2-stable.[3,4,6,2,3,7]):
+	bsopack 0.2.4 release
+
+2003-05-27 Tuesday 09:20  d_sergienko
+
+	* make/makefile.bsd (bsopack-0_2-stable.1): 
+	added makefile for bsd
+
+2003-05-27 Tuesday 09:20  d_sergienko
+
+	* make/makefile.bsd (1.1): file makefile.bsd was initially added on
+	branch bsopack-0_2-stable.
+
 2003-01-05 Sunday 08:56  sfpavel
 
 	* debian/changelog (tags: bsopack-0_2_2-release)
@@ -34,14 +55,14 @@
 
 2002-11-10 Sunday 08:51  sfpavel
 
-	* VERSION, debian/changelog, src/config.h
-	(bsopack-0_2-stable.[1,4,3]) (utags: bsopack-0_2-release): bsopack
-	0.2 release
+	* VERSION (1.1): file VERSION was initially added on branch
+	bsopack-0_2-stable.
 
 2002-11-10 Sunday 08:51  sfpavel
 
-	* VERSION (1.1): file VERSION was initially added on branch
-	bsopack-0_2-stable.
+	* VERSION, debian/changelog, src/config.h
+	(bsopack-0_2-stable.[1,4,3]) (utags: bsopack-0_2-release): bsopack
+	0.2 release
 
 2002-11-06 Wednesday 08:22  sfpavel
 
