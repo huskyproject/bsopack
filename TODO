@@ -1,3 +1,0 @@
-1. Put all outgoing arcmail into separate from echomail directory.
-2. Make switch to select either truncate mailbundles or delete them after send
-   (put '#' or '^' in flow file)
