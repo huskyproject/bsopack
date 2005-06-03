@@ -44,6 +44,9 @@ info:
 html:
 	export LC_ALL=C; makeinfo --html --no-split bsopack.texi
 
+txt:
+	export LC_ALL=C; makeinfo --no-split bsopack.texi
+
 docs: info html
 
 FORCE:
