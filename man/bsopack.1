@@ -1,49 +1,53 @@
-.TH BSOPACK 1 "bsopack" "04 October 2002" "Husky - Portable Fidonet Software"
-.SH NAME
-BSOpack \- Packs outgoing Netmails.
-.SH SYNOPSIS
+.TH "BSOPACK" "1" "bsopack" "21 January 2008" "Husky - Portable Fidonet Software"
+.SH "NAME"
+.LP 
+BSOpack \- Packs outgoing Netmails into Arcmail bundles.
+.SH "SYNOPSIS"
 .B bsopack
-[-c fidoconfig] [options]
+[\-d] [\-q] [\-c fidoconfig] [\-h|\-\-help]
 .SH "DESCRIPTION"
-.B bsopack
-BSOpack is used to pack outgoing netmail for links. It works with
-HUSKY package and requires its files.
-.br
-.sp 2
-This manual page was written for the Debian GNU/Linux distribution
-because the original program does not have a manual page (but a fine README).
-.SH OPTIONS
-.SS [fidoconfig]
-Path to your fidoconfig if different from default.
-.br
-.SS [options]
-.br
-.B -h or --help
-Help screen
-
+BSOpack is used to pack outgoing plain netmail (*.?ut) to arcmail bundles (*.?lo) for links.
+.br 
+This program is part of the HUSKY package and it uses common husky config (fidoconfig).
+.SH "OPTIONS"
+.SS \-c fidoconfig
+Specify alternate fidoconfig (husky configuration) file.
+.br 
+.SS \-q
+Supress screen output.
+.br 
+.SS \-d
+Enable debug output to screen.
+.br 
+.SS \-h
+.SS \-\-help
+Output small help into screen.
 .SH "RETURN VALUE"
-.B 0
+.SS \fB0\fR
 All fine
-.SH HOW IT WORKS
-At first it checks if packNetmail for the link is on, if this link is not busy
-and if a packer is defined. Then it searches for *.?ut files in the outbound. 
+.SS \fB255\fR or \fB65535\fR
+Error detected. See log file or screen output (if enabled) for details.
+.SH "HOW IT WORKS"
+At first it checks fidoconfig: if packNetmail for the link is on and if a packer is defined. Next it checks if this link is not busy. Then it searches for *.?ut files in the outbound. 
 If the size of all found *.?ut is greater than maxUnpackedNetmail, these files
-will be renamed to *.pkt (using tempOutbound token) and put into an arcmail
-bundle. So, your mail should never be lost. If any error occurs hpt
-scan will find this packet and (if this packet is for a link listed in
-fidoconfig) pack it into a bundle with echomail. The packet will be added to
-the most recently used bundle until the size of the bundle is greater than 
-'arcmailSize' for the link. If you select 'bundleNameStyle addrDiff' your 
-netmail will be packed together with echomail. Each flavour is processed 
-independently. 
-It creates bundle names using an algorithm of two addresses differences.
+will be renamed to *.pkt (using tempOutbound if this token is specified in fidoconfig)
+and put resulted *.pkt into an arcmail bundle. So, your mail should never be lost.
+.br 
+If any error occurs (and *pkt rested into tempOutbound), a "hpt scan" command will find
+this packet and (if this packet is for a link listed in fidoconfig) pack it into a bundle
+with echomail. The packet will be added to the most recently used bundle until the size
+of the bundle is greater than 'arcmailSize' for the link. If you specify
+'bundleNameStyle addrDiff' your netmail will be packed together with echomail. Each flavour
+is processed independently. It creates bundle names using an algorithm of two addresses
+differences.
+.br 
 The log file 'bsopack.log' is placed into 'logFileDir'.
-.
-.SH NOTES
-All Husky-Software is written by various developers. For detailed information
-about the Husky-Team take a look at 
+
+.SH "NOTES"
+All Husky\-Software is written by various developers. For detailed information
+about the Husky\-Team take a look at 
 http://husky.sourceforge.net/team.html.
 
-.SH AUTHOR
-This manual page was written by Joerg Jaspert (JJ) <joerg@goliathbbs.dnsalias.net>,
+.SH "AUTHOR"
+This manual page was initially written by Joerg Jaspert (JJ) <joerg@goliathbbs.dnsalias.net>,
 for the Debian GNU/Linux system (but may be used by others).
