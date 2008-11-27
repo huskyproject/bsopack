@@ -3,7 +3,7 @@
 CC  = cl
 RM	= del
 
-CFLAGS=-nologo -MD -Zp1 -O2 -I..\.. -I..\h
+CFLAGS=-nologo -MD -O2 -I..\.. -I..\h
 COPT=   -O2
 UNAME=w32
 CDEFS=-D__NT__ -DUNAME=\"$(UNAME)\" -DNT -DWINNT -D_CONSOLE -D_MAKE_DLL
