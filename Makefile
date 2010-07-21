@@ -60,19 +60,19 @@ distclean: clean
 all: bsopack docs man
 
 install: all
-	$(INSTALL) $(IBOPT) bsopack $(BINDIR)
+	$(INSTALL) $(IBOPT) bsopack $(DESTDIR)$(BINDIR)
 ifdef INFODIR
-	-$(MKDIR) $(MKDIROPT) $(INFODIR)
-	$(INSTALL) $(IMOPT) bsopack.info $(INFODIR)
-	-install-info --info-dir=$(INFODIR)  $(INFODIR)$(DIRSEP)bsopack.info
+	-$(MKDIR) $(MKDIROPT) $(DESTDIR)$(INFODIR)
+	$(INSTALL) $(IMOPT) bsopack.info $(DESTDIR)$(INFODIR)
+	-install-info --info-dir=$(INFODIR)  $(DESTDIR)$(INFODIR)$(DIRSEP)bsopack.info
 endif
 ifdef HTMLDIR
-	-$(MKDIR) $(MKDIROPT) $(HTMLDIR)
-	$(INSTALL) $(IMOPT) bsopack*html $(HTMLDIR)
+	-$(MKDIR) $(MKDIROPT) $(DESTDIR)$(HTMLDIR)
+	$(INSTALL) $(IMOPT) bsopack*html $(DESTDIR)$(HTMLDIR)
 endif
 ifdef MANDIR
-	-$(MKDIR) $(MKDIROPT) $(MANDIR)$(DIRSEP)man1
-	$(INSTALL) $(IMOPT) bsopack.1.gz $(MANDIR)$(DIRSEP)man1
+	-$(MKDIR) $(MKDIROPT) $(DESTDIR)$(MANDIR)$(DIRSEP)man1
+	$(INSTALL) $(IMOPT) bsopack.1.gz $(DESTDIR)$(MANDIR)$(DIRSEP)man1
 endif
 
 uninstall:
