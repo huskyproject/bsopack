@@ -2,45 +2,24 @@
 # Makefile for bilnd static program with with cross-compiler Mingw32
 # No support for the Husky build environment.
 
-CC	= gcc
-RM	= rm
-CINCL	= -I../h -I../../fidoconf -I../../smapi -I../../huskylib
-LIBDIR	= ../..
-BINDIR	= ../..
-SRC_DIR	= ../src/
+## include common makefiles part ##
+include ../../huskybse/huskymak.mgw
+include makefile.inc
 
-WARNFLAGS= -Wall
-OPTCFLAGS= -c -s -O3 -mno-cygwin
-DEBCFLAGS= -c -ggdb
-ADDCDEFS=
-DEBUG	= 0
-SHORTNAMES=1
-OSTYPE	= WINNT
-UNAME	= Win32
+CINCL	+= -I$(H_DIR) -I../../fidoconf -I../../smapi -I../../huskylib
+LIBS	+= ../../fidoconf/make/$(LIBPREFIX)fidoconfig$(LIBSUFFIX)$(_LIB) \
+	   ../../huskylib/make/$(LIBPREFIX)husky$(LIBSUFFIX)$(_LIB)
 
-ifeq ($(DEBUG), 1)
-  CFLAGS = $(CINCL) $(DEBCFLAGS) $(WARNFLAGS)
-  LFLAGS = $(DEBLFLAGS)
-else
-  CFLAGS = $(CINCL) $(OPTCFLAGS) $(WARNFLAGS)
-  LFLAGS = $(OPTLFLAGS)
-endif
-
-LIBS  = ../../fidoconf/libfidoconfigcyg.a ../../huskylib/make/libhuskycyg.a
-
-CDEFS=-D$(OSTYPE) -DUNAME=\"$(UNAME)\" $(ADDCDEFS)
-
-
-OBJS= config.o bsoutil.o bsopack.o
 
 all: bsopack
 
 bsopack: $(OBJS)
-	$(CC) $(OBJS) $(LFLAGS) $(LIBS) -o bsopack
+	@$(CC) $(OBJS) $(CINCL) $(CFLAGS) $(LIBS) $(EXENAMEFLAG) $(LIBNAME)$(_EXE)
 
 
-%.o: $(SRC_DIR)%.c
-	$(CC) $(CFLAGS) $(CDEFS) -c $<
+%$(_OBJ): $(_SRC_DIR)%$(_C)
+	@echo Compiling $<
+	@$(CC) $(CFLAGS) $(CINCL) $(CDEFS) $(OBJOPT) $<
 
 
 clean:
