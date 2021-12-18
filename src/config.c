@@ -13,7 +13,6 @@ s_fidoconfig *config;
 char *logFileName=NULL;
 char *fidoConfigFile=NULL;
 int fidocfg_in_env=0;
-char *versionStr;
 
 void Usage()
 {
