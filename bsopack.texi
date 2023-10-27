@@ -67,7 +67,7 @@ This document applies to version @value{VERSION} of BSOpack.
 BSOpack is used to pack outgoing netmail for links. It is a part of
 @emph{HUSKY} project and requires its files.
 You should use @code{fidoconfig 0.15} or more recent. If you don't have these 
-packages, download them from @url{http://husky.sourceforge.net/}
+packages, download them from @url{https://github.com/huskyproject/bsopack}
 
 
 @node FidoConfig, Command line switches, Introduction, Top

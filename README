@@ -1,8 +1,7 @@
-				
-                                
-                                BSOpack 1.9
+
+				BSOpack 1.9
 				~~~~~~~~~~~
-                                
+
 
 1. Introduction
 ---------------
@@ -10,7 +9,7 @@
 BSOpack is used to pack outgoing netmail for links. It works with
 HUSKY package and requires its files. You must use fidoconfig 1.9-current.
 If you don't have these packages, download them from
-http://husky.sourceforge.net/
+https://github.com/huskyproject/bsopack
 
 
 2. FidoConfig keywords and configuration
@@ -18,18 +17,18 @@ http://husky.sourceforge.net/
 
 a) packNetmail <on/off>
 	Determines if you want to pack outgoing netmail for this link.
-        Used only in link definition.
-  
+	Used only in link definition.
+
 b) maxUnpackedNetmail <size in kb>
 	Determines how much unpacked netmail we should leave for this link.
-        If we have more outgoing netmail - it will be packed.
-        You also can have packed & unpacked netmail in your outbound
-        simultaneously - packet, which had had size more than maxUnpackedNetmail
-        was packed into bundle and new packed with size less than
-        maxUnpackedNetmail was created.
-        If you select 0 kb - all netmail will be packed.
-        
-Attention: If you use 'packNetmail on' - you *must* define a packer for this 
+	If we have more outgoing netmail - it will be packed.
+	You also can have packed & unpacked netmail in your outbound
+	simultaneously - packet, which had had size more than maxUnpackedNetmail
+	was packed into bundle and new packed with size less than
+	maxUnpackedNetmail was created.
+	If you select 0 kb - all netmail will be packed.
+
+Attention: If you use 'packNetmail on' - you *must* define a packer for this
 	link.
 
 Example:
@@ -54,7 +53,7 @@ maxUnpackedNetmail 0
 3. Command line switches
 ------------------------
 
-Usage: bsopack [-c fidconfig] [options]        
+Usage: bsopack [-c fidconfig] [options]
 Options:
 	-q            Quiet mode (ignoring screenloglevels in fidoconfig)
         -d            Debud mode
