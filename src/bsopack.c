@@ -11,8 +11,6 @@
 
 #define LOGFILE "bsopack.log"
 
-char *versionStr;
-
 int lock_fd;
 
 int main(int argc, char **argv)
