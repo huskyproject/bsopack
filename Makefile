@@ -5,11 +5,9 @@
 # Requires: husky enviroment
 #
 
-bsopack_LIBS := $(areafix_TARGET_BLD) $(fidoconf_TARGET_BLD) \
-              $(smapi_TARGET_BLD) $(huskylib_TARGET_BLD)
+bsopack_LIBS := $(fidoconf_TARGET_BLD) $(smapi_TARGET_BLD) $(huskylib_TARGET_BLD)
 
-bsopack_CDEFS := $(CDEFS) -I$(areafix_ROOTDIR) \
-                        -I$(fidoconf_ROOTDIR) \
+bsopack_CDEFS := $(CDEFS) -I$(fidoconf_ROOTDIR) \
                         -I$(smapi_ROOTDIR) \
                         -I$(huskylib_ROOTDIR) \
                         -I$(bsopack_ROOTDIR)$(bsopack_H_DIR)
