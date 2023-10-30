@@ -17,8 +17,8 @@ int main(int argc, char **argv)
 {
     unsigned int i;
 
-    versionStr = GenVersionStr( "BSOpack", VER_MAJOR, VER_MINOR, VER_PATCH,
-                               VER_BRANCH, cvs_date );
+    versionStr = GenVersionStr( "BSOpack", bsopack_VER_MAJOR, bsopack_VER_MINOR, bsopack_VER_PATCH,
+                               bsopack_VER_BRANCH, cvs_date );
     printf("%s\n", versionStr);
 
     setvar("module", "bsopack");
