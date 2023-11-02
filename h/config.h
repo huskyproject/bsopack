@@ -6,7 +6,6 @@
 #include <fidoconf/fidoconf.h>
 
 extern s_fidoconfig *config;
-extern char *logFileName;
 extern char *fidoConfigFile;
 
 void getConfig();

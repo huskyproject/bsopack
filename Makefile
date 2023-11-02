@@ -1,89 +1,120 @@
-# Generic Makefile for bsopack
+# bsopack/Makefile
+#
+# This file is part of bsopack, part of the Husky fidonet software project
+# Use with GNU make v.3.82 or later
+# Requires: husky enviroment
+#
 
-ifeq ($(DEBIAN), 1)
-# Every Debian-Source-Paket has one included.
-include /usr/share/husky/huskymak.cfg
+bsopack_LIBS := $(fidoconf_TARGET_BLD) $(smapi_TARGET_BLD) $(huskylib_TARGET_BLD)
+
+bsopack_CDEFS := $(CDEFS) -I$(fidoconf_ROOTDIR) \
+                        -I$(smapi_ROOTDIR) \
+                        -I$(huskylib_ROOTDIR) \
+                        -I$(bsopack_ROOTDIR)$(bsopack_H_DIR)
+
+bsopack_TARGET     = bsopack$(_EXE)
+bsopack_TARGET_BLD = $(bsopack_BUILDDIR)$(bsopack_TARGET)
+bsopack_TARGET_DST = $(BINDIR_DST)$(bsopack_TARGET)
+
+ifdef MAN1DIR
+    bsopack_MAN1PAGES := bsopack.1
+    bsopack_MAN1BLD := $(bsopack_BUILDDIR)$(bsopack_MAN1PAGES)$(_COMPR)
+    bsopack_MAN1DST := $(DESTDIR)$(MAN1DIR)$(DIRSEP)$(bsopack_MAN1PAGES)$(_COMPR)
+endif
+
+
+.PHONY: bsopack_build bsopack_install bsopack_uninstall bsopack_clean bsopack_distclean \
+        bsopack_depend bsopack_doc bsopack_doc_install bsopack_doc_uninstall \
+        bsopack_doc_clean bsopack_doc_distclean bsopack_rmdir_DEP bsopack_rm_DEPS \
+        bsopack_clean_OBJ bsopack_main_distclean
+
+bsopack_build: $(bsopack_TARGET_BLD) $(bsopack_MAN1BLD) bsopack_doc
+
+ifneq ($(MAKECMDGOALS), depend)
+    include $(bsopack_DOCDIR)Makefile
+    ifneq ($(MAKECMDGOALS), distclean)
+        ifneq ($(MAKECMDGOALS), uninstall)
+            include $(bsopack_DEPS)
+        endif
+    endif
+endif
+
+
+# Build application
+$(bsopack_TARGET_BLD): $(bsopack_ALL_OBJS) $(bsopack_LIBS) | do_not_run_make_as_root
+	$(CC) $(LFLAGS) $(EXENAMEFLAG) $@ $^ $(bsopack_LIBZ)
+
+# Compile .c files
+$(bsopack_ALL_OBJS): $(bsopack_OBJDIR)%$(_OBJ): $(bsopack_SRCDIR)%.c | $(bsopack_OBJDIR)
+	$(CC) $(bsopack_CFLAGS) $(bsopack_CDEFS) -o $(bsopack_OBJDIR)$*$(_OBJ) $(bsopack_SRCDIR)$*.c
+
+$(bsopack_OBJDIR): | $(bsopack_BUILDDIR) do_not_run_make_as_root
+	[ -d $@ ] || $(MKDIR) $(MKDIROPT) $@
+
+
+# Build man pages
+ifdef MAN1DIR
+    $(bsopack_MAN1BLD): $(bsopack_MANDIR)$(bsopack_MAN1PAGES)
+	@[ $$($(ID) $(IDOPT)) -eq 0 ] && echo "DO NOT run \`make\` from root" && exit 1 || true
+    ifdef COMPRESS
+		$(COMPRESS) -c $< > $@
+    else
+		$(CP) $(CPOPT) $< $@
+    endif
+
 else
-include ../huskymak.cfg
+    $(bsopack_MAN1BLD): ;
 endif
 
-ifeq ($(DEBUG), 1)
-  CFLAGS = -I$(INCDIR) -Ih $(DEBCFLAGS) $(WARNFLAGS)
-  LFLAGS = $(DEBLFLAGS)
+
+# Install
+ifneq ($(MAKECMDGOALS), install)
+    bsopack_install: ;
 else
-  CFLAGS = -I$(INCDIR) -Ih $(OPTCFLAGS) $(WARNFLAGS)
-  LFLAGS = $(OPTLFLAGS)
+    bsopack_install: $(bsopack_TARGET_DST) bsopack_install_man bsopack_doc_install ;
 endif
 
-LIBS  = -L$(LIBDIR) -lfidoconfig -lhusky
+$(bsopack_TARGET_DST): $(bsopack_TARGET_BLD) | $(DESTDIR)$(BINDIR)
+	$(INSTALL) $(IBOPT) $< $(DESTDIR)$(BINDIR); \
+	$(TOUCH) "$@"
 
-ifeq ($(USE_HPTZIP), 1)
-  LIBS+= -lhptzip -lz
-  CFLAGS += -DUSE_HPTZIP
+ifndef MAN1DIR
+    bsopack_install_man: ;
+else
+    bsopack_install_man: $(bsopack_MAN1DST)
+
+    $(bsopack_MAN1DST): $(bsopack_MAN1BLD) | $(DESTDIR)$(MAN1DIR)
+	$(INSTALL) $(IMOPT) $< $(DESTDIR)$(MAN1DIR); $(TOUCH) "$@"
 endif
 
-CDEFS=-D$(OSTYPE) -DUNAME=\"$(UNAME)\" $(ADDCDEFS)
 
-SRC_DIR=./src/
+# Clean
+bsopack_clean: bsopack_clean_OBJ bsopack_doc_clean
+	-[ -d "$(bsopack_OBJDIR)" ] && $(RMDIR) $(bsopack_OBJDIR) || true
 
-OBJS= config.o bsoutil.o bsopack.o
+bsopack_clean_OBJ:
+	-$(RM) $(RMOPT) $(bsopack_OBJDIR)*
 
-bsopack: $(OBJS)
-		$(CC) $(OBJS) $(LFLAGS) $(LIBS) -o bsopack
+# Distclean
+bsopack_distclean: bsopack_doc_distclean bsopack_main_distclean bsopack_rmdir_DEP
+	-[ -d "$(bsopack_BUILDDIR)" ] && $(RMDIR) $(bsopack_BUILDDIR) || true
 
+bsopack_rmdir_DEP: bsopack_rm_DEPS
+	-[ -d "$(bsopack_DEPDIR)" ] && $(RMDIR) $(bsopack_DEPDIR) || true
 
-%.o: $(SRC_DIR)%.c
-		$(CC) $(CFLAGS) $(CDEFS) -c $<
-     
-info:
-	makeinfo --no-split bsopack.texi
+bsopack_rm_DEPS:
+	-$(RM) $(RMOPT) $(bsopack_DEPDIR)*
 
-html:
-	export LC_ALL=C; makeinfo --html --no-split bsopack.texi
-
-docs: info html
-
-FORCE:
-
-man: FORCE
-	gzip -9c man/bsopack.1 > bsopack.1.gz
-
-clean:
-		rm -f *.o *~ src/*.o src/*~
-
-distclean: clean
-	-$(RM) $(RMOPT) bsopack
-	-$(RM) $(RMOPT) bsopack.info
-	-$(RM) $(RMOPT) bsopack.html
-	-$(RM) $(RMOPT) bsopack.1.gz
-
-all: bsopack docs man
-
-install: all
-	$(INSTALL) $(IBOPT) bsopack $(DESTDIR)$(BINDIR)
-ifdef INFODIR
-	-$(MKDIR) $(MKDIROPT) $(DESTDIR)$(INFODIR)
-	$(INSTALL) $(IMOPT) bsopack.info $(DESTDIR)$(INFODIR)
-	-install-info --info-dir=$(INFODIR)  $(DESTDIR)$(INFODIR)$(DIRSEP)bsopack.info
-endif
-ifdef HTMLDIR
-	-$(MKDIR) $(MKDIROPT) $(DESTDIR)$(HTMLDIR)
-	$(INSTALL) $(IMOPT) bsopack*html $(DESTDIR)$(HTMLDIR)
-endif
-ifdef MANDIR
-	-$(MKDIR) $(MKDIROPT) $(DESTDIR)$(MANDIR)$(DIRSEP)man1
-	$(INSTALL) $(IMOPT) bsopack.1.gz $(DESTDIR)$(MANDIR)$(DIRSEP)man1
+bsopack_main_distclean: bsopack_clean
+	-$(RM) $(RMOPT) $(bsopack_TARGET_BLD)
+ifdef MAN1DIR
+	-$(RM) $(RMOPT) $(bsopack_MAN1BLD)
 endif
 
-uninstall:
-	$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)bsopack$(EXE)
-ifdef INFODIR
-	$(RM) $(RMOPT) $(INFODIR)$(DIRSEP)bsopack.info
-endif
-ifdef HTMLDIR
-	$(RM) $(RMOPT) $(HTMLDIR)$(DIRSEP)bsopack.html
-endif
-ifdef MANDIR
-	$(RM) $(RMOPT) $(MANDIR)$(DIRSEP)man1$(DIRSEP)bsopack.1.gz
-endif
 
+# Uninstall
+bsopack_uninstall: bsopack_doc_uninstall
+	-$(RM) $(RMOPT) $(bsopack_TARGET_DST)
+ifdef MAN1DIR
+	-$(RM) $(RMOPT) $(bsopack_MAN1DST)
+endif
