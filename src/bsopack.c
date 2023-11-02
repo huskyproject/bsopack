@@ -22,12 +22,10 @@ int main(int argc, char **argv)
     printf("%s\n", versionStr);
 
     setvar("module", "bsopack");
-    config = readConfig(NULL);
 
-    if (!config) {
-        printf("Could not read fido config\n");
-        return 1;
-    }
+    getOpts(argc, argv);
+
+    getConfig();
 
     if (config->lockfile) {
         lock_fd = lockFile(config->lockfile, config->advisoryLock);
@@ -38,15 +36,17 @@ int main(int argc, char **argv)
         }
     }
 
-    getOpts(argc, argv);
-
     initLog(config->logFileDir, config->logEchoToScreen, config->loglevels, config->screenloglevels);
     openLog(LOGFILE, versionStr);
 
-    if (fidoConfigFile!=NULL)
+    if (fidoConfigFile != NULL)
+    {
         w_log(LL_DEBUG, "config file is %s", fidoConfigFile);
+    }
     else
-        w_log(LL_DEBUG, "using default fidoconfig.");
+    {
+        w_log(LL_DEBUG, "using default FidoConfig.");
+    }
 
     w_log(LL_DEBUG, "config read successfully.");
 
@@ -54,23 +54,31 @@ int main(int argc, char **argv)
 
     w_log(LL_DEBUG, "starting main code...");
     w_log(LL_DEBUG, "found %d links.", config->linkCount);
-    for (i=0; i < config->linkCount; i++)
+
+    for (i = 0; i < config->linkCount; i++)
     {
         w_log(LL_DEBUG, "processing link #%d: %d:%d/%d.%d", i,
               config->links[i]->hisAka.zone,
               config->links[i]->hisAka.net,
               config->links[i]->hisAka.node,
               config->links[i]->hisAka.point);
+
         if (config->links[i]->packNetmail)
+        {
             packNetMailForLink(config->links[i]);
-        else w_log(LL_DEBUG, "packNetmail for this link is off.");
+        }
+        else
+        {
+            w_log(LL_DEBUG, "packNetmail for this link is off.");
+        }
     }
 
     w_log(LL_STOP,"End");
     closeLog();
-    if (config->lockfile) {
+    if (config->lockfile)
+    {
         FreelockFile(config->lockfile ,lock_fd);
     }
-    disposeConfig(config);
+    freeConfig();
     return 0;
 }
