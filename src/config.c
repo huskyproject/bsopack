@@ -56,8 +56,8 @@ void getOpts(int argc, char **argv)
                 exit(-1);
             }
 
-            fidoConfigFile = (char *)smalloc(strlen(argv[i]));
-            sprintf(fidoConfigFile, "%s", argv[i]);
+            fidoConfigFile = (char *)smalloc(strlen(argv[i])+1);
+            snprintf(fidoConfigFile, strlen(argv[i])+1, "%s", argv[i]);
             fidocfg_in_arg = 1;
 
             continue;
